@@ -47,7 +47,7 @@
     
     CommunicationRequest  v_RequestData  = new CommunicationRequest();
     CommunicationResponse v_ResponseData = null;
-    List<String>          v_Results      = null;       // 返回结果。可为任何Java类型，只须实现 java.io.Serializable 接口即可
+    List<String>          v_Results      = null;
     
     v_RequestData.setEventType("Demo");                // 通讯的事件类型。如果没有设置此属性，默认为XJava事件类型
     v_RequestData.setDataXID(  "2017");                // 通讯数据的标识ID。可选的，按具体业务而定
@@ -57,7 +57,7 @@
 	
     v_ResponseData = v_Client.send(v_RequestData);     // 发送通讯数据
 	
-    v_Results = (List<String>)v_ResponseData.getData();// 获取服务端的返回数据    
+    v_Results = (List<String>)v_ResponseData.getData();// 获取服务端的返回结果。可为任何Java类型，只须实现 java.io.Serializable 接口即可
 ```
 
 
