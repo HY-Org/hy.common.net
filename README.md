@@ -1,4 +1,4 @@
-# hy.common.base
+# hy.common.net
 
 
 
@@ -64,6 +64,8 @@
 
 ---
 演示项目 https://github.com/HY-ZhengWei/CommunicationEventDemo
+
+单点服务案例 https://github.com/HY-ZhengWei/XSSO
 
 
 
