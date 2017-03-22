@@ -53,11 +53,11 @@
     v_RequestData.setDataXID(  "2017");                // 通讯数据的标识ID。可选的，按具体业务而定
     v_RequestData.setData(      i_DataMap);            // 通讯数据。可选的，按具体业务而定。可为任何Java类型，须实现 java.io.Serializable 接口
 	
-	ClientSocket v_Client = new ClientSocket("服务端IP" ,1721);
+    ClientSocket v_Client = new ClientSocket("服务端IP" ,1721);
 	
-	v_ResponseData = v_Client.send(v_RequestData);     // 发送通讯数据
+    v_ResponseData = v_Client.send(v_RequestData);     // 发送通讯数据
 	
-	v_Results = (List<String>)v_ResponseData.getData();// 获取服务端的返回数据    
+    v_Results = (List<String>)v_ResponseData.getData();// 获取服务端的返回数据    
 ```
 
 
