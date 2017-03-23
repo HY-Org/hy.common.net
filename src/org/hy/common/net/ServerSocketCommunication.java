@@ -46,48 +46,53 @@ public class ServerSocketCommunication extends ObjectSocketRequest
      */
     public Object request(Object i_RequestData ,ServerBase i_ServerBase)
     {
-        if ( i_RequestData == null || !(i_RequestData instanceof CommunicationRequest) )
+        try
         {
-            return null;
-        }
-        
-        if ( i_ServerBase == null )
-        {
-            return null;
-        }
-        
-        CommunicationRequest  v_RequestData  = (CommunicationRequest)i_RequestData;
-        CommunicationResponse v_ResponseData = null;
-        CommunicationListener v_Listener     = null;
-        
-        if ( Help.isNull(v_RequestData.getEventType()) )
-        {
-            v_Listener = this.mainServer.getDefaultListener();
-        }
-        else
-        {
-            v_Listener = this.mainServer.getListeners(v_RequestData.getEventType());
+            if ( i_RequestData == null || !(i_RequestData instanceof CommunicationRequest) )
+            {
+                return null;
+            }
             
-            if ( v_Listener == null )
+            if ( i_ServerBase == null )
+            {
+                return null;
+            }
+            
+            CommunicationRequest  v_RequestData  = (CommunicationRequest)i_RequestData;
+            CommunicationResponse v_ResponseData = null;
+            CommunicationListener v_Listener     = null;
+            
+            if ( Help.isNull(v_RequestData.getEventType()) )
             {
                 v_Listener = this.mainServer.getDefaultListener();
             }
+            else
+            {
+                v_Listener = this.mainServer.getListeners(v_RequestData.getEventType());
+                
+                if ( v_Listener == null )
+                {
+                    v_Listener = this.mainServer.getDefaultListener();
+                }
+            }
+            
+            try
+            {
+                this.mainServer.log("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + ".");
+                v_ResponseData = v_Listener.communication(v_RequestData);
+            }
+            catch (Exception exce)
+            {
+                exce.printStackTrace();
+            }
+            
+            return v_ResponseData;
         }
-        
-        try
+        finally
         {
-            this.mainServer.log("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + ".");
-            v_ResponseData = v_Listener.communication(v_RequestData);
+            // 关闭监听的用于数据通讯的监听端口服务
+            i_ServerBase.close();
         }
-        catch (Exception exce)
-        {
-            exce.printStackTrace();
-        }
-        
-        // 关闭监听的用于数据通讯的监听端口服务
-        i_ServerBase.close();
-        
-        return v_ResponseData;
     }
     
 }

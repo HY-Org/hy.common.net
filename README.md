@@ -23,6 +23,9 @@
 			<maxPort>17999</maxPort>   <!-- 数据通讯的浮动端口的最大值 -->
 			<log>false</log>           <!-- 是否显示通讯日志 -->
 			
+			<!-- 自定义服务端登陆验证接口。可选的，当没有定义验证方法时，免登陆 -->
+			<validate classs="org.hy.demo.ServerValidate" />
+			
 			<call name="addListener">  <!-- 添加自定义通讯事件 -->
 				<listener class="org.hy.demo.ServerDemo" />
 			</call>
@@ -65,7 +68,9 @@
 ---
 演示项目 https://github.com/HY-ZhengWei/CommunicationEventDemo
 
-单点服务案例 https://github.com/HY-ZhengWei/XSSO
+单点登陆服务案例 https://github.com/HY-ZhengWei/XSSO
+
+日志服务中的集群案例 https://github.com/HY-ZhengWei/LogWeb
 
 
 
