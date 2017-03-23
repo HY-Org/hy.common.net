@@ -2,6 +2,10 @@
 
 
 
+![image](images/StockServer.png)
+
+
+
 
 服务端配置举例
 ```xml
