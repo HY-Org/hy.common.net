@@ -45,6 +45,46 @@
 
 
 
+服务端自定义事件
+```java
+public class ServerDemo implements CommunicationListener
+{
+    
+    /**
+     *  数据通讯的事件类型。
+     *  
+     *  事件类型区分大小写
+     */
+    public String getEventType()
+    {
+        return "Demo";
+    }
+    
+    
+    
+    /**
+     * 数据通讯事件的执行动作
+     */
+    public CommunicationResponse communication(CommunicationRequest i_RequestData)
+    {
+        CommunicationResponse v_ResponseData = new CommunicationResponse();
+        
+        // 获取客户端请求数据
+        Map<String ,Object> v_DataMap = (Map<String ,Object>)i_RequestData.getData();
+        
+        System.out.println("-- 服务端接收到的数据为：");
+        Help.print(v_DataMap);
+        
+        v_ResponseData.setData(Help.toListKeys(v_DataMap));   // 设置返回结果
+        
+        return v_ResponseData;
+    }
+    
+}
+```
+
+
+
 客户端访问举例
 ```java
     Map<String ,Object> v_DataMap = new HashMap<String ,Object>();
