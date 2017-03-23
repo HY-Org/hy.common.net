@@ -18,19 +18,20 @@
 	<xconfig>
 	
 		<server id="Server">
-			<port>1721</port>          <!-- 服务端监听主端口 -->
-			<minPort>17000</minPort>   <!-- 数据通讯的浮动端口的最小值 -->
-			<maxPort>17999</maxPort>   <!-- 数据通讯的浮动端口的最大值 -->
-			<log>false</log>           <!-- 是否显示通讯日志 -->
+			<port>1721</port>               <!-- 服务端监听主端口 -->
+			<minPort>17000</minPort>        <!-- 数据通讯的浮动端口的最小值 -->
+			<maxPort>17999</maxPort>        <!-- 数据通讯的浮动端口的最大值 -->
+			<closeTimeout>60</closeTimeout> <!-- 数据通讯的浮动端口的自动关闭超时时长（单位：秒） -->
+			<log>false</log>                <!-- 是否显示通讯日志 -->
 			
 			<!-- 自定义服务端登陆验证接口。可选的，当没有定义验证方法时，免登陆 -->
 			<validate class="org.hy.demo.ServerValidate" />
 			
-			<call name="addListener">  <!-- 添加自定义通讯事件 -->
+			<call name="addListener">       <!-- 添加自定义通讯事件 -->
 				<listener class="org.hy.demo.ServerDemo" />
 			</call>
 			
-			<call name="open" />       <!-- 打开监听主端号服务 -->
+			<call name="open" />            <!-- 打开监听主端号服务 -->
 		</server>
 		
 	</xconfig>
