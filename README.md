@@ -24,7 +24,7 @@
 			<log>false</log>           <!-- 是否显示通讯日志 -->
 			
 			<!-- 自定义服务端登陆验证接口。可选的，当没有定义验证方法时，免登陆 -->
-			<validate classs="org.hy.demo.ServerValidate" />
+			<validate class="org.hy.demo.ServerValidate" />
 			
 			<call name="addListener">  <!-- 添加自定义通讯事件 -->
 				<listener class="org.hy.demo.ServerDemo" />
@@ -57,6 +57,8 @@
     v_RequestData.setData(      i_DataMap);            // 通讯数据。可选的，按具体业务而定。可为任何Java类型，须实现 java.io.Serializable 接口
 	
     ClientSocket v_Client = new ClientSocket("服务端IP" ,1721);
+	
+	v_Client.setValidate(new ClientValidate());        // 如果服务端启用了登陆验证，则客户端要提供用户名及密码
 	
     v_ResponseData = v_Client.send(v_RequestData);     // 发送通讯数据
 	

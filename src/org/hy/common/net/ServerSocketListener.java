@@ -57,7 +57,7 @@ public class ServerSocketListener extends ObjectSocketRequest
             
             if ( !v_ServerSocket.getValidate().validate((LoginRequest)i_RequestData) )
             {
-                v_ServerSocket.log("ServerLogin：Port " + i_ServerBase.port + " invalid login.");
+                v_ServerSocket.log("ServerLogin：invalid login.");
                 return null;
             }
         }
