@@ -72,7 +72,7 @@
 
 单点登陆服务案例 https://github.com/HY-ZhengWei/XSSO
 
-日志服务中的集群案例 https://github.com/HY-ZhengWei/LogWeb
+集群案例 https://github.com/HY-ZhengWei/LogWeb
 
 
 
