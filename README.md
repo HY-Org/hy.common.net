@@ -58,7 +58,7 @@
 	
     ClientSocket v_Client = new ClientSocket("服务端IP" ,1721);
 	
-	v_Client.setValidate(new ClientValidate());        // 如果服务端启用了登陆验证，则客户端要提供用户名及密码
+    v_Client.setValidate(new ClientValidate());        // 如果服务端启用了登陆验证，则客户端要提供用户名及密码
 	
     v_ResponseData = v_Client.send(v_RequestData);     // 发送通讯数据
 	
