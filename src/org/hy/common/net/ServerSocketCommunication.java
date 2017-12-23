@@ -91,7 +91,10 @@ public class ServerSocketCommunication extends ObjectSocketRequest
         finally
         {
             // 关闭监听的用于数据通讯的监听端口服务
-            i_ServerBase.close();
+            if ( i_ServerBase != null )
+            {
+                i_ServerBase.close();
+            }
         }
     }
     
