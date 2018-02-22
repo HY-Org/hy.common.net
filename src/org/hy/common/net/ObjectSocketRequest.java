@@ -69,7 +69,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
             v_Output.writeObject(v_ResponseData);  
             v_Output.flush();
         }
-        catch (Exception exce)
+        catch (Throwable exce)
         {
             exce.printStackTrace();
         }

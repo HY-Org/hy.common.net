@@ -194,7 +194,7 @@ public class XJavaCommunicationListener implements CommunicationListener
                             }
                         }
                     }
-                    catch (Exception exce)
+                    catch (Throwable exce)
                     {
                         v_ResponseData.setResult(7);
                     }

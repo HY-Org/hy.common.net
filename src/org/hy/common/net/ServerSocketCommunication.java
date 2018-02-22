@@ -81,7 +81,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
                 this.mainServer.log("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + ".");
                 v_ResponseData = v_Listener.communication(v_RequestData);
             }
-            catch (Exception exce)
+            catch (Throwable exce)
             {
                 exce.printStackTrace();
             }

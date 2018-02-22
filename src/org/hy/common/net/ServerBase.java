@@ -158,7 +158,7 @@ public class ServerBase
                     v_Socket = null;
                 }
             }
-            catch (Exception exce)
+            catch (Throwable exce)
             {
                 if ( this.isOpen )
                 {

@@ -79,7 +79,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
             
             return this.response(i_RequestData ,v_ResponseData);
         } 
-        catch (Exception exce)
+        catch (Throwable exce)
         {
             exce.printStackTrace();
         }
