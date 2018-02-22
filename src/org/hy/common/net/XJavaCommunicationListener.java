@@ -71,7 +71,7 @@ public class XJavaCommunicationListener implements CommunicationListener
             }
             else
             {
-                v_ResponseData.setResult(1);
+                v_ResponseData.setResult(NetError.$XJava_DataXIDError);
             }
             
             return v_ResponseData;
@@ -85,7 +85,7 @@ public class XJavaCommunicationListener implements CommunicationListener
             v_ResponseData.setData(XJava.getObject(i_RequestData.getDataXID()));
             if ( v_ResponseData.getData() == null )
             {
-                v_ResponseData.setResult(2);
+                v_ResponseData.setResult(NetError.$XJava_SelectError);
             }
         }
         // 查询多个本地XJava中的对象
@@ -94,7 +94,7 @@ public class XJavaCommunicationListener implements CommunicationListener
             Map<String ,Object> v_Objects = XJava.getObjects(i_RequestData.getDataXID());
             if ( Help.isNull(v_Objects) )
             {
-                v_ResponseData.setResult(2);
+                v_ResponseData.setResult(NetError.$XJava_SelectError);
             }
             else
             {
@@ -131,7 +131,7 @@ public class XJavaCommunicationListener implements CommunicationListener
         {
             if ( i_RequestData.getData() == null )
             {
-                v_ResponseData.setResult(3);
+                v_ResponseData.setResult(NetError.$XJava_RequestDataError);
             }
             else
             {
@@ -155,7 +155,7 @@ public class XJavaCommunicationListener implements CommunicationListener
         {
             if ( i_RequestData.getData() == null || !(i_RequestData.getData() instanceof Command) )
             {
-                v_ResponseData.setResult(4);
+                v_ResponseData.setResult(NetError.$XJava_CommandValidateError);
             }
             else
             {
@@ -164,7 +164,7 @@ public class XJavaCommunicationListener implements CommunicationListener
                 
                 if ( v_Instance == null )
                 {
-                    v_ResponseData.setResult(5);
+                    v_ResponseData.setResult(NetError.$XJava_CommandDataXIDError);
                 }
                 else
                 {
@@ -174,7 +174,7 @@ public class XJavaCommunicationListener implements CommunicationListener
                         
                         if ( v_Method == null )
                         {
-                            v_ResponseData.setResult(6);
+                            v_ResponseData.setResult(NetError.$XJava_CommandMethodError);
                         }
                         else
                         {
@@ -196,14 +196,14 @@ public class XJavaCommunicationListener implements CommunicationListener
                     }
                     catch (Throwable exce)
                     {
-                        v_ResponseData.setResult(7);
+                        v_ResponseData.setResult(NetError.$XJava_CommandError);
                     }
                 }
             }
         }
         else
         {
-            v_ResponseData.setResult(-1);
+            v_ResponseData.setResult(NetError.$XJava_NothingError);
         }
         
         return v_ResponseData;

@@ -269,7 +269,7 @@ public class ClientSocket extends ObjectSocketResponse
               || v_RequestData.getPassword() == null )
             {
                 CommunicationResponse v_Communication = new CommunicationResponse();
-                v_Communication.setResult(   96);
+                v_Communication.setResult(   NetError.$LoginValidateError);
                 v_Communication.setStartTime(v_StartTime);
                 v_Communication.setEndTime(  new Date());
                 return v_Communication;
@@ -287,7 +287,7 @@ public class ClientSocket extends ObjectSocketResponse
         if ( v_ResponseData == null )
         {
             CommunicationResponse v_Communication = new CommunicationResponse();
-            v_Communication.setResult(   97);
+            v_Communication.setResult(   NetError.$LoginError);
             v_Communication.setStartTime(v_StartTime);
             v_Communication.setEndTime(  new Date());
             return v_Communication;
@@ -301,7 +301,7 @@ public class ClientSocket extends ObjectSocketResponse
         if ( v_Communication == null )
         {
             v_Communication = new CommunicationResponse();
-            v_Communication.setResult(98);
+            v_Communication.setResult(NetError.$RequestDataError);
         }
         
         v_Communication.setStartTime(v_StartTime);
@@ -375,7 +375,7 @@ public class ClientSocket extends ObjectSocketResponse
             if ( i_ResponseData == null || !(i_ResponseData instanceof CommunicationResponse) )
             {
                 CommunicationResponse v_Communication = new CommunicationResponse();
-                v_Communication.setResult(99);
+                v_Communication.setResult(NetError.$ResponseDataError);
                 return v_Communication;
             }
             
