@@ -48,7 +48,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true ,false);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true ,null);
     }
     
     
@@ -70,7 +70,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,false);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,null);
     }
     
     
@@ -88,12 +88,12 @@ public class ClientSocketCluster
      * @param i_Command        执行命令名称（即方法名称）
      * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
      *                         不等待时，返回0元素个数的Map。
-     * @param i_IsLog          是否显示日志
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_IsLog)
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,String i_Log)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_IsLog);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_Log);
     }
     
     
@@ -114,7 +114,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,false);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,null);
     }
     
     
@@ -137,7 +137,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,false);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,null);
     }
     
     
@@ -157,10 +157,10 @@ public class ClientSocketCluster
      * @param i_CommandParams  执行命令参数（即方法参数）
      * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
      *                         不等待时，返回0元素个数的Map。
-     * @param i_IsLog          是否显示日志
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_IsLog)
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,String i_Log)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
@@ -172,7 +172,7 @@ public class ClientSocketCluster
         v_RequestData.setData(         v_Command);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Command);
         
-        return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_IsLog);
+        return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_Log);
     }
     
     
@@ -286,7 +286,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,true ,false);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,true ,null);
     }
     
     
@@ -308,7 +308,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,false);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,null);
     }
     
     
@@ -329,7 +329,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true ,false);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true ,null);
     }
     
     
@@ -352,7 +352,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,false);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,null);
     }
     
     
@@ -372,10 +372,10 @@ public class ClientSocketCluster
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
      *                         不等待时，返回0元素个数的Map。
-     * @param i_IsLog          是否显示日志
+     * @param i_Log          日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_IsLog)
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,String i_Log)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -384,7 +384,7 @@ public class ClientSocketCluster
         v_RequestData.setDataExpireTimeLen(i_ExpireTimeLen);
         v_RequestData.setDataOperation(    CommunicationRequest.$Operation_Update);
         
-        return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_IsLog);
+        return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_Log);
     }
     
     
@@ -434,7 +434,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn)
     {
-        return sends(i_Cluster ,i_Timeout ,i_RequestData ,true ,false);
+        return sends(i_Cluster ,i_Timeout ,i_RequestData ,true ,null);
     }
     
     
@@ -457,10 +457,10 @@ public class ClientSocketCluster
      * @param i_RequestData  请求发送给服务端的数据
      * @param i_IsWaitReturn 是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
      *                       不等待时，返回0元素个数的Map。
-     * @param i_IsLog        是否显示日志
+     * @param i_Log          日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn ,boolean i_IsLog)
+    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn ,String i_Log)
     {
         if ( i_Timeout <= 1000 )
         {
@@ -472,7 +472,7 @@ public class ClientSocketCluster
             return new Hashtable<ClientSocket ,CommunicationResponse>();
         }
         
-        ClientSocketClusterListener v_Listener = new ClientSocketClusterListener(i_IsLog);
+        ClientSocketClusterListener v_Listener = new ClientSocketClusterListener(i_Log);
         
         for (ClientSocket v_Client : i_Cluster)
         {

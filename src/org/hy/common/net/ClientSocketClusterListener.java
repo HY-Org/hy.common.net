@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hy.common.Date;
 import org.hy.common.ExecuteEvent;
 import org.hy.common.ExecuteListener;
+import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationResponse;
 
@@ -30,21 +31,21 @@ public class ClientSocketClusterListener implements ExecuteListener
     /** 集群执行后返回结果的数量 */
     private int                                      clusterCount;
     
-    /** 是否显示日志 */
-    private boolean                                  isLog;
+    /** 日志信息。当为null或空字符串时，表示不显示日志 */
+    private String                                   logInfo;
     
     
     
     public ClientSocketClusterListener()
     {
-        this(false);
+        this(null);
     }
     
     
     
-    public ClientSocketClusterListener(boolean i_IsLog)
+    public ClientSocketClusterListener(String i_LogInfo)
     {
-        this.isLog         = i_IsLog;
+        this.logInfo       = i_LogInfo;
         this.clusterResult = new Hashtable<ClientSocket ,CommunicationResponse>();
     }
     
@@ -64,18 +65,25 @@ public class ClientSocketClusterListener implements ExecuteListener
         this.clusterResult.put((ClientSocket)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
         this.clusterCount++;
         
-        if ( this.isLog )
+        if ( !Help.isNull(this.logInfo) )
         {
             ClientSocket          v_Client = (ClientSocket)i_Event.getSource();
             CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
+            StringBuilder         v_Buffer = new StringBuilder();
             
-            System.out.println(Date.getNowTime().getFullMilli() 
-                             + " 集群通讯已收到 " + StringHelp.lpad(this.clusterCount ,4 ," ") + " 次返回。本次通讯为 " 
-                             + v_Client.getHostName() 
-                             + ":"
-                             + v_Client.getPort() 
-                             + " "
-                             + (v_CRet.getResult()==0 ? "成功" : "失败(" + v_CRet.getResult() + ")"));
+            v_Buffer.append(Date.getNowTime().getFullMilli());
+            v_Buffer.append(" 集群通讯已收到 ");
+            v_Buffer.append(StringHelp.lpad(this.clusterCount ,4 ," "));
+            v_Buffer.append(" 次返回。本次为 ");
+            v_Buffer.append(v_Client.getHostName());
+            v_Buffer.append(":");
+            v_Buffer.append(v_Client.getPort() );
+            v_Buffer.append(" ");
+            v_Buffer.append(this.logInfo);
+            v_Buffer.append(" ");
+            v_Buffer.append((v_CRet.getResult()==0 ? "成功" : "失败(" + v_CRet.getResult() + ")"));
+            
+            System.out.println(v_Buffer.toString());
         }
     }
 
@@ -94,25 +102,26 @@ public class ClientSocketClusterListener implements ExecuteListener
     }
 
 
-    
-    /**
-     * 获取：是否显示日志
-     */
-    public boolean isLog()
-    {
-        return isLog;
-    }
-    
 
     
     /**
-     * 设置：是否显示日志
-     * 
-     * @param isLog 
+     * 获取：日志信息。当为null或空字符串时，表示不显示日志
      */
-    public void setLog(boolean isLog)
+    public String getLogInfo()
     {
-        this.isLog = isLog;
+        return logInfo;
+    }
+
+
+    
+    /**
+     * 设置：日志信息。当为null或空字符串时，表示不显示日志
+     * 
+     * @param logInfo 
+     */
+    public void setLogInfo(String logInfo)
+    {
+        this.logInfo = logInfo;
     }
     
 }
