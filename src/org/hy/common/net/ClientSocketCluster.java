@@ -79,6 +79,29 @@ public class ClientSocketCluster
      * 以并发的方式，向集群服务端发送执行命令
      * 
      * @author      ZhengWei(HY)
+     * @createDate  2017-02-04
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_IsLog          是否显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_IsLog)
+    {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_IsLog);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
      * @createDate  2017-01-20
      * @version     v1.0
      *
