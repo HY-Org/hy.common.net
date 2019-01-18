@@ -3,8 +3,10 @@ package org.hy.common.net;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.hy.common.Date;
 import org.hy.common.ExecuteEvent;
 import org.hy.common.ExecuteListener;
+import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationResponse;
 
 
@@ -17,6 +19,7 @@ import org.hy.common.net.data.CommunicationResponse;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-19
  * @version     v1.0
+ *              v2.0  2019-01-18  添加：显示日志
  */
 public class ClientSocketClusterListener implements ExecuteListener
 {
@@ -27,11 +30,22 @@ public class ClientSocketClusterListener implements ExecuteListener
     /** 集群执行后返回结果的数量 */
     private int                                      clusterCount;
     
+    /** 是否显示日志 */
+    private boolean                                  isLog;
+    
     
     
     public ClientSocketClusterListener()
     {
-        clusterResult = new Hashtable<ClientSocket ,CommunicationResponse>();
+        this(false);
+    }
+    
+    
+    
+    public ClientSocketClusterListener(boolean i_IsLog)
+    {
+        this.isLog         = i_IsLog;
+        this.clusterResult = new Hashtable<ClientSocket ,CommunicationResponse>();
     }
     
     
@@ -49,6 +63,20 @@ public class ClientSocketClusterListener implements ExecuteListener
     {
         this.clusterResult.put((ClientSocket)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
         this.clusterCount++;
+        
+        if ( this.isLog )
+        {
+            ClientSocket          v_Client = (ClientSocket)i_Event.getSource();
+            CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
+            
+            System.out.println(Date.getNowTime().getFullMilli() 
+                             + " 集群通讯已收到 " + StringHelp.lpad(this.clusterCount ,4 ," ") + " 次返回。本次通讯为 " 
+                             + v_Client.getHostName() 
+                             + ":"
+                             + v_Client.getPort() 
+                             + " "
+                             + (v_CRet.getResult()==0 ? "成功" : "失败(" + v_CRet.getResult() + ")"));
+        }
     }
 
 
@@ -63,6 +91,28 @@ public class ClientSocketClusterListener implements ExecuteListener
     public int getClusterCount()
     {
         return clusterCount;
+    }
+
+
+    
+    /**
+     * 获取：是否显示日志
+     */
+    public boolean isLog()
+    {
+        return isLog;
+    }
+    
+
+    
+    /**
+     * 设置：是否显示日志
+     * 
+     * @param isLog 
+     */
+    public void setLog(boolean isLog)
+    {
+        this.isLog = isLog;
     }
     
 }
