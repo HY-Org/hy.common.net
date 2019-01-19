@@ -486,7 +486,7 @@ public class ClientSocketCluster
         if ( i_IsWaitReturn )
         {
             int  v_ClusterCount = i_Cluster.size();
-            long v_Timeout      = Date.getNowTime().getTime() + i_Timeout * v_ClusterCount * 3;
+            long v_Timeout      = Date.getNowTime().getTime() + i_Timeout * (v_ClusterCount + 2);
             while ( v_Listener.getClusterCount() < v_ClusterCount && Date.getNowTime().getTime() <= v_Timeout)
             {
                 // 一直等待集群的执行结果，直到所有服务器均返回结果
