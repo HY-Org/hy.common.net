@@ -80,6 +80,12 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             {
                 this.mainServer.log("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + ".");
                 v_ResponseData = v_Listener.communication(v_RequestData);
+                
+                if ( !v_RequestData.isRetunData() )
+                {
+                    // 客户端要求：不返回执行的结果数据
+                    v_ResponseData.setData(null);
+                }
             }
             catch (Throwable exce)
             {

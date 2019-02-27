@@ -29,6 +29,7 @@ import org.hy.common.net.data.CommunicationResponse;
  *                                     当不等待时，此方法执行更快，特别是在集群中某个服务故障时。不等待时，返回0元素个数的Map。
  *              v3.0  2017-02-07  添加：查询每服务上的多个对象getObjectss(...);
  *              v4.0  2019-01-18  添加：显示日志
+ *              v5.0  2019-02-27  添加：服务端是否返回执行结果的数据。
  */
 public class ClientSocketCluster
 {
@@ -48,7 +49,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true ,null);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true ,true ,null);
     }
     
     
@@ -70,7 +71,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,null);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,true ,null);
     }
     
     
@@ -93,7 +94,54 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,String i_Log)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_Log);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,true ,i_Log);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_ServerIsReturn ,null);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_ServerIsReturn ,i_Log);
     }
     
     
@@ -114,7 +162,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,null);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,true ,null);
     }
     
     
@@ -137,7 +185,31 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,null);
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,true ,null);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_CommandParams  执行命令参数（即方法参数）
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
     
     
@@ -162,6 +234,33 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,String i_Log)
     {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,true ,i_Log);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-01-20
+     * @version     v1.0
+     *              v2.0  2019-01-18  添加：显示日志功能
+     *              v3.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_CommandParams  执行命令参数（即方法参数）
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
         
@@ -171,6 +270,7 @@ public class ClientSocketCluster
         v_RequestData.setDataXID(      i_XID);
         v_RequestData.setData(         v_Command);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Command);
+        v_RequestData.setRetunData(    i_ServerIsReturn);
         
         return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_Log);
     }
@@ -191,7 +291,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID)
     {
-        return removeObjects(i_Cluster ,i_Timeout ,i_XID ,true);
+        return removeObjects(i_Cluster ,i_Timeout ,i_XID ,true ,true);
     }
     
     
@@ -200,7 +300,7 @@ public class ClientSocketCluster
      * 以并发的方式，移除集群服务端的对象（默认从XJava对象池中移除）。
      * 
      * @author      ZhengWei(HY)
-     * @createDate  2017-02-04
+     * @createDate  2019-02-27
      * @version     v1.0
      *
      * @param i_Cluster        集群服务列表
@@ -212,10 +312,34 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn)
     {
+        return removeObjects(i_Cluster ,i_Timeout ,i_XID ,i_IsWaitReturn ,true);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，移除集群服务端的对象（默认从XJava对象池中移除）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-02-04
+     * @version     v1.0
+     *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
         v_RequestData.setDataXID(      i_XID);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Delete);
+        v_RequestData.setRetunData(    i_ServerIsReturn);
         
         return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn);
     }
@@ -286,7 +410,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,true ,null);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,true ,true ,null);
     }
     
     
@@ -308,7 +432,77 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,null);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,true ,null);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,i_ServerIsReturn ,null);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,String i_Log)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,true ,i_Log);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,i_ServerIsReturn ,i_Log);
     }
     
     
@@ -329,7 +523,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true ,null);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true ,true ,null);
     }
     
     
@@ -352,7 +546,31 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,null);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,true ,null);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
     
     
@@ -372,10 +590,37 @@ public class ClientSocketCluster
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
      *                         不等待时，返回0元素个数的Map。
-     * @param i_Log          日志信息。当为null或空字符串时，表示不显示日志
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,String i_Log)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,true ,i_Log);
+    }
+    
+    
+    
+    /**
+     * 以并发的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-01-23
+     * @version     v1.0
+     *              v2.0  2019-01-18  添加：显示日志功能
+     *              v3.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_Timeout        超时终止线程的时长(单位：毫秒)
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
+     * @param i_IsWaitReturn   是否等待集群执行结果。当不等待时，此方法执行更快，特别是在集群中某个服务故障时。
+     *                         不等待时，返回0元素个数的Map。
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -383,6 +628,7 @@ public class ClientSocketCluster
         v_RequestData.setData(             i_Data);
         v_RequestData.setDataExpireTimeLen(i_ExpireTimeLen);
         v_RequestData.setDataOperation(    CommunicationRequest.$Operation_Update);
+        v_RequestData.setRetunData(        i_ServerIsReturn);
         
         return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_Log);
     }
@@ -523,7 +769,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command)
     {
-        return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,new Object[]{});
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,new Object[]{} ,true);
     }
     
     
@@ -532,7 +778,27 @@ public class ClientSocketCluster
      * 以顺次的方式，向集群服务端发送执行命令
      * 
      * @author      ZhengWei(HY)
-     * @createDate  2017-01-20
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn);
+    }
+    
+    
+    
+    /**
+     * 以顺次的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
      * @version     v1.0
      *
      * @param i_Cluster        集群服务列表
@@ -543,6 +809,28 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
+        return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,i_CommandParams ,true);
+    }
+    
+    
+    
+    /**
+     * 以顺次的方式，向集群服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-01-20
+     * @version     v1.0
+     *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_XID            XJava对象池的ID
+     * @param i_Command        执行命令名称（即方法名称）
+     * @param i_CommandParams  执行命令参数（即方法参数）
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
+    {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
         
@@ -552,6 +840,7 @@ public class ClientSocketCluster
         v_RequestData.setDataXID(      i_XID);
         v_RequestData.setData(         v_Command);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Command);
+        v_RequestData.setRetunData(    i_ServerIsReturn);
         
         return ClientSocketCluster.sends(i_Cluster ,v_RequestData);
     }
@@ -562,18 +851,40 @@ public class ClientSocketCluster
      * 以顺次的方式，移除集群服务端的对象（默认从XJava对象池中移除）。
      * 
      * @author      ZhengWei(HY)
-     * @createDate  2017-01-23
+     * @createDate  2019-02-27
      * @version     v1.0
      *
+     * @param i_Cluster        集群服务列表
      * @param i_XID            XJava对象池的ID
      * @return
      */
     public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,String i_XID)
     {
+        return removeObjects(i_Cluster ,i_XID ,false);
+    }
+    
+    
+    
+    /**
+     * 以顺次的方式，移除集群服务端的对象（默认从XJava对象池中移除）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-01-23
+     * @version     v1.0
+     *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *
+     * @param i_Cluster        集群服务列表
+     * @param i_XID            XJava对象池的ID
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,String i_XID ,boolean i_ServerIsReturn)
+    {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
         v_RequestData.setDataXID(      i_XID);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Delete);
+        v_RequestData.setRetunData(    i_ServerIsReturn);
         
         return ClientSocketCluster.sends(i_Cluster ,v_RequestData);
     }
@@ -637,7 +948,45 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data)
     {
-        return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,0);
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,0 ,true);
+    }
+    
+    
+    
+    /**
+     * 以顺次的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,0 ,i_ServerIsReturn);
+    }
+    
+    
+    
+    /**
+     * 以顺次的方式，向集群服务端中写入或更新对象（默认将写入XJava对象池）。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2019-02-27
+     * @version     v1.0
+     *
+     * @param i_XID            XJava对象池的ID
+     * @param i_Data           XJava对象
+     * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
+     * @return
+     */
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
+    {
+        return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,i_ExpireTimeLen ,true);
     }
     
     
@@ -648,13 +997,15 @@ public class ClientSocketCluster
      * @author      ZhengWei(HY)
      * @createDate  2017-01-23
      * @version     v1.0
+     *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
      *
      * @param i_XID            XJava对象池的ID
      * @param i_Data           XJava对象
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
+     * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
+    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -662,6 +1013,7 @@ public class ClientSocketCluster
         v_RequestData.setData(             i_Data);
         v_RequestData.setDataExpireTimeLen(i_ExpireTimeLen);
         v_RequestData.setDataOperation(    CommunicationRequest.$Operation_Update);
+        v_RequestData.setRetunData(        true);
         
         return ClientSocketCluster.sends(i_Cluster ,v_RequestData);
     }
