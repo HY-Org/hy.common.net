@@ -1,6 +1,7 @@
 package org.hy.common.net;
 
 import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -68,6 +69,10 @@ public abstract class ObjectSocketRequest implements SocketRepuest
             v_Output = new ObjectOutputStream(i_Socket.getOutputStream()); 
             v_Output.writeObject(v_ResponseData);  
             v_Output.flush();
+        }
+        catch (EOFException exce)
+        {
+            // 此异常就不在报出了，可能是第三方软件在扫描端口
         }
         catch (Throwable exce)
         {
