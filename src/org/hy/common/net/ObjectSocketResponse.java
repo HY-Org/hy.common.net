@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import org.hy.common.Date;
 import org.hy.common.Help;
 
 
@@ -16,10 +17,15 @@ import org.hy.common.Help;
  * 
  * 本类并不是最终处理响应的处理类。
  * 本类只负责将Socket数据流转为Java对象，并接着传递这个Java对象给最终的处理类。
+ * 
+ * 注意: ClientSocketCluster类所有方法的入参timeout与ClientSocket.timeout是有区别的，含义不同。
+ *       1. ClientSocketCluster类的timeout重点指，有大量数据通讯时，超过定义时长后，自动结束。一般本类的timeout可以配置大些。
+ *       2. ClientSocket.timeout重点指连路是否正常，是在数据通讯前建立连接的等待时长。一般配置较小，如10秒。
  *
  * @author      ZhengWei(HY)
  * @createDate  2017-01-14
  * @version     v1.0
+ *              v2.0  2019-03-06  添加：超时时长的机制
  */
 public abstract class ObjectSocketResponse implements SocketResponse
 {
@@ -30,12 +36,16 @@ public abstract class ObjectSocketResponse implements SocketResponse
     /** 端口号 */
     protected int    port;
     
+    /**  超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒 */
+    protected int    timeout;
+    
     
     
     public ObjectSocketResponse(String i_HostName ,int i_Port)
     {
         this.hostName = i_HostName;
         this.port     = i_Port;
+        this.timeout  = 10 * 1000;
     }
     
     
@@ -63,8 +73,13 @@ public abstract class ObjectSocketResponse implements SocketResponse
                 return null;
             }
             
-            v_Socket = Help.getSocket(this.hostName ,this.port);
+            if ( !Help.isAllowConnect(this.hostName ,this.port ,this.timeout) )
+            {
+                System.out.println(Date.getNowTime().getFull() + " 无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
+                return null;
+            }
             
+            v_Socket = Help.getSocket(this.hostName ,this.port);
             if ( v_Socket == null )
             {
                 return null;
@@ -173,6 +188,28 @@ public abstract class ObjectSocketResponse implements SocketResponse
     public void setPort(int port)
     {
         this.port = port;
+    }
+
+
+    
+    /**
+     * 获取：超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒
+     */
+    public int getTimeout()
+    {
+        return timeout;
+    }
+
+
+    
+    /**
+     * 设置：超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒
+     * 
+     * @param timeout 
+     */
+    public void setTimeout(int timeout)
+    {
+        this.timeout = timeout;
     }
     
 }
