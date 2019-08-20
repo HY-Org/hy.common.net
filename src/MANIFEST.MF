@@ -1,5 +1,5 @@
 Manifest-Version: 1.2.19
 Created-By: HY.ZhengWei@qq.com  2011
-Specification-Version: 1.2.19  2019-03-06
+Specification-Version: 1.2.19  2019-08-20
 SourceCode: https://github.com/HY-ZhengWei/hy.common.net
 Build-JDK: 1.6

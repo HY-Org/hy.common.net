@@ -197,6 +197,7 @@ public class XJavaCommunicationListener implements CommunicationListener
                     catch (Throwable exce)
                     {
                         v_ResponseData.setResult(NetError.$XJava_CommandError);
+                        exce.printStackTrace();
                     }
                 }
             }
