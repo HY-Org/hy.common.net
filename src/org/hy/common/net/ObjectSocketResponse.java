@@ -73,15 +73,10 @@ public abstract class ObjectSocketResponse implements SocketResponse
                 return null;
             }
             
-            if ( !Help.isAllowConnect(this.hostName ,this.port ,this.timeout) )
-            {
-                System.out.println(Date.getNowTime().getFull() + " 无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
-                return null;
-            }
-            
-            v_Socket = Help.getSocket(this.hostName ,this.port);
+            v_Socket = Help.getSocket(this.hostName ,this.port ,this.timeout);
             if ( v_Socket == null )
             {
+                System.out.println(Date.getNowTime().getFull() + " 无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
                 return null;
             }
             
