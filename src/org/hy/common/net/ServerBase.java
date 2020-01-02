@@ -4,6 +4,7 @@ import java.net.Socket;
 
 import org.hy.common.Date;
 import org.hy.common.Execute;
+import org.hy.common.Help;
 
 
 
@@ -15,6 +16,7 @@ import org.hy.common.Execute;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-12
  * @version     v1.0
+ *              v2.0  2019-12-28  添加：支持由外界创建及绑定端口的java.net.ServerSocket，并直接使用它。
  */
 public class ServerBase
 {
@@ -49,6 +51,24 @@ public class ServerBase
     public ServerBase(int i_Port)
     {
         this.port     = i_Port;
+        this.isOpen   = false;
+        this.openTime = null;
+        this.isLog    = false;
+    }
+    
+    
+    
+    public ServerBase(java.net.ServerSocket i_Server)
+    {
+        if ( i_Server != null )
+        {
+            this.server = i_Server;
+            this.port   = i_Server.getLocalPort();
+        }
+        else
+        {
+            this.port = 0;
+        }
         this.isOpen   = false;
         this.openTime = null;
         this.isLog    = false;
@@ -95,8 +115,13 @@ public class ServerBase
         
         try
         {
-            this.port     = i_Port;
-            this.server   = new java.net.ServerSocket(this.port);
+            this.port = i_Port;
+            
+            if ( this.server == null || this.server.isClosed() || !this.server.isBound() )
+            {
+                this.server = Help.getServerSocket(this.port ,true);
+            }
+            
             this.isOpen   = true;
             this.openTime = new Date();
             
@@ -148,7 +173,10 @@ public class ServerBase
                     this.log("ServerBase：Port " + i_ServerBase.port + " Request is not set to the action, will automatically close.");
                     try
                     {
-                        v_Socket.close();
+                        if ( !v_Socket.isClosed() )
+                        {
+                            v_Socket.close();
+                        }
                     }
                     catch (Exception exce)
                     {
@@ -184,21 +212,25 @@ public class ServerBase
      */
     public synchronized void close()
     {
-        try
+        this.isOpen = false;  // 一定在放在关闭之前，因为关闭可能会引发异常 openListening(...) 方法的异常。
+        
+        if ( this.server != null )
         {
-            this.isOpen = false;  // 一定在放在关闭之前，因为关闭可能会引发异常 openListening(...) 方法的异常。
-            if ( this.server != null )
+            try
             {
-                this.server.close();
+                if ( !this.server.isClosed() )
+                {
+                    this.server.close();
+                }
             }
-        }
-        catch (Exception exce)
-        {
-            exce.printStackTrace();
-        }
-        finally
-        {
-            this.server = null;
+            catch (Exception exce)
+            {
+                exce.printStackTrace();
+            }
+            finally
+            {
+                this.server = null;
+            }
         }
         
         this.log("ServerBase：Port " + this.port + " is closed.");

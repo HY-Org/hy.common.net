@@ -82,10 +82,27 @@ public abstract class ObjectSocketResponse implements SocketResponse
             
             v_Output = new ObjectOutputStream(v_Socket.getOutputStream());  
             v_Output.writeObject(i_RequestData);  
-            v_Output.flush();  
-              
+            v_Output.flush(); 
+            try
+            {
+                v_Socket.shutdownOutput();
+            }
+            catch (Throwable exce)
+            {
+                exce.printStackTrace();
+            }
+            
+            
             v_Input = new ObjectInputStream(new BufferedInputStream(v_Socket.getInputStream()));
             Object v_ResponseData = v_Input.readObject(); 
+            try
+            {
+                v_Socket.shutdownInput();
+            }
+            catch (Throwable exce)
+            {
+                exce.printStackTrace();
+            }
             
             return this.response(i_RequestData ,v_ResponseData);
         } 
@@ -101,7 +118,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
                 {
                     v_Input.close();
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }
@@ -115,7 +132,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
                 {
                     v_Output.close();
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }
@@ -127,9 +144,12 @@ public abstract class ObjectSocketResponse implements SocketResponse
             {
                 try
                 {
-                    v_Socket.close();
+                    if ( !v_Socket.isClosed() )
+                    {
+                        v_Socket.close();
+                    }
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }

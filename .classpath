@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="lib/xjava.jar" sourcepath="C:/Users/ZhengWei/.m2/org/hy.common.xjava/3.9.28/hy.common.xjava-3.9.28-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/hy.common.file"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.1.37.Final.jar" sourcepath="lib/netty-all-4.1.37.Final-sources.jar"/>
+	<classpathentry kind="lib" path="lib/xx.sso.jar"/>
+	<classpathentry kind="lib" path="lib/hy.common.tpool.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

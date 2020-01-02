@@ -2,6 +2,7 @@ package org.hy.common.net;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -56,19 +57,48 @@ public abstract class ObjectSocketRequest implements SocketRepuest
      */
     public void request(ServerBase i_ServerBase ,Socket i_Socket)
     {
-        ObjectInputStream  v_Input  = null;  
-        ObjectOutputStream v_Output = null;
+        InputStream        v_InputSocket = null;
+        ObjectInputStream  v_Input       = null;  
+        ObjectOutputStream v_Output      = null;
         
         try
         {
-            v_Input  = new ObjectInputStream(new BufferedInputStream(i_Socket.getInputStream()));  
+            if ( !i_Socket.isConnected() || i_Socket.isClosed() || i_Socket.isInputShutdown() )
+            {
+                return;
+            }
+            
+            v_InputSocket = i_Socket.getInputStream();
+            if ( v_InputSocket == null )
+            {
+                return;
+            }
+            
+            v_Input  = new ObjectInputStream(new BufferedInputStream(v_InputSocket));  
 
             Object v_RequestData  = v_Input.readObject();  
             Object v_ResponseData = this.request(v_RequestData ,i_ServerBase);
+            try
+            {
+                i_Socket.shutdownInput();
+            }
+            catch (Throwable exce)
+            {
+                exce.printStackTrace();
+            }
+            
             
             v_Output = new ObjectOutputStream(i_Socket.getOutputStream()); 
             v_Output.writeObject(v_ResponseData);  
             v_Output.flush();
+            try
+            {
+                i_Socket.shutdownOutput();
+            }
+            catch (Throwable exce)
+            {
+                exce.printStackTrace();
+            }
         }
         catch (EOFException exce)
         {
@@ -76,6 +106,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
         }
         catch (Throwable exce)
         {
+            System.out.println("服务端接收请求 " + i_Socket.getRemoteSocketAddress().toString() + ":" + i_Socket.getLocalPort() + " 异常.");
             exce.printStackTrace();
         }
         finally
@@ -86,12 +117,26 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                 {
                     v_Input.close();
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }
                 
                 v_Input = null;
+            }
+            
+            if ( v_InputSocket != null )
+            {
+                try
+                {
+                    v_InputSocket.close();
+                }
+                catch (Throwable exce)
+                {
+                    // Nothing.
+                }
+                
+                v_InputSocket = null;
             }
             
             if ( v_Output != null )
@@ -100,7 +145,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                 {
                     v_Output.close();
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }
@@ -112,9 +157,12 @@ public abstract class ObjectSocketRequest implements SocketRepuest
             {
                 try
                 {
-                    i_Socket.close();
+                    if ( !i_Socket.isClosed() )
+                    {
+                        i_Socket.close();
+                    }
                 }
-                catch (Exception exce)
+                catch (Throwable exce)
                 {
                     // Nothing.
                 }

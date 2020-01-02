@@ -130,15 +130,15 @@ public class ServerSocket extends ServerBase
      */
     public synchronized ServerBase createCommunicationServer(SocketRepuest i_SocketRepuest)
     {
-        int v_Port = this.getNextPort();
+        java.net.ServerSocket v_ServerSocket = this.getNextPort();
         
-        if ( v_Port == 0 )
+        if ( v_ServerSocket == null )
         {
             return null;
         }
         
         // 创建一个新的用于数据通讯的临时的服务端Socket监听服务
-        ServerBase v_CommunicationServer = new ServerBase(v_Port).setLog(this.isLog());
+        ServerBase v_CommunicationServer = new ServerBase(v_ServerSocket).setLog(this.isLog());
         v_CommunicationServer.setRequest(i_SocketRepuest);
         if ( v_CommunicationServer.open() )
         {
@@ -227,10 +227,12 @@ public class ServerSocket extends ServerBase
      * @author      ZhengWei(HY)
      * @createDate  2017-01-12
      * @version     v1.0
+     *              v2.0  2019-12-28  优化：不再使用 Help.isOpen() 方法判定端口是否打开？
+     *                                       而是直接尝试绑定端口并返回ServerSocket
      *
      * @return
      */
-    public synchronized int getNextPort()
+    public synchronized java.net.ServerSocket getNextPort()
     {
         int v_Index = this.indexPort;
         
@@ -249,23 +251,25 @@ public class ServerSocket extends ServerBase
         
         for (; v_Index<=this.maxPort; v_Index++)
         {
-            if ( Help.isPortOpen(v_Index) )
+            java.net.ServerSocket v_ServerSocket = Help.getServerSocket(v_Index ,true);
+            if ( v_ServerSocket != null )
             {
                 this.indexPort = v_Index;
-                return this.indexPort;
+                return v_ServerSocket;
             }
         }
         
         for (v_Index=this.minPort; v_Index<this.indexPort; v_Index++)
         {
-            if ( Help.isPortOpen(v_Index) )
+            java.net.ServerSocket v_ServerSocket = Help.getServerSocket(v_Index ,true);
+            if ( v_ServerSocket != null )
             {
                 this.indexPort = v_Index;
-                return this.indexPort;
+                return v_ServerSocket;
             }
         }
         
-        return 0;
+        return null;
     }
     
     
