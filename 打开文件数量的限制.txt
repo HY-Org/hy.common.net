@@ -1,0 +1,7 @@
+1. ulimit -a        查看系统限制
+2. ulimit -n 65535  临时设定打开文件数量的上限（系统重启后失效）
+
+永久设定打开文件数量上限：vi /etc/security/limits.conf  （重启系统后才能生效）
+添加如下两行配置（*表示所有用户，soft/hard表示软/硬限制）
+1. * soft nofile 65535
+2. * hard nofile 65535
