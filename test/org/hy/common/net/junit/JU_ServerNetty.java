@@ -22,7 +22,7 @@ public class JU_ServerNetty
 
     public static void main(String [] args)
     {
-        // java -classpath ".:/opt/lib/*"  org.hy.common.net.junit.JU_ServerNetty
+        // java -classpath ".:/opt/nettyServer/lib/*"  org.hy.common.net.junit.JU_ServerNetty
         System.out.println("server starting....");
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -34,7 +34,7 @@ public class JU_ServerNetty
         serverBootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
         serverBootstrap.childHandler(new ConnectionCountHandler());
         
-        bindPorts(serverBootstrap ,7000 ,7000);
+        bindPorts(serverBootstrap ,7000 ,8000);
         
         System.out.println("server started!");
     }

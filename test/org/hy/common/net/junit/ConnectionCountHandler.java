@@ -4,13 +4,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.hy.common.Date;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
 
 
 
@@ -65,7 +64,7 @@ public class ConnectionCountHandler extends ChannelInboundHandlerAdapter impleme
     @Override
     public void run()
     {
-        System.out.println("connections: " + nConnection.get());
+        System.out.println(Date.getNowTime().getFullMilli() + "\t同时在线连接数: " + nConnection.get());
     }
       
 }

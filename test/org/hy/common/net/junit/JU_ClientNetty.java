@@ -1,6 +1,8 @@
 package org.hy.common.net.junit;
 
 
+import org.hy.common.Date;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -21,7 +23,9 @@ public class JU_ClientNetty
 
     public static void main(String [] args) throws InterruptedException
     {
-        new Client().start(7000 ,7000);
+        // java -classpath ".:/opt/nettyClient/lib/*"  org.hy.common.net.junit.JU_ClientNetty
+        
+        new Client().start(7000 ,8000);
         
         
         int i = 0;
@@ -65,7 +69,7 @@ public class JU_ClientNetty
 class Client 
 {
 
-    private static final String SERVER_HOST = "10.1.50.78";
+    private static final String SERVER_HOST = "10.1.85.23";
 
     public void start(final int beginPort, int nPort) 
     {
@@ -84,7 +88,8 @@ class Client
         });
         int index = 0;
         int port;
-        while (!Thread.interrupted()) {
+        while (!Thread.interrupted()) 
+        {
             port = beginPort + index;
             
             if (port <= nPort) 
@@ -95,6 +100,8 @@ class Client
                     channelFuture.addListener(new ClientChannelFuture(port));
                     channelFuture.get();
                     channelFuture.channel().closeFuture();
+                    
+                    Thread.sleep(25);
                 }
                 catch (Exception e)
                 {
@@ -128,11 +135,11 @@ class ClientChannelFuture implements ChannelFutureListener
     {
         if (!future.isSuccess()) 
         {
-            System.out.println("连接失败(" + this.port + "), 退出!");
+            System.out.println(Date.getNowTime().getFullMilli() + "\t连接失败(" + this.port + "), 退出!");
         }
         else
         {
-            System.out.println("连接成功(" + this.port + ")");
+            System.out.println(Date.getNowTime().getFullMilli() + "\t连接成功(" + this.port + ")");
         }
     }
     
