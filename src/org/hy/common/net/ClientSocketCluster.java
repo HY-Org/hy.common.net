@@ -714,7 +714,7 @@ public class ClientSocketCluster
     {
         if ( i_Timeout <= 1000 )
         {
-            throw new VerifyError("Timeout is not <= 1000 millisecond.");
+            throw new RuntimeException("Timeout is not <= 1000 millisecond.");
         }
         
         if ( Help.isNull(i_Cluster) )
