@@ -1,5 +1,5 @@
-Manifest-Version: 1.2.21
+Manifest-Version: 1.2.22
 Created-By: HY.ZhengWei@qq.com  2011
-Specification-Version: 1.2.21  2020-08-17
+Specification-Version: 1.2.22  2021-02-06
 SourceCode: https://github.com/HY-ZhengWei/hy.common.net
 Build-JDK: 1.6

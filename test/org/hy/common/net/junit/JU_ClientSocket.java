@@ -51,4 +51,26 @@ public class JU_ClientSocket
         }
     }
     
+    
+    
+    @Test
+    public void test_ClientSocket_Cloud_LoadRunner()
+    {
+        ClientSocket v_Client = new ClientSocket();
+        
+        v_Client.setHostName("10.1.85.74");
+        v_Client.setPort(1721);
+        
+        for (int i=1; i<=1000; i++)
+        {
+            System.out.println(i);
+            
+            CommunicationResponse v_Response = v_Client.sendCommand("SyncDatasJob" ,"syncDatas");
+            if ( v_Response.getResult() != 0 )
+            {
+                Assert.fail("网络通讯异常");
+            }
+        }
+    }
+    
 }

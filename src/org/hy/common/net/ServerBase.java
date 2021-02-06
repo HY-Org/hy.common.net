@@ -199,6 +199,8 @@ public class ServerBase
                 }
             }
         }
+        
+        i_ServerBase.close();
     }
     
     
