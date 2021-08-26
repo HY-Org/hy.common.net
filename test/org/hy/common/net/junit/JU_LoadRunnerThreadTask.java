@@ -58,7 +58,7 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
             CommunicationResponse       v_ResponseData = null;
             List<CommunicationResponse> v_Datas        = null;
             
-            v_ResponseData = v_Server.getObjects($USID + "00DC3B6A1A92E063122403BDF7B63789");
+            v_ResponseData = v_Server.getObjects($USID + "015DAEA86B71A037A4C804A7CACAA785");
             
             if ( v_ResponseData != null && v_ResponseData.getResult() == 0 )
             {

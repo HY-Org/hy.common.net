@@ -195,8 +195,6 @@ public class ServerSocket extends ServerBase
         }
         
         this.isStartCheckCloseTimeout = true;
-        
-        $Logger.info("准备启动：Net通讯超时的关闭服务（" + this.getPort() + "）");
         new Execute(this ,"checkCloseTimeout").startDelayed((this.closeTimeout / 10) * 1000);
     }
     
@@ -214,7 +212,7 @@ public class ServerSocket extends ServerBase
      */
     public void checkCloseTimeout()
     {
-        $Logger.info("启动：Net通讯超时的关闭服务（" + this.getPort() + "）");
+        $Logger.debug("启动：Net通讯超时的关闭服务（" + this.getPort() + "）");
         
         int v_WorkCount = 0;
         do
@@ -250,11 +248,11 @@ public class ServerSocket extends ServerBase
                 // Nothing.
             }
             
-            $Logger.info("探测：Net通讯超时（" + this.getPort() + "），尚有" + v_WorkCount + "个通讯");
+            $Logger.debug("探测：Net通讯超时（" + this.getPort() + "），尚有" + v_WorkCount + "个通讯");
         }
         while ( v_WorkCount >= 1 );
         
-        $Logger.info("结束：Net通讯超时的关闭服务（" + this.getPort() + "）");
+        $Logger.debug("结束：Net通讯超时的关闭服务（" + this.getPort() + "）");
         this.isStartCheckCloseTimeout = false;
     }
     
