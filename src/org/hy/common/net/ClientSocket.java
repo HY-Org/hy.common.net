@@ -7,13 +7,14 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.xml.log.Logger;
 
 
 
 
 
 /**
- * Socket的客户端 
+ * Socket的客户端
  * 
  * 服务端的主端口号。默认值：1721
  * 
@@ -30,9 +31,11 @@ import org.hy.common.net.data.LoginResponse;
  *              v2.0  2017-02-07  添加：查询多个对象getObjects(...);
  *              v3.0  2017-02-28  添加：获取服务端的Java.getSessionMap()数据
  *              v4.0  2019-02-27  添加：服务端是否返回执行结果的数据。
+ *              v5.0  2021-08-26  添加： 端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
 public class ClientSocket extends ObjectSocketResponse
 {
+    private static final Logger $Logger = new Logger(ClientSocket.class);
     
     /** 登陆服务端的登陆信息接口。当服务端不要求登陆验证时，此属性可为null */
     private ClientSocketValidate validate;
@@ -369,7 +372,7 @@ public class ClientSocket extends ObjectSocketResponse
             v_RequestData = this.validate.getLoginRequest();
             
             if ( v_RequestData == null
-              || Help.isNull(v_RequestData.getUserName()) 
+              || Help.isNull(v_RequestData.getUserName())
               || v_RequestData.getPassword() == null )
             {
                 CommunicationResponse v_Communication = new CommunicationResponse();
@@ -397,8 +400,11 @@ public class ClientSocket extends ObjectSocketResponse
             return v_Communication;
         }
         
+        $Logger.debug("数据通讯端口：" + v_ResponseData.getPort());
+        
         // 登陆验证成功后，进行数据通讯
         i_RequestData.setTime(new Date());
+        i_RequestData.setToken(v_ResponseData.getToken());
         ClientCommunication   v_ClientCommunication = new ClientCommunication(this.hostName ,v_ResponseData.getPort());
         CommunicationResponse v_Communication       = (CommunicationResponse)v_ClientCommunication.send(i_RequestData);
         
@@ -426,6 +432,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ResponseData  接收服务端响应的对象
      * @return                实际处理类返回的对象
      */
+    @Override
     public Object response(Object i_RequestData ,Object i_ResponseData)
     {
         if ( i_ResponseData == null || !(i_ResponseData instanceof LoginResponse) )
@@ -447,7 +454,7 @@ public class ClientSocket extends ObjectSocketResponse
     
     
     /**
-     * 用于真正数据通讯的Socket客户端 
+     * 用于真正数据通讯的Socket客户端
      *
      * @author      ZhengWei(HY)
      * @createDate  2017-01-14
@@ -474,6 +481,7 @@ public class ClientSocket extends ObjectSocketResponse
          * @param i_ResponseData  接收服务端响应的对象
          * @return                实际处理类返回的对象
          */
+        @Override
         public Object response(Object i_RequestData ,Object i_ResponseData)
         {
             if ( i_ResponseData == null || !(i_ResponseData instanceof CommunicationResponse) )
@@ -502,7 +510,7 @@ public class ClientSocket extends ObjectSocketResponse
     /**
      * 设置：登陆服务端的登陆信息接口。当服务端不要求登陆验证时，此属性可为null
      * 
-     * @param validate 
+     * @param validate
      */
     public ClientSocket setValidate(ClientSocketValidate validate)
     {

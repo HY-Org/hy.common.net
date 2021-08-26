@@ -62,6 +62,7 @@ public class JU_ServerSocket extends SerializableDef implements ServerSocketVali
      *
      * @return
      */
+    @Override
     public LoginRequest getLoginRequest()
     {
         return new LoginRequest("ZhengWei(HY)" ,"2017-01-15");
@@ -79,9 +80,10 @@ public class JU_ServerSocket extends SerializableDef implements ServerSocketVali
      * @param i_LoginRequest  登陆信息
      * @return                验证成功时，返回true
      */
+    @Override
     public boolean validate(LoginRequest i_LoginRequest)
     {
-        if ( "ZhengWei(HY)".equals(i_LoginRequest.getUserName()) 
+        if ( "ZhengWei(HY)".equals(i_LoginRequest.getUserName())
           && "2017-01-15"  .equals(i_LoginRequest.getPassword()) )
         {
             return true;
@@ -97,7 +99,7 @@ public class JU_ServerSocket extends SerializableDef implements ServerSocketVali
     @Test
     public void test_001() throws InterruptedException
     {
-        ServerSocket v_Server = new ServerSocket().setValidate(this).setLog(true);
+        ServerSocket v_Server = new ServerSocket().setValidate(this);
         
         v_Server.open();
         

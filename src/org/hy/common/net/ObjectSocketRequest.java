@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import org.hy.common.xml.log.Logger;
+
 
 
 
@@ -23,6 +25,9 @@ import java.net.Socket;
  */
 public abstract class ObjectSocketRequest implements SocketRepuest
 {
+    private static final Logger $Logger = new Logger(ObjectSocketRequest.class);
+    
+    
     
     /**
      * 接收到对象请求的实际处理动作
@@ -55,15 +60,16 @@ public abstract class ObjectSocketRequest implements SocketRepuest
      * @param i_ServerBase  接收请求的服务端Socket服务
      * @param i_Socket      接收到的Socket请求
      */
+    @Override
     public void request(ServerBase i_ServerBase ,Socket i_Socket)
     {
         InputStream        v_InputSocket = null;
-        ObjectInputStream  v_Input       = null;  
+        ObjectInputStream  v_Input       = null;
         ObjectOutputStream v_Output      = null;
         
         try
         {
-            if ( !i_Socket.isConnected() || i_Socket.isClosed() || i_Socket.isInputShutdown() )
+            if ( i_Socket == null || !i_Socket.isConnected() || i_Socket.isClosed() || i_Socket.isInputShutdown() )
             {
                 return;
             }
@@ -74,9 +80,9 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                 return;
             }
             
-            v_Input  = new ObjectInputStream(new BufferedInputStream(v_InputSocket));  
+            v_Input = new ObjectInputStream(new BufferedInputStream(v_InputSocket));
 
-            Object v_RequestData  = v_Input.readObject();  
+            Object v_RequestData  = v_Input.readObject();
             Object v_ResponseData = this.request(v_RequestData ,i_ServerBase);
             try
             {
@@ -84,21 +90,27 @@ public abstract class ObjectSocketRequest implements SocketRepuest
             }
             catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
             
+            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Response is ready to send datas.");
             
-            v_Output = new ObjectOutputStream(i_Socket.getOutputStream()); 
-            v_Output.writeObject(v_ResponseData);  
-            v_Output.flush();
             try
             {
+                v_Output = new ObjectOutputStream(i_Socket.getOutputStream());
+                if ( v_ResponseData != null )
+                {
+                    v_Output.writeObject(v_ResponseData);
+                }
+                v_Output.flush();
                 i_Socket.shutdownOutput();
             }
             catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
+            
+            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Response is finish.");
         }
         catch (EOFException exce)
         {
@@ -106,8 +118,8 @@ public abstract class ObjectSocketRequest implements SocketRepuest
         }
         catch (Throwable exce)
         {
-            System.out.println("服务端接收请求 " + i_Socket.getRemoteSocketAddress().toString() + ":" + i_Socket.getLocalPort() + " 异常.");
-            exce.printStackTrace();
+            $Logger.warn("服务端接收请求 " + i_Socket.getRemoteSocketAddress().toString() + ":" + i_Socket.getLocalPort() + " 异常.");
+            $Logger.error(exce);
         }
         finally
         {

@@ -3,12 +3,12 @@ package org.hy.common.net;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.hy.common.Date;
 import org.hy.common.ExecuteEvent;
 import org.hy.common.ExecuteListener;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -24,6 +24,9 @@ import org.hy.common.net.data.CommunicationResponse;
  */
 public class ClientSocketClusterListener implements ExecuteListener
 {
+    
+    private static final Logger $Logger = new Logger(ClientSocketClusterListener.class);
+    
     
     /** 集群的总体执行结果 */
     private Map<ClientSocket ,CommunicationResponse> clusterResult;
@@ -60,6 +63,7 @@ public class ClientSocketClusterListener implements ExecuteListener
      *
      * @param i_Event
      */
+    @Override
     public synchronized void result(ExecuteEvent i_Event)
     {
         this.clusterResult.put((ClientSocket)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
@@ -71,8 +75,7 @@ public class ClientSocketClusterListener implements ExecuteListener
             CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
             StringBuilder         v_Buffer = new StringBuilder();
             
-            v_Buffer.append(Date.getNowTime().getFullMilli());
-            v_Buffer.append(" 集群通讯已收到 ");
+            v_Buffer.append("集群通讯已收到 ");
             v_Buffer.append(StringHelp.lpad(this.clusterCount ,4 ," "));
             v_Buffer.append(" 次返回。本次为 ");
             v_Buffer.append(v_Client.getHostName());
@@ -83,7 +86,7 @@ public class ClientSocketClusterListener implements ExecuteListener
             v_Buffer.append(" ");
             v_Buffer.append((v_CRet.getResult()==0 ? "成功" : "失败(" + v_CRet.getResult() + ")"));
             
-            System.out.println(v_Buffer.toString());
+            $Logger.info(v_Buffer.toString());
         }
     }
 
@@ -117,7 +120,7 @@ public class ClientSocketClusterListener implements ExecuteListener
     /**
      * 设置：日志信息。当为null或空字符串时，表示不显示日志
      * 
-     * @param logInfo 
+     * @param logInfo
      */
     public void setLogInfo(String logInfo)
     {

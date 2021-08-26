@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hy.common.Date;
+import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -18,10 +19,13 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 @Sharable
 public class ConnectionCountHandler extends ChannelInboundHandlerAdapter implements Runnable
 {
+    private static final Logger $Logger = new Logger(ConnectionCountHandler.class);
+    
+    
     //jdk1.5 并发包中的用于计数的类
     private AtomicInteger nConnection = new AtomicInteger();
 
-      public ConnectionCountHandler() 
+      public ConnectionCountHandler()
       {
           // 每两秒统计一下连接数
           Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(this , 0, 2, TimeUnit.SECONDS);
@@ -64,7 +68,7 @@ public class ConnectionCountHandler extends ChannelInboundHandlerAdapter impleme
     @Override
     public void run()
     {
-        System.out.println(Date.getNowTime().getFullMilli() + "\t同时在线连接数: " + nConnection.get());
+        $Logger.info(Date.getNowTime().getFullMilli() + "\t同时在线连接数: " + nConnection.get());
     }
       
 }

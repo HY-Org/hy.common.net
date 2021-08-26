@@ -3,6 +3,7 @@ package org.hy.common.net;
 import org.hy.common.Help;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -15,9 +16,12 @@ import org.hy.common.net.data.CommunicationResponse;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-14
  * @version     v1.0
+ *              v2.0  2021-08-26  添加： 端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
 public class ServerSocketCommunication extends ObjectSocketRequest
 {
+    
+    private static final Logger $Logger = new Logger(ServerSocketCommunication.class);
     
     /** 主服务端口 */
     private ServerSocket mainServer;
@@ -44,6 +48,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
      * @param i_ServerBase   接收请求的服务端Socket服务
      * @return               发送给请求者（Socket客户端）的响应数据，也应是一个Java对象。
      */
+    @Override
     public Object request(Object i_RequestData ,ServerBase i_ServerBase)
     {
         try
@@ -62,6 +67,21 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             CommunicationResponse v_ResponseData = null;
             CommunicationListener v_Listener     = null;
             
+            $Logger.debug("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + Help.NVL(v_RequestData.getEventType() ,"Default") + ".");
+            
+            if ( !Help.isNull(v_RequestData.getToken()) )
+            {
+                Integer v_CheckPort = ServerSocketListener.getPort(v_RequestData.getToken());
+                if ( v_CheckPort == null || v_CheckPort.intValue() != i_ServerBase.port )
+                {
+                    $Logger.info("ServerCommunication：Port " + i_ServerBase.port + " 非法通讯、非法票据");
+                    return null;
+                }
+                
+                // 释放票据，票据只能成功的使用一次
+                ServerSocketListener.removeToken(v_RequestData.getToken());
+            }
+            
             if ( Help.isNull(v_RequestData.getEventType()) )
             {
                 v_Listener = this.mainServer.getDefaultListener();
@@ -78,7 +98,6 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             
             try
             {
-                this.mainServer.log("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + ".");
                 v_ResponseData = v_Listener.communication(v_RequestData);
                 
                 if ( !v_RequestData.isRetunData() )
@@ -92,6 +111,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
                 exce.printStackTrace();
             }
             
+            $Logger.debug("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + " finish.");
             return v_ResponseData;
         }
         finally
@@ -99,7 +119,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             // 关闭监听的用于数据通讯的监听端口服务
             if ( i_ServerBase != null )
             {
-                i_ServerBase.close();
+                i_ServerBase.toIdle();
             }
         }
     }

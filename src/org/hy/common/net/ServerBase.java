@@ -5,6 +5,7 @@ import java.net.Socket;
 import org.hy.common.Date;
 import org.hy.common.Execute;
 import org.hy.common.Help;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -17,9 +18,15 @@ import org.hy.common.Help;
  * @createDate  2017-01-12
  * @version     v1.0
  *              v2.0  2019-12-28  添加：支持由外界创建及绑定端口的java.net.ServerSocket，并直接使用它。
+ *              v3.0  2021-08-23  优化：通过acceptIsThread来控制数据通讯时，不再独立开线程，因为它原本就是一个线程中。
+ *              v4.0  2021-08-26  添加： 端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
 public class ServerBase
 {
+    private static final Logger $Logger = new Logger(ServerBase.class);
+    
+    /** 服务所属于的端口池（当为主监听端口服务时，可为NULL） */
+    protected PortPool              myPortPool;
     
     /** 服务端的端口号 */
     protected int                   port;
@@ -30,14 +37,14 @@ public class ServerBase
     /** 服务端的端口打开时间 */
     protected Date                  openTime;
     
+    /** 服务端接收数据后，对数据的处理是否也是多线程的。默认为：true */
+    protected boolean               acceptIsThread;
+    
     /** Socket服务 */
     protected java.net.ServerSocket server;
     
     /** 接收到请求时的处理类 */
     protected SocketRepuest         request;
-    
-    /** 是否显示调试日志。默认为：false */
-    protected boolean               isLog;
     
     
     
@@ -50,15 +57,15 @@ public class ServerBase
     
     public ServerBase(int i_Port)
     {
-        this.port     = i_Port;
-        this.isOpen   = false;
-        this.openTime = null;
-        this.isLog    = false;
+        this.port           = i_Port;
+        this.isOpen         = false;
+        this.openTime       = null;
+        this.acceptIsThread = true;
     }
     
     
     
-    public ServerBase(java.net.ServerSocket i_Server)
+    public ServerBase(java.net.ServerSocket i_Server ,PortPool i_MyPortPool)
     {
         if ( i_Server != null )
         {
@@ -69,9 +76,10 @@ public class ServerBase
         {
             this.port = 0;
         }
-        this.isOpen   = false;
-        this.openTime = null;
-        this.isLog    = false;
+        this.isOpen         = false;
+        this.openTime       = null;
+        this.acceptIsThread = true;
+        this.myPortPool     = i_MyPortPool;
     }
     
     
@@ -87,7 +95,7 @@ public class ServerBase
      *
      * @return      是否监听端口成功
      */
-    public synchronized boolean open()
+    public boolean open()
     {
         return this.open(this.port);
     }
@@ -115,6 +123,8 @@ public class ServerBase
         
         try
         {
+            $Logger.debug("ServerBase：Port " + this.port + " is ready open.");
+            
             this.port = i_Port;
             
             if ( this.server == null || this.server.isClosed() || !this.server.isBound() )
@@ -125,13 +135,13 @@ public class ServerBase
             this.isOpen   = true;
             this.openTime = new Date();
             
-            this.log("ServerBase：Port " + this.port + " is open.");
-            
+            // 这里必须是一个线程，因为方法内是“死循环”
             (new Execute(this ,"openListening" ,this)).start();
+            $Logger.debug("ServerBase：Port " + this.port + " is open.");
         }
         catch (Exception exce)
         {
-            exce.printStackTrace();
+            $Logger.error(exce);
         }
         
         return this.isOpen;
@@ -163,14 +173,21 @@ public class ServerBase
                 
                 if ( i_ServerBase.request != null )
                 {
-                    // 每个处理请求的也是一个独立的线程
-                    // 注意：Socket由请求类内部关闭。
-                    (new Execute(i_ServerBase.request ,"request" ,new Object[]{i_ServerBase ,v_Socket})).start();
+                    if ( this.acceptIsThread )
+                    {
+                        // 每个处理请求的也是一个独立的线程
+                        // 注意：Socket由请求类内部关闭。
+                        (new Execute(i_ServerBase.request ,"request" ,new Object[]{i_ServerBase ,v_Socket})).start();
+                    }
+                    else
+                    {
+                        i_ServerBase.request.request(i_ServerBase ,v_Socket);
+                    }
                 }
                 else
                 {
                     // 当没有请求处理类时，不做任何操作，直接关闭Socket请求即可。
-                    this.log("ServerBase：Port " + i_ServerBase.port + " Request is not set to the action, will automatically close.");
+                    $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Request is not set to the action, will automatically close.");
                     try
                     {
                         if ( !v_Socket.isClosed() )
@@ -190,7 +207,7 @@ public class ServerBase
             {
                 if ( this.isOpen )
                 {
-                    exce.printStackTrace();
+                    $Logger.error(exce);
                 }
                 else
                 {
@@ -201,6 +218,16 @@ public class ServerBase
         }
         
         i_ServerBase.close();
+    }
+    
+    
+    
+    public void toIdle()
+    {
+        if ( this.myPortPool != null )
+        {
+            this.myPortPool.putIdle(this.port);
+        }
     }
     
     
@@ -218,66 +245,27 @@ public class ServerBase
         
         if ( this.server != null )
         {
+            $Logger.debug("ServerBase：Port " + this.port + " is ready close.");
+            
             try
             {
                 if ( !this.server.isClosed() )
                 {
                     this.server.close();
                 }
+                
             }
-            catch (Exception exce)
+            catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
             finally
             {
                 this.server = null;
             }
+            
+            $Logger.debug("ServerBase：Port " + this.port + " is closed.");
         }
-        
-        this.log("ServerBase：Port " + this.port + " is closed.");
-    }
-    
-    
-    
-    /**
-     * 输出调试日志
-     * 
-     * @author      ZhengWei(HY)
-     * @createDate  2017-01-15
-     * @version     v1.0
-     *
-     * @param i_Log
-     */
-    protected void log(String i_Log)
-    {
-        if ( this.isLog )
-        {
-            System.out.println(Date.getNowTime().getFullMilli() + "  " + i_Log);
-        }
-    }
-    
-    
-    
-    /**
-     * 获取：是否显示调试日志。默认为：false
-     */
-    public boolean isLog()
-    {
-        return isLog;
-    }
-
-
-
-    /**
-     * 设置：是否显示调试日志。默认为：false
-     * 
-     * @param isLog 
-     */
-    public ServerBase setLog(boolean isLog)
-    {
-        this.isLog = isLog;
-        return this;
     }
     
     
@@ -295,7 +283,7 @@ public class ServerBase
     /**
      * 设置：服务端的端口号
      * 
-     * @param port 
+     * @param port
      */
     public void setPort(int port)
     {
@@ -321,7 +309,7 @@ public class ServerBase
     /**
      * 设置：接收到请求时的处理类
      * 
-     * @param request 
+     * @param request
      */
     public void setRequest(SocketRepuest request)
     {
@@ -343,7 +331,7 @@ public class ServerBase
     /**
      * 设置：服务端的端口是否打开
      * 
-     * @param isOpen 
+     * @param isOpen
      */
     public void setOpen(boolean isOpen)
     {
@@ -365,11 +353,33 @@ public class ServerBase
     /**
      * 设置：服务端的端口打开时间
      * 
-     * @param openTime 
+     * @param openTime
      */
     public void setOpenTime(Date openTime)
     {
         this.openTime = openTime;
+    }
+
+
+
+    /**
+     * 获取：服务端接收数据后，对数据的处理是否也是多线程的。默认为：true
+     */
+    public boolean isAcceptIsThread()
+    {
+        return acceptIsThread;
+    }
+
+
+
+    /**
+     * 设置：服务端接收数据后，对数据的处理是否也是多线程的。默认为：true
+     * 
+     * @param acceptIsThread
+     */
+    public void setAcceptIsThread(boolean acceptIsThread)
+    {
+        this.acceptIsThread = acceptIsThread;
     }
     
 }

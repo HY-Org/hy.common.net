@@ -26,6 +26,9 @@ public class Communication extends SerializableDef
     /** 通讯的时间(内部机制设置此时间，外界无须干预) */
     protected Date    time;
     
+    /** 通讯票据 */
+    protected String  token;
+    
     /** 通讯的数据 */
     protected Object  data;
     
@@ -61,7 +64,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：通讯的数据
      * 
-     * @param data 
+     * @param data
      */
     public void setData(Object data)
     {
@@ -83,7 +86,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：数据的XID，即XJava的对象ID
      * 
-     * @param dataXID 
+     * @param dataXID
      */
     public void setDataXID(String dataXID)
     {
@@ -105,7 +108,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
      * 
-     * @param dataXIsNew 
+     * @param dataXIsNew
      */
     public void setDataXIsNew(boolean dataXIsNew)
     {
@@ -127,7 +130,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：数据的过期时长(单位：秒)
      * 
-     * @param dataExpireTimeLen 
+     * @param dataExpireTimeLen
      */
     public void setDataExpireTimeLen(long dataExpireTimeLen)
     {
@@ -149,7 +152,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：通讯的时间(内部机制设置此时间，外界无须干预)
      * 
-     * @param time 
+     * @param time
      */
     public void setTime(Date time)
     {
@@ -171,7 +174,7 @@ public class Communication extends SerializableDef
     /**
      * 设置：会话时间(由外界定义及使用，默认为NULL)
      * 
-     * @param sessionTime 
+     * @param sessionTime
      */
     public void setSessionTime(Date sessionTime)
     {
@@ -180,6 +183,29 @@ public class Communication extends SerializableDef
 
     
 
+    /**
+     * 获取：通讯票据
+     */
+    public String getToken()
+    {
+        return token;
+    }
+
+    
+
+    /**
+     * 设置：通讯票据
+     * 
+     * @param sessionTime
+     */
+    public void setToken(String token)
+    {
+        this.token = token;
+    }
+
+
+    
+    @Override
     public String toString()
     {
         if ( this.data != null )

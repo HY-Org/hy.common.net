@@ -20,8 +20,8 @@ import org.hy.common.net.data.CommunicationResponse;
  * Socket客户端的集群执行。
  * 有如下两种方式：
  *   1. 多并发执行。多线程并发执行。
- *   2. 顺次执行。一个执行完，再执行另一个。 
- *   
+ *   2. 顺次执行。一个执行完，再执行另一个。
+ * 
  * 注意: ClientSocketCluster类所有方法的入参timeout与ClientSocket.timeout是有区别的，含义不同。
  *       1. ClientSocketCluster类的timeout重点指，有大量数据通讯时，超过定义时长后，自动结束。一般本类的timeout可以配置大些。
  *       2. ClientSocket.timeout重点指连路是否正常，是在数据通讯前建立连接的等待时长。一般配置较小，如10秒。
@@ -684,7 +684,7 @@ public class ClientSocketCluster
      */
     public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn)
     {
-        return sends(i_Cluster ,i_Timeout ,i_RequestData ,true ,null);
+        return sends(i_Cluster ,i_Timeout ,i_RequestData ,i_IsWaitReturn ,null);
     }
     
     
@@ -1062,7 +1062,7 @@ public class ClientSocketCluster
     
     
     /**
-     * 不允许创建实例 
+     * 不允许创建实例
      *
      * @author      ZhengWei(HY)
      * @createDate  2017-01-19

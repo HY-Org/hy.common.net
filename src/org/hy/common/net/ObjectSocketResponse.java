@@ -5,8 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -29,6 +29,7 @@ import org.hy.common.Help;
  */
 public abstract class ObjectSocketResponse implements SocketResponse
 {
+    private static final Logger $Logger = new Logger(ObjectSocketResponse.class);
     
     /** 主机名称 */
     protected String hostName;
@@ -62,12 +63,12 @@ public abstract class ObjectSocketResponse implements SocketResponse
      */
     protected Object send(Object i_RequestData)
     {
-        Socket             v_Socket = null;  
-        ObjectInputStream  v_Input  = null;  
+        Socket             v_Socket = null;
+        ObjectInputStream  v_Input  = null;
         ObjectOutputStream v_Output = null;
           
-        try 
-        {  
+        try
+        {
             if ( i_RequestData == null )
             {
                 return null;
@@ -76,39 +77,40 @@ public abstract class ObjectSocketResponse implements SocketResponse
             v_Socket = Help.getSocket(this.hostName ,this.port ,this.timeout);
             if ( v_Socket == null )
             {
-                System.out.println(Date.getNowTime().getFull() + " 无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
+                $Logger.warn("无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
                 return null;
             }
             
-            v_Output = new ObjectOutputStream(v_Socket.getOutputStream());  
-            v_Output.writeObject(i_RequestData);  
-            v_Output.flush(); 
+            v_Output = new ObjectOutputStream(v_Socket.getOutputStream());
+            v_Output.writeObject(i_RequestData);
+            v_Output.flush();
             try
             {
                 v_Socket.shutdownOutput();
             }
             catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
             
             
             v_Input = new ObjectInputStream(new BufferedInputStream(v_Socket.getInputStream()));
-            Object v_ResponseData = v_Input.readObject(); 
+            Object v_ResponseData = v_Input.readObject();
             try
             {
                 v_Socket.shutdownInput();
             }
             catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
             
             return this.response(i_RequestData ,v_ResponseData);
-        } 
+        }
         catch (Throwable exce)
         {
-            exce.printStackTrace();
+            $Logger.warn("无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接.");
+            $Logger.error(exce);
         }
         finally
         {
@@ -176,7 +178,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
     /**
      * 设置：主机名称
      * 
-     * @param hostName 
+     * @param hostName
      */
     public void setHostName(String hostName)
     {
@@ -198,7 +200,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
     /**
      * 设置：端口号
      * 
-     * @param port 
+     * @param port
      */
     public void setPort(int port)
     {
@@ -220,7 +222,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
     /**
      * 设置：超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒
      * 
-     * @param timeout 
+     * @param timeout
      */
     public void setTimeout(int timeout)
     {

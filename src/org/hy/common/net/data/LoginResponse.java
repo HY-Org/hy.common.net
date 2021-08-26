@@ -19,9 +19,11 @@ public class LoginResponse extends SerializableDef
     private static final long serialVersionUID = -3420435311941320659L;
     
     
+    /** 通讯票据 */
+    private String token;
     
     /** 通讯端口号 */
-    private int port;
+    private int    port;
     
     
     
@@ -38,11 +40,33 @@ public class LoginResponse extends SerializableDef
     /**
      * 设置：通讯端口号
      * 
-     * @param port 
+     * @param port
      */
     public void setPort(int port)
     {
         this.port = port;
+    }
+
+
+
+    /**
+     * 设置：通讯票据
+     * 
+     * @param port
+     */
+    public String getToken()
+    {
+        return token;
+    }
+
+
+
+    /**
+     * 获取：通讯票据
+     */
+    public void setToken(String token)
+    {
+        this.token = token;
     }
     
 }
