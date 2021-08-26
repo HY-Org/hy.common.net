@@ -1,8 +1,6 @@
 package org.hy.common.net;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 
 import org.hy.common.Date;
@@ -40,12 +38,6 @@ public class ServerSocket extends ServerBase
     private PortPool                                       portPool;
     
     private Map<Integer ,ServerBase>                       communicationServers;
-    
-    /**
-     * 服务端随机创建的临时的用于数据通讯的服务集合
-     * 主要目的是：为了定时关闭超时的服务。
-     */
-    private List<ServerBase>                               childServers;
     
     /** 定时关闭超时的服务的时长（单位：秒）。默认为：60秒 */
     private int                                            closeTimeout;
@@ -94,7 +86,6 @@ public class ServerSocket extends ServerBase
         this.isStartCheckCloseTimeout = false;
         this.communicationServers     = new Hashtable<Integer ,ServerBase>();
         this.request                  = new ServerSocketListener(this);
-        this.childServers             = new ArrayList<ServerBase>();
         this.validate                 = null;
         this.listeners                = new Hashtable<String ,CommunicationListener>();
         this.defaultListener          = new XJavaCommunicationListener();
@@ -135,11 +126,6 @@ public class ServerSocket extends ServerBase
         ServerBase v_CommunicationServer = this.getIdleCommunicationServer(i_SocketRepuest);
         
         v_CommunicationServer.setOpenTime(new Date());
-        synchronized ( this )
-        {
-            this.childServers.add(v_CommunicationServer);
-        }
-        
         this.checkCloseTimeoutStart();
             
         $Logger.debug("ServerSocket：Create communication port " + v_CommunicationServer.getPort() + ".");
@@ -230,31 +216,28 @@ public class ServerSocket extends ServerBase
     {
         $Logger.info("启动：Net通讯超时的关闭服务（" + this.getPort() + "）");
         
+        int v_WorkCount = 0;
         do
         {
-            Date v_Now = new Date();
+            Date v_Now  = new Date();
+            v_WorkCount = 0;
             
-            for (int v_Index=this.childServers.size()-1; v_Index>=0; v_Index--)
+            for (ServerBase v_CS : communicationServers.values())
             {
-                ServerBase v_ChildServer = this.childServers.get(v_Index);
-                
-                if ( v_ChildServer != null )
+                if ( v_CS != null )
                 {
-                    if ( v_Now.getTime() - v_ChildServer.getOpenTime().getTime() >= this.closeTimeout * 1000 )
+                    if ( !v_CS.isIdle() )
                     {
-                        this.childServers.remove(v_Index);
-                        
-                        if ( v_ChildServer.isOpen() )
+                        if ( v_Now.getTime() - v_CS.getOpenTime().getTime() >= this.closeTimeout * 1000 )
                         {
-                            $Logger.debug("ServerSocket：Port " + v_ChildServer.getPort() + " is timeout close.");
-                            v_ChildServer.toIdle();
-                            v_ChildServer = null;
+                            $Logger.debug("ServerSocket：Port " + v_CS.getPort() + " is timeout close.");
+                            v_CS.toIdle();
+                        }
+                        else
+                        {
+                            v_WorkCount++;
                         }
                     }
-                }
-                else
-                {
-                    this.childServers.remove(v_Index);
                 }
             }
             
@@ -267,9 +250,9 @@ public class ServerSocket extends ServerBase
                 // Nothing.
             }
             
-            $Logger.info("探测：Net通讯超时（" + this.getPort() + "），尚有" + this.childServers.size() + "个通讯");
+            $Logger.info("探测：Net通讯超时（" + this.getPort() + "），尚有" + v_WorkCount + "个通讯");
         }
-        while ( !Help.isNull(this.childServers) );
+        while ( v_WorkCount >= 1 );
         
         $Logger.info("结束：Net通讯超时的关闭服务（" + this.getPort() + "）");
         this.isStartCheckCloseTimeout = false;

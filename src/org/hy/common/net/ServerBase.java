@@ -31,6 +31,9 @@ public class ServerBase
     /** 服务端的端口号 */
     protected int                   port;
     
+    /** 服务端的端口是否空闲 */
+    protected boolean               isIdle;
+    
     /** 服务端的端口是否打开 */
     protected boolean               isOpen;
     
@@ -59,6 +62,7 @@ public class ServerBase
     {
         this.port           = i_Port;
         this.isOpen         = false;
+        this.isIdle         = true;
         this.openTime       = null;
         this.acceptIsThread = true;
     }
@@ -77,6 +81,7 @@ public class ServerBase
             this.port = 0;
         }
         this.isOpen         = false;
+        this.isIdle         = true;
         this.openTime       = null;
         this.acceptIsThread = true;
         this.myPortPool     = i_MyPortPool;
@@ -224,6 +229,11 @@ public class ServerBase
     
     public void toIdle()
     {
+        synchronized (this)
+        {
+            this.isIdle = true;
+        }
+        
         if ( this.myPortPool != null )
         {
             this.myPortPool.putIdle(this.port);
@@ -316,6 +326,16 @@ public class ServerBase
         this.request = request;
     }
 
+    
+    
+    /**
+     * 获取：服务端的端口是否空闲
+     */
+    public boolean isIdle()
+    {
+        return isIdle;
+    }
+    
 
     
     /**
@@ -355,9 +375,10 @@ public class ServerBase
      * 
      * @param openTime
      */
-    public void setOpenTime(Date openTime)
+    public synchronized void setOpenTime(Date openTime)
     {
         this.openTime = openTime;
+        this.isIdle   = false;
     }
 
 
