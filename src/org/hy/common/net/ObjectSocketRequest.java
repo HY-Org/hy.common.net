@@ -118,8 +118,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
         }
         catch (Throwable exce)
         {
-            $Logger.warn("服务端接收请求 " + i_Socket.getRemoteSocketAddress().toString() + ":" + i_Socket.getLocalPort() + " 异常.");
-            $Logger.error(exce);
+            $Logger.warn("服务端接收请求 " + i_Socket.getRemoteSocketAddress().toString() + ":" + i_Socket.getLocalPort() + " 异常." ,exce);
         }
         finally
         {
