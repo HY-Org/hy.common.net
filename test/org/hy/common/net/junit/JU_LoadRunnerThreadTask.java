@@ -24,54 +24,91 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
     
     private static int $SerialNo = 0;
     
-    private static int $Count    = 0;
+    public  static int $RequestCount = 0;
+    
+    public  static int $FinishCount  = 0;
     
     public final  static String $USID = "USID";
     
+    private JU_LoadRunner father;
     
     
-    private synchronized int GetSerialNo()
+    
+    /**
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
+     * @return
+     */
+    private static synchronized int GetSerialNo()
     {
         return ++$SerialNo;
     }
     
     
-    private synchronized int GetCount()
+    
+    /**
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
+     * @return
+     */
+    public static synchronized int GetRequestCount()
     {
-        return ++$Count;
+        return ++$RequestCount;
     }
     
-
-    public JU_LoadRunnerThreadTask()
+    
+    
+    /**
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
+     * @return
+     */
+    public static synchronized int GetFinishCount()
+    {
+        return ++$FinishCount;
+    }
+    
+    
+    
+    public JU_LoadRunnerThreadTask(JU_LoadRunner i_Father)
     {
         super("JU_LoadRunnerThreadTask");
+        this.father = i_Father;
     }
 
+    
     
     @Override
     @SuppressWarnings("unchecked")
     public void execute()
     {
+        int v_RCount = GetRequestCount();
+        
         try
         {
-            ClientSocket                v_Server       = new ClientSocket("10.1.50.242" ,2021);
-            CommunicationResponse       v_ResponseData = null;
-            List<CommunicationResponse> v_Datas        = null;
+            ClientSocket          v_Server       = new ClientSocket("10.1.50.242" ,2021);
+            CommunicationResponse v_ResponseData = null;
             
-            v_ResponseData = v_Server.getObjects($USID + "015DAEA86B71A037A4C804A7CACAA785");
+            v_Server.setTimeout(JU_LoadRunner.$Timeout);
+            v_ResponseData = v_Server.getObjects($USID + JU_LoadRunner.$ID);
             
             if ( v_ResponseData != null && v_ResponseData.getResult() == 0 )
             {
-                v_Datas = (List<CommunicationResponse>)v_ResponseData.getData();
+                List<CommunicationResponse> v_Datas = (List<CommunicationResponse>)v_ResponseData.getData();
                 
                 if ( !Help.isNull(v_Datas) )
                 {
-                    // $Logger.info("共同步 " + v_Datas.size() + " 份。" + GetCount());
+                    GetFinishCount();
+                    $Logger.info("共同步 " + v_Datas.size() + " 份。" + v_RCount);
                 }
                 else
                 {
                     $Logger.info("未获取到数据");
                 }
+            }
+            else
+            {
+                $Logger.info("异常：" + v_ResponseData.getResult());
             }
         }
         catch (Throwable exce)
@@ -81,6 +118,16 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
         
         this.finishTask();
     }
+    
+    
+    
+    public void execute_stop()
+    {
+        GetRequestCount();
+        GetFinishCount();
+        this.finishTask();
+    }
+    
     
     
     /**

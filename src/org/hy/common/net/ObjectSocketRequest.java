@@ -178,6 +178,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                     // Nothing.
                 }
                 
+                i_ServerBase.socketCloseAfter();
                 i_Socket = null;
             }
         }

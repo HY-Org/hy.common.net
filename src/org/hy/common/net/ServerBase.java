@@ -49,6 +49,9 @@ public class ServerBase
     /** 接收到请求时的处理类 */
     protected SocketRepuest         request;
     
+    /** 在线Socket的数量 */
+    protected int                   onLineSocketCount;
+    
     
     
     public ServerBase()
@@ -60,11 +63,12 @@ public class ServerBase
     
     public ServerBase(int i_Port)
     {
-        this.port           = i_Port;
-        this.isOpen         = false;
-        this.isIdle         = true;
-        this.openTime       = null;
-        this.acceptIsThread = true;
+        this.port              = i_Port;
+        this.isOpen            = false;
+        this.isIdle            = true;
+        this.openTime          = null;
+        this.acceptIsThread    = true;
+        this.onLineSocketCount = 0;
     }
     
     
@@ -80,11 +84,64 @@ public class ServerBase
         {
             this.port = 0;
         }
-        this.isOpen         = false;
-        this.isIdle         = true;
-        this.openTime       = null;
-        this.acceptIsThread = true;
-        this.myPortPool     = i_MyPortPool;
+        
+        this.isOpen            = false;
+        this.isIdle            = true;
+        this.openTime          = null;
+        this.acceptIsThread    = true;
+        this.myPortPool        = i_MyPortPool;
+        this.onLineSocketCount = 0;
+    }
+    
+    
+    /**
+     * 在线Socket的数量++
+     * 
+     * 触发时机：ServerSocket.accept() 之后第一个被触发
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-08-28
+     * @version     v1.0
+     * 
+     * @return  返回在线Socket的数量
+     */
+    protected synchronized int socketAcceptAfter()
+    {
+        return ++this.onLineSocketCount;
+    }
+    
+    
+    
+    /**
+     * 在线Socket的数量--
+     * 
+     * 触发时机：Socket.close() 之后第一个被触发
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-08-28
+     * @version     v1.0
+     * 
+     * @return  返回在线Socket的数量
+     */
+    protected synchronized int socketCloseAfter()
+    {
+        return --this.onLineSocketCount;
+    }
+    
+    
+    
+    /**
+     * 获取在线Socket的数量
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-08-28
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public int getOnLineSocketCount()
+    {
+        return this.onLineSocketCount;
     }
     
     
@@ -102,7 +159,26 @@ public class ServerBase
      */
     public boolean open()
     {
-        return this.open(this.port);
+        return open(this);
+    }
+    
+    
+    
+    /**
+     * 打开服务端的端口的监听服务
+     * 
+     * 将启动一个独立的线程
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2017-01-12
+     * @version     v1.0
+     *
+     * @return      是否监听端口成功
+     */
+    public boolean open(int i_Port)
+    {
+        this.setPort(i_Port);
+        return open(this);
     }
     
     
@@ -112,44 +188,44 @@ public class ServerBase
      * 
      * 将启动一个独立的线程
      * 
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
      * @author      ZhengWei(HY)
-     * @createDate  2017-01-12
+     * @createDate  2021-08-27
      * @version     v1.0
      *
-     * @param i_Port  服务端的端口号
-     * @return        是否监听端口成功
+     * @param i_ServerBase  服务端对象（准备打开端口）
+     * @return              是否监听端口成功
      */
-    public synchronized boolean open(int i_Port)
+    public static synchronized boolean open(ServerBase i_ServerBase)
     {
-        if ( this.isOpen )
+        if ( i_ServerBase.isOpen )
         {
             return false;
         }
         
         try
         {
-            $Logger.debug("ServerBase：Port " + this.port + " is ready open.");
+            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " is ready open.");
             
-            this.port = i_Port;
-            
-            if ( this.server == null || this.server.isClosed() || !this.server.isBound() )
+            if ( i_ServerBase.server == null || i_ServerBase.server.isClosed() || !i_ServerBase.server.isBound() )
             {
-                this.server = Help.getServerSocket(this.port ,true);
+                i_ServerBase.server = Help.getServerSocket(i_ServerBase.port ,true);
             }
             
-            this.isOpen   = true;
-            this.openTime = new Date();
+            i_ServerBase.isOpen   = true;
+            i_ServerBase.openTime = new Date();
             
             // 这里必须是一个线程，因为方法内是“死循环”
-            (new Execute(this ,"openListening" ,this)).start();
-            $Logger.debug("ServerBase：Port " + this.port + " is open.");
+            (new Execute(i_ServerBase ,"openListening" ,i_ServerBase)).start();
+            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " is open.");
         }
         catch (Exception exce)
         {
             $Logger.error(exce);
         }
         
-        return this.isOpen;
+        return i_ServerBase.isOpen;
     }
     
     
@@ -174,7 +250,8 @@ public class ServerBase
         {
             try
             {
-                Socket v_Socket = i_ServerBase.server.accept();  // 等待新请求、否则一直阻塞
+                Socket v_Socket      = i_ServerBase.server.accept();  // 等待新请求、否则一直阻塞
+                int    v_SocketCount = i_ServerBase.socketAcceptAfter();
                 
                 if ( i_ServerBase.request != null )
                 {
@@ -182,17 +259,19 @@ public class ServerBase
                     {
                         // 每个处理请求的也是一个独立的线程
                         // 注意：Socket由请求类内部关闭。
+                        $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Request is ready read datas.[T]." + v_SocketCount);
                         (new Execute(i_ServerBase.request ,"request" ,new Object[]{i_ServerBase ,v_Socket})).start();
                     }
                     else
                     {
+                        $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Request is ready read datas." + v_SocketCount);
                         i_ServerBase.request.request(i_ServerBase ,v_Socket);
                     }
                 }
                 else
                 {
                     // 当没有请求处理类时，不做任何操作，直接关闭Socket请求即可。
-                    $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Request is not set to the action, will automatically close.");
+                    $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Request is not set to the action, will automatically close." + v_SocketCount);
                     try
                     {
                         if ( !v_Socket.isClosed() )
@@ -205,6 +284,7 @@ public class ServerBase
                         // Nothing.
                     }
                     
+                    i_ServerBase.socketCloseAfter();
                     v_Socket = null;
                 }
             }
@@ -227,12 +307,9 @@ public class ServerBase
     
     
     
-    public void toIdle()
+    public synchronized void toIdle()
     {
-        synchronized (this)
-        {
-            this.isIdle = true;
-        }
+        this.isIdle = true;
         
         if ( this.myPortPool != null )
         {
@@ -331,7 +408,7 @@ public class ServerBase
     /**
      * 获取：服务端的端口是否空闲
      */
-    public boolean isIdle()
+    public synchronized boolean isIdle()
     {
         return isIdle;
     }

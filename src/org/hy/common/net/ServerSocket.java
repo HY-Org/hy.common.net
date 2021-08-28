@@ -35,8 +35,9 @@ public class ServerSocket extends ServerBase
     private static final Logger $Logger = new Logger(ServerSocket.class);
     
     /** Socket连接端口池 */
-    private PortPool                                       portPool;
+    private PortPool                                       communicationPortPool;
     
+    /** 数据端口与数据端口服务的关系 */
     private Map<Integer ,ServerBase>                       communicationServers;
     
     /** 定时关闭超时的服务的时长（单位：秒）。默认为：60秒 */
@@ -78,9 +79,9 @@ public class ServerSocket extends ServerBase
     {
         super(i_Port);
         
-        this.portPool = new PortPool();
-        this.portPool.setMinPort(i_MinPort);
-        this.portPool.setMaxPort(i_MaxPort);
+        this.communicationPortPool = new PortPool();
+        this.communicationPortPool.setMinPort(i_MinPort);
+        this.communicationPortPool.setMaxPort(i_MaxPort);
         
         this.closeTimeout             = 60;
         this.isStartCheckCloseTimeout = false;
@@ -147,7 +148,7 @@ public class ServerSocket extends ServerBase
      */
     private ServerBase getIdleCommunicationServer(SocketRepuest i_SocketRepuest)
     {
-        Integer    v_CommunicationPort   = this.portPool.getIdle();
+        Integer    v_CommunicationPort   = this.communicationPortPool.getIdle();
         ServerBase v_CommunicationServer = this.communicationServers.get(v_CommunicationPort);
         
         // 创建一个新的用于数据通讯的临时的服务端Socket监听服务
@@ -159,7 +160,7 @@ public class ServerSocket extends ServerBase
                 return this.getIdleCommunicationServer(i_SocketRepuest);
             }
             
-            v_CommunicationServer = new ServerBase(v_ServerSocket ,this.portPool);
+            v_CommunicationServer = new ServerBase(v_ServerSocket ,this.communicationPortPool);
             v_CommunicationServer.setRequest(i_SocketRepuest);
             v_CommunicationServer.setAcceptIsThread(false);
             
@@ -450,7 +451,7 @@ public class ServerSocket extends ServerBase
      */
     public int getMinPort()
     {
-        return this.portPool.getMinPort();
+        return this.communicationPortPool.getMinPort();
     }
 
 
@@ -462,7 +463,7 @@ public class ServerSocket extends ServerBase
      */
     public void setMinPort(int minPort)
     {
-        this.portPool.setMinPort(minPort);
+        this.communicationPortPool.setMinPort(minPort);
     }
 
 
@@ -472,7 +473,7 @@ public class ServerSocket extends ServerBase
      */
     public int getMaxPort()
     {
-        return this.portPool.getMaxPort();
+        return this.communicationPortPool.getMaxPort();
     }
 
 
@@ -484,7 +485,7 @@ public class ServerSocket extends ServerBase
      */
     public void setMaxPort(int maxPort)
     {
-        this.portPool.setMaxPort(maxPort);
+        this.communicationPortPool.setMaxPort(maxPort);
     }
 
 

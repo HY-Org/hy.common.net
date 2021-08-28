@@ -77,6 +77,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
             v_Socket = Help.getSocket(this.hostName ,this.port ,this.timeout);
             if ( v_Socket == null )
             {
+                // 这里在压力大时，报错极多，需要优化
                 $Logger.warn("无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
                 return null;
             }
