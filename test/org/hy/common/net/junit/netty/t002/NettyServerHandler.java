@@ -126,5 +126,49 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter
         $Logger.error(i_Cause);
         i_Ctx.close();
     }
+
+
+
+    /**
+     * 通道就绪事件
+     */
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception
+    {
+        super.channelActive(ctx);
+    }
+
+
+
+    /**
+     * 通道非活动的事件
+     */
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception
+    {
+        super.channelInactive(ctx);
+    }
+
+
+
+    /**
+     * Channel注册事件
+     */
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception
+    {
+        super.channelRegistered(ctx);
+    }
+
+
+
+    /**
+     * Channel取消注册事件
+     */
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception
+    {
+        super.channelUnregistered(ctx);
+    }
     
 }

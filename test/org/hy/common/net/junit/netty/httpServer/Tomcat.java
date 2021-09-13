@@ -52,16 +52,25 @@ public class Tomcat
             return;
         }
         
+        /*
+         * 1. 创建两个线程组 BossGroup 和 WorkerGroup
+         * 2. BossGroup只处理连接请求，真正的业务处理，会交给WorkerGroup完成
+         * 3. 两者都是无限循环
+         * 4. BossGroup 和 WorkerGroup 默认的线程数是：CPU核数 * 2
+         */
         this.bossGroup   = new NioEventLoopGroup(5);
         this.workerGroup = new NioEventLoopGroup();
         
         try
         {
             ServerBootstrap v_Bootstrap = new ServerBootstrap();
-            v_Bootstrap.group(this.bossGroup ,this.workerGroup);
-            v_Bootstrap.channel(NioServerSocketChannel.class);
+            v_Bootstrap.group(this.bossGroup ,this.workerGroup);                  // 设置两个线程组
+            v_Bootstrap.channel(NioServerSocketChannel.class);                    // 服务器通道实现
+            v_Bootstrap.option(ChannelOption.SO_BACKLOG ,128);                    // 线程队列得到连接个数
             v_Bootstrap.childOption(ChannelOption.SO_KEEPALIVE ,true);            // 保持活动连接状态
-            v_Bootstrap.childHandler(new TomcatInitChannel());
+            v_Bootstrap.childHandler(new TomcatInitChannel());                    // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
+            // v_Bootstrap.handler     (这里添加是对应BossGroup)
+            // v_Bootstrap.childHandler(这里添加是对应WorkerGroup)
             
             ChannelFuture v_ChannelFuture = v_Bootstrap.bind(this.port).sync();   // 异步非阻塞
             v_ChannelFuture.addListener(new ChannelFutureListener()
