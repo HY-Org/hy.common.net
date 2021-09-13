@@ -66,7 +66,7 @@ public class Tomcat
             ServerBootstrap v_Bootstrap = new ServerBootstrap();
             v_Bootstrap.group(this.bossGroup ,this.workerGroup);                  // 设置两个线程组
             v_Bootstrap.channel(NioServerSocketChannel.class);                    // 服务器通道实现
-            v_Bootstrap.option(ChannelOption.SO_BACKLOG ,128);                    // 线程队列得到连接个数
+            v_Bootstrap.option(ChannelOption.SO_BACKLOG ,128);                    // 线程队列等待的连接个数
             v_Bootstrap.childOption(ChannelOption.SO_KEEPALIVE ,true);            // 保持活动连接状态
             v_Bootstrap.childHandler(new TomcatInitChannel());                    // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
             // v_Bootstrap.handler     (这里添加是对应BossGroup)
