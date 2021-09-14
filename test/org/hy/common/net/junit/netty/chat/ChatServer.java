@@ -9,6 +9,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 
 
@@ -52,6 +54,7 @@ public class ChatServer
             v_Bootstrap.group(this.bossGroup ,this.workerGroup);
             v_Bootstrap.channel(NioServerSocketChannel.class);
             v_Bootstrap.option(ChannelOption.SO_BACKLOG ,1024);
+            v_Bootstrap.handler(new LoggingHandler(LogLevel.INFO));
             v_Bootstrap.childOption(ChannelOption.SO_KEEPALIVE ,true);
             v_Bootstrap.childHandler(new ChatServerInitChannel());
             

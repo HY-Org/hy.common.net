@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 
@@ -22,9 +23,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
  * @createDate  2021-09-13
  * @version     v1.0
  */
-public class ChatServerInboundHandler extends SimpleChannelInboundHandler<String>
+public class ChatServerInboundHandler_V1 extends SimpleChannelInboundHandler<String>
 {
-    private static final Logger $Logger       = new Logger(ChatServerInboundHandler.class ,true);
+    private static final Logger $Logger       = new Logger(ChatServerInboundHandler_V1.class ,true);
     
     // 定义一个Channel组，管理所有的Channel
     // GlobalEventExecutor.INSTANCE：是全局的事件执行器，是一个单例
@@ -97,6 +98,41 @@ public class ChatServerInboundHandler extends SimpleChannelInboundHandler<String
         $Logger.error(i_Cause);
         i_Ctx.close();
         super.exceptionCaught(i_Ctx ,i_Cause);
+    }
+
+
+
+    /**
+     * 空闲检测的触发事件
+     */
+    @Override
+    public void userEventTriggered(ChannelHandlerContext i_Ctx ,Object i_Event) throws Exception
+    {
+        if ( i_Event instanceof IdleStateEvent )
+        {
+            IdleStateEvent v_Event     = (IdleStateEvent)i_Event;
+            String         v_EventName = "";
+            
+            switch ( v_Event.state() )
+            {
+                case READER_IDLE:
+                    v_EventName = "读空闲";
+                    break;
+                    
+                case WRITER_IDLE:
+                    v_EventName = "写空闲";
+                    break;
+                    
+                case ALL_IDLE:
+                    v_EventName = "读写空闲";
+                    break;
+            }
+            
+            // 有空闲检测事件，即表示通道是活着的
+            $Logger.info(v_EventName);
+        }
+        
+        super.userEventTriggered(i_Ctx ,i_Event);
     }
 
 

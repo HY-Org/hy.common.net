@@ -9,6 +9,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 
 
@@ -69,6 +71,7 @@ public class Tomcat
             v_Bootstrap.option(ChannelOption.SO_BACKLOG ,128);                    // 线程队列等待的连接个数
             v_Bootstrap.childOption(ChannelOption.SO_KEEPALIVE ,true);            // 保持活动连接状态
             v_Bootstrap.childHandler(new TomcatInitChannel());                    // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
+            v_Bootstrap.handler(new LoggingHandler(LogLevel.INFO));               // 日志处理器
             // v_Bootstrap.handler     (这里添加是对应BossGroup)
             // v_Bootstrap.childHandler(这里添加是对应WorkerGroup)
             
