@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <form onsubmit="return false">
+        <textarea id="requestText" name="requestText" rows="20" cols="50"></textarea>
+        <input type="button" value="发送" onclick="send(this.form.requestText.value)">
+        
+        <textarea id="responseText" name="responseText" rows="20" cols="50"></textarea>
+        <input type="button" value="清空内容" onclick="document.getElementById('responseText').value=''">
+    </form>
+
+
+    <script type="text/javascript">
+    var v_Socket;
+    var v_ResponseText = document.getElementById("responseText");
+    
+    if ( window.WebSocket )
+    {
+    	v_Socket = new WebSocket("ws://127.0.0.1:2021/hello"); 
+        
+    	v_Socket.onmessage = function(ret) 
+        {
+            v_ResponseText.value += "\n" + ret.data;
+        };
+        
+        v_Socket.onopen = function(ret)
+        {
+            v_ResponseText.value += "\n" + "连接开启了...";
+        };
+        
+        v_Socket.onclose = function(ret)
+        {
+            v_ResponseText.value += "\n" + "连接关闭了...";
+        }
+    }
+    else
+    {
+        alert("当前浏览器不支持WebSocket");
+    }
+    
+    
+    
+    function send(i_Message)
+    {
+        if ( !window.WebSocket )
+        {
+            alert("当前浏览器不支持WebSocket");
+            return;
+        }
+        
+        if ( v_Socket.readyState == WebSocket.OPEN )
+        {
+            v_ResponseText.value += "\n" + "发送消息：" + i_Message;
+            v_Socket.send(i_Message);
+        }
+        else
+        {
+            alert("连接没有开启");   
+        }
+    }
+    </script>
+
+</body>
+</html>
