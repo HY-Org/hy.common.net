@@ -17,13 +17,13 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 
 /**
- * Netty服务
+ * Netty服务端
  * 
  * @author      ZhengWei(HY)
  * @createDate  2021-09-10
  * @version     v1.0
  */
-public abstract class Server
+public abstract class Server<T extends Server<T>> extends App<T>
 {
     private static final Logger $Logger = new Logger(ChatServer.class ,true);
     
@@ -36,12 +36,6 @@ public abstract class Server
     
     /** 服务启动配置参数 */
     private ServerBootstrap bootstrap;
-    
-    /** 服务是否启动 */
-    private boolean         isStart;
-    
-    /** 服务的端口 */
-    private int             port;
     
     
     
@@ -58,8 +52,7 @@ public abstract class Server
     
     public Server()
     {
-        this.port    = 1721;
-        this.isStart = false;
+        super();
     }
     
     
@@ -93,6 +86,7 @@ public abstract class Server
      * @createDate  2021-09-14
      * @version     v1.0
      */
+    @Override
     public synchronized void start()
     {
         this.start(this.newBootstrap());
@@ -125,7 +119,7 @@ public abstract class Server
             
             this.bootstrap = io_Bootstrap;
             this.bootstrap.group(this.bossGroup ,this.workerGroup);                  // 设置两个线程组
-            this.bootstrap.childHandler(new ServerInitChannel(this));                // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
+            this.bootstrap.childHandler(new ServerInitChannel<T>(this));             // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
             
             ChannelFuture v_ChannelFuture = this.bootstrap.bind(this.port).sync();   // 异步非阻塞
             
@@ -163,6 +157,7 @@ public abstract class Server
      * @createDate  2021-09-14
      * @version     v1.0
      */
+    @Override
     public synchronized void shutdown()
     {
         if ( this.bossGroup != null )
@@ -178,41 +173,4 @@ public abstract class Server
         this.isStart = false;
     }
 
-
-    
-    /**
-     * 获取：服务的端口
-     * 
-     * @return
-     */
-    public int getPort()
-    {
-        return port;
-    }
-
-
-    
-    /**
-     * 获取：服务的端口
-     * 
-     * @param port
-     */
-    public Server setPort(int port)
-    {
-        this.port = port;
-        return this;
-    }
-
-
-    
-    /**
-     * 判定服务启动状态
-     * 
-     * @return
-     */
-    public boolean isStart()
-    {
-        return isStart;
-    }
-    
 }

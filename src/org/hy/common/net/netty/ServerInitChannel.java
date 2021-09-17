@@ -16,16 +16,16 @@ import io.netty.channel.socket.SocketChannel;
  * @createDate  2021-09-14
  * @version     v1.0
  */
-public class ServerInitChannel extends ChannelInitializer<SocketChannel>
+public class ServerInitChannel<T extends Server<T>> extends ChannelInitializer<SocketChannel>
 {
 
     private static final Logger $Logger = new Logger(ServerInitChannel.class ,true);
     
-    private Server myServer;
+    private Server<T> myServer;
     
     
     
-    public ServerInitChannel(Server i_MyServer)
+    public ServerInitChannel(Server<T> i_MyServer)
     {
         this.myServer = i_MyServer;
     }
