@@ -1,6 +1,5 @@
 package org.hy.common.net.junit.netty.protobuf;
 
-import org.hy.common.net.junit.netty.chat.ChatServerInboundHandler_V1;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -21,7 +20,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ProtobufClientInboundHandler extends SimpleChannelInboundHandler<String>
 {
-    private static final Logger $Logger = new Logger(ChatServerInboundHandler_V1.class ,true);
+    private static final Logger $Logger = new Logger(ProtobufClientInboundHandler.class ,true);
     
     
 

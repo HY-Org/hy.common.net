@@ -1,4 +1,4 @@
-package org.hy.common.net.junit.netty.protobuf;
+package org.hy.common.net.junit.netty.protobuf2;
 
 import org.hy.common.xml.log.Logger;
 
@@ -18,10 +18,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @createDate  2021-09-15s
  * @version     v1.0
  */
-public class ProtobufServerInboundHandler extends SimpleChannelInboundHandler<DataPOJO.Data>
+public class ProtobufMoreObjectServerInboundHandler extends SimpleChannelInboundHandler<PeoplePOJO.People>
 {
     
-    private static final Logger $Logger = new Logger(ProtobufServerInboundHandler.class ,true);
+    private static final Logger $Logger = new Logger(ProtobufMoreObjectServerInboundHandler.class ,true);
     
     
 
@@ -34,11 +34,11 @@ public class ProtobufServerInboundHandler extends SimpleChannelInboundHandler<Da
      * i_Msg：客户端发送的数据
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext i_Ctx ,DataPOJO.Data i_Msg) throws Exception
+    protected void channelRead0(ChannelHandlerContext i_Ctx ,PeoplePOJO.People i_Msg) throws Exception
     {
         $Logger.info(i_Msg);
         
-        i_Ctx.channel().writeAndFlush("你好，客户端");
+        i_Ctx.channel().writeAndFlush("你好，客户端" + i_Msg.getDataTypeValue());
     }
     
 }

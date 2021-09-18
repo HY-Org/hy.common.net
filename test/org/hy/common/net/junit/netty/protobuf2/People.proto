@@ -1,0 +1,55 @@
+// 生成*.java文件的命令：protoc.exe --java_out=. *.proto
+
+syntax = "proto3";
+option optimize_for = SPEED;                                      // 快速解析
+option java_package = "org.hy.common.net.junit.netty.protobuf2";  // 指定Java包
+option java_outer_classname = "PeoplePOJO";                       // 外部类名称
+
+// protobuf 可以使用message 管理其它的message
+message People
+{
+    enum DataType
+    {
+        StudentType = 0;         // 要求从0开始
+        TeacherType = 1;
+        WorkerType  = 2;
+    }
+
+    // 用data_type来表示用的是哪一个枚举类型
+    DataType dataType = 1;       // 属性名称dataType，序号为1（不是值为1）
+
+    // 表示每次枚举类型最多只能出现哪几个类型，即C++中的“共同体union”
+    oneof dataBody
+    {
+        Student student = 2;     // dataType编号之后，序号就为2
+        Teacher teacher = 3;
+        Worker  workder = 4;
+    }
+}
+
+
+
+message Student
+{
+    int32     id        = 1;
+    string    name      = 2;
+    string    className = 3;
+}
+
+
+
+message Teacher
+{
+    int32    id         = 1;
+    string   name       = 2;
+    string   schoolName = 3;
+}
+
+
+
+message Worker
+{
+    int32     id          = 1;
+    string    name        = 2;
+    string    factoryName = 3;
+}
