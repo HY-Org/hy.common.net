@@ -7,6 +7,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -46,7 +47,7 @@ public abstract class Server<T extends Server<T>> extends App<T>
      * @createDate  2021-09-14
      * @version     v1.0
      */
-    public abstract void initChannel(SocketChannel i_Channel);
+    public abstract void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline);
     
     
     

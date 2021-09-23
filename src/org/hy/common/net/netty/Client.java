@@ -5,6 +5,7 @@ import org.hy.common.xml.log.Logger;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -42,7 +43,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * @createDate  2021-09-17
      * @version     v1.0
      */
-    public abstract void initChannel(SocketChannel i_Channel);
+    public abstract void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline);
     
     
     

@@ -31,7 +31,7 @@ public class ClientInitChannel<T extends Client<T>> extends ChannelInitializer<S
     @Override
     protected void initChannel(SocketChannel i_Channel) throws Exception
     {
-        this.myClient.initChannel(i_Channel);
+        this.myClient.initChannel(i_Channel ,i_Channel.pipeline());
     }
     
 }

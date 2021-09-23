@@ -30,13 +30,11 @@ public class ProtobufMoreObjectClient extends Client<ProtobufMoreObjectClient>
      * @version     v1.0
      */
     @Override
-    public void initChannel(SocketChannel i_Channel)
+    public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
-        ChannelPipeline v_Pipeline = i_Channel.pipeline();
-        
-        v_Pipeline.addLast(new StringDecoder(CharsetUtil.UTF_8));
-        v_Pipeline.addLast(new ProtobufEncoder());
-        v_Pipeline.addLast(new ProtobufMoreObjectClientInboundHandler());
+        i_Pipeline.addLast(new StringDecoder(CharsetUtil.UTF_8));
+        i_Pipeline.addLast(new ProtobufEncoder());
+        i_Pipeline.addLast(new ProtobufMoreObjectClientInboundHandler());
     }
     
     

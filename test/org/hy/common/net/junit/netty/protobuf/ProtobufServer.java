@@ -30,13 +30,11 @@ public class ProtobufServer extends Server<ProtobufServer>
      * @version     v1.0
      */
     @Override
-    public void initChannel(SocketChannel i_Channel)
+    public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
-        ChannelPipeline v_Pipeline = i_Channel.pipeline();
-        
-        v_Pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
-        v_Pipeline.addLast(new ProtobufDecoder(DataPOJO.Data.getDefaultInstance()));  // 指定对哪种类型解码
-        v_Pipeline.addLast(new ProtobufServerInboundHandler());
+        i_Pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
+        i_Pipeline.addLast(new ProtobufDecoder(DataPOJO.Data.getDefaultInstance()));  // 指定对哪种类型解码
+        i_Pipeline.addLast(new ProtobufServerInboundHandler());
     }
     
     

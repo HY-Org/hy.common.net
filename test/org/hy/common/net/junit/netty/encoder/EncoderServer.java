@@ -20,12 +20,10 @@ public class EncoderServer extends Server<EncoderServer>
 {
 
     @Override
-    public void initChannel(SocketChannel i_Channel)
+    public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
-        ChannelPipeline v_Pipeline = i_Channel.pipeline();
-        
-        v_Pipeline.addLast(new MyDecoder());
-        v_Pipeline.addLast(new EncoderServerHandler());
+        i_Pipeline.addLast(new MyDecoder());
+        i_Pipeline.addLast(new EncoderServerHandler());
     }
     
     
