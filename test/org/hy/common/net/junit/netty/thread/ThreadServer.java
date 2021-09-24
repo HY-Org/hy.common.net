@@ -7,6 +7,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 
 
@@ -21,13 +23,18 @@ import io.netty.util.CharsetUtil;
  */
 public class ThreadServer extends Server<ThreadServer>
 {
+    
+    // 全局共享型的线程池：创建业务线程池（16个线程）
+    private static final EventExecutorGroup $ServiceThreadPool = new DefaultEventExecutorGroup(16);
+    
+    
 
     @Override
     public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
         i_Pipeline.addLast(new StringDecoder(CharsetUtil.UTF_8));
         i_Pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
-        i_Pipeline.addLast(new ThreadServerHandler());
+        i_Pipeline.addLast($ServiceThreadPool ,new ThreadServerHandler_V3());
     }
     
     

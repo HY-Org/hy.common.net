@@ -18,10 +18,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @createDate  2021-09-23
  * @version     v1.0
  */
-public class ThreadServerHandler extends SimpleChannelInboundHandler<String>
+public class ThreadServerHandler_V1 extends SimpleChannelInboundHandler<String>
 {
 
-    private static final Logger $Logger = new Logger(ThreadServerHandler.class ,true);
+    private static final Logger $Logger = new Logger(ThreadServerHandler_V1.class ,true);
     
     
     
@@ -36,14 +36,15 @@ public class ThreadServerHandler extends SimpleChannelInboundHandler<String>
     @Override
     protected void channelRead0(ChannelHandlerContext i_Ctx ,String i_Msg) throws Exception
     {
-        $Logger.info("业务处理的多线程执行：准备");
+        // 这不是真正的异步，是会影响或阻塞WorkerGroup的线程的
+        $Logger.info("业务处理的多线程执行(业务线程与Handler是同一个)：接收数据");
         
         i_Ctx.channel().eventLoop().execute(new Runnable()
         {
             @Override
             public void run()
             {
-                $Logger.info("业务处理的多线程执行：开始");
+                $Logger.info("业务处理的多线程执行(业务线程与Handler是同一个)：开始");
                 
                 try
                 {
@@ -54,10 +55,12 @@ public class ThreadServerHandler extends SimpleChannelInboundHandler<String>
                     $Logger.error(e);
                 }
                 
-                $Logger.info("业务处理的多线程执行：完成");
+                $Logger.info("业务处理的多线程执行(业务线程与Handler是同一个)：完成");
                 i_Ctx.writeAndFlush("你好客户端：业务处理完成");
             }
         });
+        
+        $Logger.info("业务处理的多线程执行(业务线程与Handler是同一个)：准备");
     }
 
 
