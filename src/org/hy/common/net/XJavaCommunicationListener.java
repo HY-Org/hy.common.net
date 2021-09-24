@@ -19,7 +19,7 @@ import org.hy.common.xml.XJava;
 
 
 /**
- * XJava数据通讯的监听事件 
+ * XJava数据通讯的监听事件
  *
  * @author      ZhengWei(HY)
  * @createDate  2017-01-16
@@ -32,7 +32,7 @@ public class XJavaCommunicationListener implements CommunicationListener
     
     /**
      *  数据通讯的事件类型。即通知哪一个事件监听者来处理数据通讯（对应 ServerSocket.listeners 的分区标识）
-     *  
+     * 
      *  事件类型区分大小写
      * 
      * @author      ZhengWei(HY)
@@ -41,6 +41,7 @@ public class XJavaCommunicationListener implements CommunicationListener
      *
      * @return
      */
+    @Override
     public String getEventType()
     {
         return CommunicationRequest.$DefaultEventType;
@@ -112,7 +113,7 @@ public class XJavaCommunicationListener implements CommunicationListener
                     }
                     else
                     {
-                        v_ExpireTimeLen = (long)(v_ExpireTimeLen / 1000);
+                        v_ExpireTimeLen = v_ExpireTimeLen / 1000;
                     }
                     
                     v_ItemData.setDataXID(          v_Item.getKey());
@@ -126,7 +127,7 @@ public class XJavaCommunicationListener implements CommunicationListener
             }
         }
         // 添加及更新
-        else if ( CommunicationRequest.$Operation_Insert.equals(i_RequestData.getDataOperation()) 
+        else if ( CommunicationRequest.$Operation_Insert.equals(i_RequestData.getDataOperation())
                || CommunicationRequest.$Operation_Update.equals(i_RequestData.getDataOperation()) )
         {
             if ( i_RequestData.getData() == null )

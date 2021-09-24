@@ -15,7 +15,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * <TextWebSocketFrame> 表示客户端与服务端相互通讯的数据封装类。
  * 
  * @author      ZhengWei(HY)
- * @createDate  2021-09-15s
+ * @createDate  2021-09-15
  * @version     v1.0
  */
 public class ProtobufMoreObjectServerInboundHandler extends SimpleChannelInboundHandler<PeoplePOJO.People>

@@ -10,7 +10,7 @@ import org.hy.common.net.data.CommunicationResponse;
 
 
 /**
- * 数据通讯的监听事件接口 
+ * 数据通讯的监听事件接口
  *
  * @author      ZhengWei(HY)
  * @createDate  2017-01-16
@@ -21,7 +21,7 @@ public interface CommunicationListener extends EventListener
     
     /**
      *  数据通讯的事件类型。即通知哪一个事件监听者来处理数据通讯（对应 ServerSocket.listeners 的分区标识）
-     *  
+     * 
      *  事件类型区分大小写
      * 
      * @author      ZhengWei(HY)
