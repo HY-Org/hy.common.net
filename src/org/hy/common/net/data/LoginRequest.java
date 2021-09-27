@@ -12,6 +12,9 @@ import org.hy.common.xml.SerializableDef;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-13
  * @version     v1.0
+ *              v2.0  2021-09-25  添加：通讯的接口版本
+ *                                添加：IP
+ *                                添加：端口
  */
 public class LoginRequest extends SerializableDef
 {
@@ -19,12 +22,20 @@ public class LoginRequest extends SerializableDef
     private static final long serialVersionUID = 5568766404534113410L;
     
     
-
+    /** 通讯的接口版本 */
+    protected int  version;
+    
     /** 用户名 */
     private String userName;
     
     /** 密码 */
     private String password;
+    
+    /** IP */
+    private String host;
+    
+    /** 端口 */
+    private int    port;
     
     
     
@@ -55,7 +66,7 @@ public class LoginRequest extends SerializableDef
     /**
      * 设置：用户名
      * 
-     * @param userName 
+     * @param userName
      */
     public void setUserName(String userName)
     {
@@ -75,11 +86,71 @@ public class LoginRequest extends SerializableDef
     /**
      * 设置：密码
      * 
-     * @param password 
+     * @param password
      */
     public void setPassword(String password)
     {
         this.password = password;
+    }
+    
+    
+    /**
+     * 获取：通讯的接口版本
+     */
+    public int getVersion()
+    {
+        return version;
+    }
+
+
+    /**
+     * 设置：通讯的接口版本
+     * 
+     * @param version
+     */
+    public void setVersion(int version)
+    {
+        this.version = version;
+    }
+
+
+    /**
+     * 获取：IP
+     */
+    public String getHost()
+    {
+        return host;
+    }
+
+
+    /**
+     * 设置：IP
+     * 
+     * @param host
+     */
+    public void setHost(String host)
+    {
+        this.host = host;
+    }
+
+
+    /**
+     * 获取：端口
+     */
+    public int getPort()
+    {
+        return port;
+    }
+
+
+    /**
+     * 设置：端口
+     * 
+     * @param port
+     */
+    public void setPort(int port)
+    {
+        this.port = port;
     }
     
 }

@@ -13,12 +13,16 @@ import org.hy.common.xml.SerializableDef;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-14
  * @version     v1.0
+ *              v2.0  2021-09-25  添加：通讯的接口版本
  */
 public class Communication extends SerializableDef
 {
     
     private static final long serialVersionUID = 7513185667760947675L;
     
+    
+    /** 通讯的接口版本 */
+    protected int     version;
     
     /** 会话时间(由外界定义及使用，默认为NULL) */
     protected Date    sessionTime;
@@ -201,6 +205,28 @@ public class Communication extends SerializableDef
     public void setToken(String token)
     {
         this.token = token;
+    }
+    
+    
+    
+    /**
+     * 获取：通讯的接口版本
+     */
+    public int getVersion()
+    {
+        return version;
+    }
+
+
+
+    /**
+     * 设置：通讯的接口版本
+     * 
+     * @param version
+     */
+    public void setVersion(int version)
+    {
+        this.version = version;
     }
 
 

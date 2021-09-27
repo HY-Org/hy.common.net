@@ -15,6 +15,7 @@ import org.hy.common.net.data.CommunicationResponse;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-16
  * @version     v1.0
+ *              v2.0  2021-09-27  添加：处理数据通讯的过程是否为同步的。当为 false 时，表示服务端开启线程处理
  */
 public interface CommunicationListener extends EventListener
 {
@@ -45,5 +46,23 @@ public interface CommunicationListener extends EventListener
      * @return
      */
     public CommunicationResponse communication(CommunicationRequest i_RequestData);
+    
+    
+    
+    /**
+     * 处理数据通讯的过程是否为同步的。当为 false 时，表示服务端开启线程处理
+     * 
+     * 默认为：同步机制
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-27
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public default boolean isSync()
+    {
+        return true;
+    }
     
 }

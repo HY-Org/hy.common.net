@@ -1,0 +1,111 @@
+syntax = "proto3";                                                 //  Proto版本号
+option java_outer_classname = "CommunicationProto";                // 生成的外部类名，同时也是文件名
+
+
+
+// Protobuf可以使用message 管理其它的message
+message Data                                                       // 生成DataPOJO外部类的内部类，它是真正发送POJO对象
+{
+             enum DataType
+             {
+                 LoginRequest  = 0;                                // 要求从0开始
+                 LoginResponse = 1;
+                 Request       = 2;
+                 Response      = 3;
+             }
+
+             DataType          dataType            = 1;            // 属性名称dataType，序号为1（不是值为1）
+
+             oneof dataBody                                        // 表示每次枚举类型最多只能出现哪几个类型，即C++中的“共同体union”
+             {
+                 LoginRequest  loginRequest        = 2;            // dataType编号之后，序号就为2
+                 LoginResponse loginResponse       = 3;
+                 Request       request             = 4;
+                 Response      response            = 5;
+             }
+}
+
+
+
+// 登陆验证的请求
+message LoginRequest
+{
+             int32        version                  = 1;            // 通讯的接口版本
+             string       userName                 = 2;            // 用户名
+             string       password                 = 3;            // 密码
+}
+
+
+
+// 登陆验证的响应
+message LoginResponse
+{
+             int32        version                  = 1;            // 通讯的接口版本
+             int32        result                   = 2;            // 通讯的结果类型
+             int64        endTime                  = 3;            // 通讯结束时间
+             string       token                    = 4;            // 通讯票据
+             string       host                     = 5;            // 通讯主机
+             int32        post                     = 6;            // 通讯端口号
+}
+
+
+
+// 数据的协议
+enum DataProtocol
+{
+    BasicDataType = 0;                                             // 编程语言的基本数据类型。要求从0开始
+    Json          = 1;                                             // Json协议
+    Protobuf      = 2;                                             // Protobuf协议
+}
+
+
+
+// 传输对象执行命令的信息
+message XCommand
+{
+    string                methodName               = 1;
+    repeated string       paramsClass              = 2;            // 参数的Java类型名称。等价于java中的List<string>
+    repeated DataProtocol paramsProtocol           = 3;            // 参数数据的协议（0:JSON   1:Protobuf）
+    repeated bytes        paramsValue              = 4;            // 参数数值的二进制数据（也可以是Protobuf规范的、可反序列的数据）
+}
+
+
+
+// 通讯数据的请求
+message Request
+{
+             int32        version                  = 1;            // 通讯的接口版本
+             int64        sessionTime              = 2;            // 会话时间
+             int64        time                     = 3;            // 通讯的时间
+             string       token                    = 4;            // 通讯票据
+             string       dataClass                = 5;            // 通讯数据的类型
+             DataProtocol dataProtocol             = 6;            // 通讯数据的协议（0:JSON   1:Protobuf）
+             bytes        data                     = 7;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
+             string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
+             bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+             int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+             string       eventType                = 11;           // 数据通讯的事件类型
+             string       dataOperation            = 12;           // 数据的操作类型
+             bool         isRetunData              = 13;           // 是否返回数据，即通讯CommunicationResponse.data是否返回。
+             bool         isNonSync                = 14;           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+}
+
+
+
+// 通讯数据的请求
+message Response
+{
+             int32        version                  = 1;            // 通讯的接口版本
+             int64        sessionTime              = 2;            // 会话时间
+             int64        time                     = 3;            // 通讯的时间
+             string       token                    = 4;            // 通讯票据
+             string       dataClass                = 5;            // 通讯数据的类型
+             DataProtocol dataProtocol             = 6;            // 通讯数据的协议（0:JSON   1:Protobuf）
+             bytes        data                     = 7;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
+             string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
+             bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+             int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+             int32        result                   = 11;           // 通讯的结果类型
+             int64        endTime                  = 12;           // 通讯结束时间
+}
+                                                                   // 生成*.java文件的命令：protoc.exe --java_out=. *.proto

@@ -47,7 +47,7 @@ public class ChatServerInitChannel extends ChannelInitializer<SocketChannel>
          * 将会触发一个IdleStateEvent的事件，并且事件会传递到下一个处理器来处理，
          * 通过触发下一个Handler的userEventTrigged方法
          */
-        v_ChannelPipeline.addLast("心动测试器" ,new IdleStateHandler(5 ,9 ,13 ,TimeUnit.SECONDS));
+        v_ChannelPipeline.addLast("心跳测试器" ,new IdleStateHandler(5 ,9 ,13 ,TimeUnit.SECONDS));
         v_ChannelPipeline.addLast("业务的处理" ,new ChatServerInboundHandler_V1());
     }
     

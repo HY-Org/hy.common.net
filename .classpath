@@ -20,6 +20,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/hy.common.net/lib/protobuf/protobuf-java-3.17.3-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/hy.common.xjava.jar"/>
+	<classpathentry kind="lib" path="lib/hy.common.xjava.jar" sourcepath="/hy.common.xjava"/>
+	<classpathentry kind="lib" path="lib/json/json-smart-2.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

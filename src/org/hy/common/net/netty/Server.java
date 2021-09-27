@@ -38,6 +38,9 @@ public abstract class Server<T extends Server<T>> extends App<T>
     /** 服务启动配置参数 */
     private ServerBootstrap bootstrap;
     
+    /** 线程队列等待的连接个数 */
+    private int             waitConnMax;
+    
     
     
     /**
@@ -54,6 +57,7 @@ public abstract class Server<T extends Server<T>> extends App<T>
     public Server()
     {
         super();
+        this.waitConnMax = 1024 * 4;
     }
     
     
@@ -72,7 +76,6 @@ public abstract class Server<T extends Server<T>> extends App<T>
         ServerBootstrap v_Bootstrap = new ServerBootstrap();
         
         v_Bootstrap.channel(NioServerSocketChannel.class);                           // 服务器通道实现
-        v_Bootstrap.option(     ChannelOption.SO_BACKLOG   ,1024);                   // 线程队列等待的连接个数
         v_Bootstrap.childOption(ChannelOption.SO_KEEPALIVE ,true);                   // 保持活动连接状态
         
         return v_Bootstrap;
@@ -121,6 +124,7 @@ public abstract class Server<T extends Server<T>> extends App<T>
             this.bootstrap = io_Bootstrap;
             this.bootstrap.group(this.bossGroup ,this.workerGroup);                  // 设置两个线程组
             this.bootstrap.childHandler(new ServerInitChannel<T>(this));             // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
+            this.bootstrap.option(ChannelOption.SO_BACKLOG  ,this.waitConnMax);      // 线程队列等待的连接个数
             
             ChannelFuture v_ChannelFuture = this.bootstrap.bind(this.port).sync();   // 异步非阻塞
             
@@ -172,6 +176,30 @@ public abstract class Server<T extends Server<T>> extends App<T>
         }
         
         this.isStart = false;
+    }
+
+
+
+    /**
+     * 获取：线程队列等待的连接个数
+     * 
+     * @return
+     */
+    public int getWaitConnMax()
+    {
+        return waitConnMax;
+    }
+
+
+    
+    /**
+     * 设置：线程队列等待的连接个数
+     * 
+     * @param waitConnMax
+     */
+    public void setWaitConnMax(int waitConnMax)
+    {
+        this.waitConnMax = waitConnMax;
     }
 
 }
