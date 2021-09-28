@@ -1936,10 +1936,80 @@ public final class CommunicationProto {
 
     /**
      * <pre>
+     * 用户编号
+     * </pre>
+     *
+     * <code>string id = 2;</code>
+     * @return The id.
+     */
+    java.lang.String getId();
+    /**
+     * <pre>
+     * 用户编号
+     * </pre>
+     *
+     * <code>string id = 2;</code>
+     * @return The bytes for id.
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <pre>
+     * 客户端的系统名称
+     * </pre>
+     *
+     * <code>string systemName = 3;</code>
+     * @return The systemName.
+     */
+    java.lang.String getSystemName();
+    /**
+     * <pre>
+     * 客户端的系统名称
+     * </pre>
+     *
+     * <code>string systemName = 3;</code>
+     * @return The bytes for systemName.
+     */
+    com.google.protobuf.ByteString
+        getSystemNameBytes();
+
+    /**
+     * <pre>
+     * 客户端的IP
+     * </pre>
+     *
+     * <code>string host = 4;</code>
+     * @return The host.
+     */
+    java.lang.String getHost();
+    /**
+     * <pre>
+     * 客户端的IP
+     * </pre>
+     *
+     * <code>string host = 4;</code>
+     * @return The bytes for host.
+     */
+    com.google.protobuf.ByteString
+        getHostBytes();
+
+    /**
+     * <pre>
+     * 客户端的通讯主端口
+     * </pre>
+     *
+     * <code>int32 port = 5;</code>
+     * @return The port.
+     */
+    int getPort();
+
+    /**
+     * <pre>
      * 用户名
      * </pre>
      *
-     * <code>string userName = 2;</code>
+     * <code>string userName = 6;</code>
      * @return The userName.
      */
     java.lang.String getUserName();
@@ -1948,7 +2018,7 @@ public final class CommunicationProto {
      * 用户名
      * </pre>
      *
-     * <code>string userName = 2;</code>
+     * <code>string userName = 6;</code>
      * @return The bytes for userName.
      */
     com.google.protobuf.ByteString
@@ -1959,7 +2029,7 @@ public final class CommunicationProto {
      * 密码
      * </pre>
      *
-     * <code>string password = 3;</code>
+     * <code>string password = 7;</code>
      * @return The password.
      */
     java.lang.String getPassword();
@@ -1968,7 +2038,7 @@ public final class CommunicationProto {
      * 密码
      * </pre>
      *
-     * <code>string password = 3;</code>
+     * <code>string password = 7;</code>
      * @return The bytes for password.
      */
     com.google.protobuf.ByteString
@@ -1991,6 +2061,9 @@ public final class CommunicationProto {
       super(builder);
     }
     private LoginRequest() {
+      id_ = "";
+      systemName_ = "";
+      host_ = "";
       userName_ = "";
       password_ = "";
     }
@@ -2033,10 +2106,33 @@ public final class CommunicationProto {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              userName_ = s;
+              id_ = s;
               break;
             }
             case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              systemName_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              host_ = s;
+              break;
+            }
+            case 40: {
+
+              port_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              userName_ = s;
+              break;
+            }
+            case 58: {
               java.lang.String s = input.readStringRequireUtf8();
 
               password_ = s;
@@ -2089,14 +2185,167 @@ public final class CommunicationProto {
       return version_;
     }
 
-    public static final int USERNAME_FIELD_NUMBER = 2;
+    public static final int ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object id_;
+    /**
+     * <pre>
+     * 用户编号
+     * </pre>
+     *
+     * <code>string id = 2;</code>
+     * @return The id.
+     */
+    @java.lang.Override
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 用户编号
+     * </pre>
+     *
+     * <code>string id = 2;</code>
+     * @return The bytes for id.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SYSTEMNAME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object systemName_;
+    /**
+     * <pre>
+     * 客户端的系统名称
+     * </pre>
+     *
+     * <code>string systemName = 3;</code>
+     * @return The systemName.
+     */
+    @java.lang.Override
+    public java.lang.String getSystemName() {
+      java.lang.Object ref = systemName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        systemName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 客户端的系统名称
+     * </pre>
+     *
+     * <code>string systemName = 3;</code>
+     * @return The bytes for systemName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSystemNameBytes() {
+      java.lang.Object ref = systemName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        systemName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOST_FIELD_NUMBER = 4;
+    private volatile java.lang.Object host_;
+    /**
+     * <pre>
+     * 客户端的IP
+     * </pre>
+     *
+     * <code>string host = 4;</code>
+     * @return The host.
+     */
+    @java.lang.Override
+    public java.lang.String getHost() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        host_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 客户端的IP
+     * </pre>
+     *
+     * <code>string host = 4;</code>
+     * @return The bytes for host.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getHostBytes() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        host_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 5;
+    private int port_;
+    /**
+     * <pre>
+     * 客户端的通讯主端口
+     * </pre>
+     *
+     * <code>int32 port = 5;</code>
+     * @return The port.
+     */
+    @java.lang.Override
+    public int getPort() {
+      return port_;
+    }
+
+    public static final int USERNAME_FIELD_NUMBER = 6;
     private volatile java.lang.Object userName_;
     /**
      * <pre>
      * 用户名
      * </pre>
      *
-     * <code>string userName = 2;</code>
+     * <code>string userName = 6;</code>
      * @return The userName.
      */
     @java.lang.Override
@@ -2117,7 +2366,7 @@ public final class CommunicationProto {
      * 用户名
      * </pre>
      *
-     * <code>string userName = 2;</code>
+     * <code>string userName = 6;</code>
      * @return The bytes for userName.
      */
     @java.lang.Override
@@ -2135,14 +2384,14 @@ public final class CommunicationProto {
       }
     }
 
-    public static final int PASSWORD_FIELD_NUMBER = 3;
+    public static final int PASSWORD_FIELD_NUMBER = 7;
     private volatile java.lang.Object password_;
     /**
      * <pre>
      * 密码
      * </pre>
      *
-     * <code>string password = 3;</code>
+     * <code>string password = 7;</code>
      * @return The password.
      */
     @java.lang.Override
@@ -2163,7 +2412,7 @@ public final class CommunicationProto {
      * 密码
      * </pre>
      *
-     * <code>string password = 3;</code>
+     * <code>string password = 7;</code>
      * @return The bytes for password.
      */
     @java.lang.Override
@@ -2198,11 +2447,23 @@ public final class CommunicationProto {
       if (version_ != 0) {
         output.writeInt32(1, version_);
       }
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, id_);
+      }
+      if (!getSystemNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, systemName_);
+      }
+      if (!getHostBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, host_);
+      }
+      if (port_ != 0) {
+        output.writeInt32(5, port_);
+      }
       if (!getUserNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, userName_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, userName_);
       }
       if (!getPasswordBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, password_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, password_);
       }
       unknownFields.writeTo(output);
     }
@@ -2217,11 +2478,24 @@ public final class CommunicationProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, version_);
       }
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, id_);
+      }
+      if (!getSystemNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, systemName_);
+      }
+      if (!getHostBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, host_);
+      }
+      if (port_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, port_);
+      }
       if (!getUserNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, userName_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, userName_);
       }
       if (!getPasswordBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, password_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, password_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2240,6 +2514,14 @@ public final class CommunicationProto {
 
       if (getVersion()
           != other.getVersion()) return false;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getSystemName()
+          .equals(other.getSystemName())) return false;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
       if (!getUserName()
           .equals(other.getUserName())) return false;
       if (!getPassword()
@@ -2257,6 +2539,14 @@ public final class CommunicationProto {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VERSION_FIELD_NUMBER;
       hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + SYSTEMNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getSystemName().hashCode();
+      hash = (37 * hash) + HOST_FIELD_NUMBER;
+      hash = (53 * hash) + getHost().hashCode();
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + getPort();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
       hash = (53 * hash) + getUserName().hashCode();
       hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
@@ -2400,6 +2690,14 @@ public final class CommunicationProto {
         super.clear();
         version_ = 0;
 
+        id_ = "";
+
+        systemName_ = "";
+
+        host_ = "";
+
+        port_ = 0;
+
         userName_ = "";
 
         password_ = "";
@@ -2431,6 +2729,10 @@ public final class CommunicationProto {
       public CommunicationProto.LoginRequest buildPartial() {
         CommunicationProto.LoginRequest result = new CommunicationProto.LoginRequest(this);
         result.version_ = version_;
+        result.id_ = id_;
+        result.systemName_ = systemName_;
+        result.host_ = host_;
+        result.port_ = port_;
         result.userName_ = userName_;
         result.password_ = password_;
         onBuilt();
@@ -2483,6 +2785,21 @@ public final class CommunicationProto {
         if (other == CommunicationProto.LoginRequest.getDefaultInstance()) return this;
         if (other.getVersion() != 0) {
           setVersion(other.getVersion());
+        }
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
+        if (!other.getSystemName().isEmpty()) {
+          systemName_ = other.systemName_;
+          onChanged();
+        }
+        if (!other.getHost().isEmpty()) {
+          host_ = other.host_;
+          onChanged();
+        }
+        if (other.getPort() != 0) {
+          setPort(other.getPort());
         }
         if (!other.getUserName().isEmpty()) {
           userName_ = other.userName_;
@@ -2564,13 +2881,344 @@ public final class CommunicationProto {
         return this;
       }
 
+      private java.lang.Object id_ = "";
+      /**
+       * <pre>
+       * 用户编号
+       * </pre>
+       *
+       * <code>string id = 2;</code>
+       * @return The id.
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 用户编号
+       * </pre>
+       *
+       * <code>string id = 2;</code>
+       * @return The bytes for id.
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 用户编号
+       * </pre>
+       *
+       * <code>string id = 2;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户编号
+       * </pre>
+       *
+       * <code>string id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户编号
+       * </pre>
+       *
+       * <code>string id = 2;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object systemName_ = "";
+      /**
+       * <pre>
+       * 客户端的系统名称
+       * </pre>
+       *
+       * <code>string systemName = 3;</code>
+       * @return The systemName.
+       */
+      public java.lang.String getSystemName() {
+        java.lang.Object ref = systemName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          systemName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 客户端的系统名称
+       * </pre>
+       *
+       * <code>string systemName = 3;</code>
+       * @return The bytes for systemName.
+       */
+      public com.google.protobuf.ByteString
+          getSystemNameBytes() {
+        java.lang.Object ref = systemName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          systemName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 客户端的系统名称
+       * </pre>
+       *
+       * <code>string systemName = 3;</code>
+       * @param value The systemName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSystemName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        systemName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 客户端的系统名称
+       * </pre>
+       *
+       * <code>string systemName = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSystemName() {
+        
+        systemName_ = getDefaultInstance().getSystemName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 客户端的系统名称
+       * </pre>
+       *
+       * <code>string systemName = 3;</code>
+       * @param value The bytes for systemName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSystemNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        systemName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object host_ = "";
+      /**
+       * <pre>
+       * 客户端的IP
+       * </pre>
+       *
+       * <code>string host = 4;</code>
+       * @return The host.
+       */
+      public java.lang.String getHost() {
+        java.lang.Object ref = host_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          host_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 客户端的IP
+       * </pre>
+       *
+       * <code>string host = 4;</code>
+       * @return The bytes for host.
+       */
+      public com.google.protobuf.ByteString
+          getHostBytes() {
+        java.lang.Object ref = host_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          host_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 客户端的IP
+       * </pre>
+       *
+       * <code>string host = 4;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHost(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        host_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 客户端的IP
+       * </pre>
+       *
+       * <code>string host = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHost() {
+        
+        host_ = getDefaultInstance().getHost();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 客户端的IP
+       * </pre>
+       *
+       * <code>string host = 4;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        host_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <pre>
+       * 客户端的通讯主端口
+       * </pre>
+       *
+       * <code>int32 port = 5;</code>
+       * @return The port.
+       */
+      @java.lang.Override
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <pre>
+       * 客户端的通讯主端口
+       * </pre>
+       *
+       * <code>int32 port = 5;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPort(int value) {
+        
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 客户端的通讯主端口
+       * </pre>
+       *
+       * <code>int32 port = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPort() {
+        
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object userName_ = "";
       /**
        * <pre>
        * 用户名
        * </pre>
        *
-       * <code>string userName = 2;</code>
+       * <code>string userName = 6;</code>
        * @return The userName.
        */
       public java.lang.String getUserName() {
@@ -2590,7 +3238,7 @@ public final class CommunicationProto {
        * 用户名
        * </pre>
        *
-       * <code>string userName = 2;</code>
+       * <code>string userName = 6;</code>
        * @return The bytes for userName.
        */
       public com.google.protobuf.ByteString
@@ -2611,7 +3259,7 @@ public final class CommunicationProto {
        * 用户名
        * </pre>
        *
-       * <code>string userName = 2;</code>
+       * <code>string userName = 6;</code>
        * @param value The userName to set.
        * @return This builder for chaining.
        */
@@ -2630,7 +3278,7 @@ public final class CommunicationProto {
        * 用户名
        * </pre>
        *
-       * <code>string userName = 2;</code>
+       * <code>string userName = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearUserName() {
@@ -2644,7 +3292,7 @@ public final class CommunicationProto {
        * 用户名
        * </pre>
        *
-       * <code>string userName = 2;</code>
+       * <code>string userName = 6;</code>
        * @param value The bytes for userName to set.
        * @return This builder for chaining.
        */
@@ -2666,7 +3314,7 @@ public final class CommunicationProto {
        * 密码
        * </pre>
        *
-       * <code>string password = 3;</code>
+       * <code>string password = 7;</code>
        * @return The password.
        */
       public java.lang.String getPassword() {
@@ -2686,7 +3334,7 @@ public final class CommunicationProto {
        * 密码
        * </pre>
        *
-       * <code>string password = 3;</code>
+       * <code>string password = 7;</code>
        * @return The bytes for password.
        */
       public com.google.protobuf.ByteString
@@ -2707,7 +3355,7 @@ public final class CommunicationProto {
        * 密码
        * </pre>
        *
-       * <code>string password = 3;</code>
+       * <code>string password = 7;</code>
        * @param value The password to set.
        * @return This builder for chaining.
        */
@@ -2726,7 +3374,7 @@ public final class CommunicationProto {
        * 密码
        * </pre>
        *
-       * <code>string password = 3;</code>
+       * <code>string password = 7;</code>
        * @return This builder for chaining.
        */
       public Builder clearPassword() {
@@ -2740,7 +3388,7 @@ public final class CommunicationProto {
        * 密码
        * </pre>
        *
-       * <code>string password = 3;</code>
+       * <code>string password = 7;</code>
        * @param value The bytes for password to set.
        * @return This builder for chaining.
        */
@@ -2887,10 +3535,10 @@ public final class CommunicationProto {
      * 通讯端口号
      * </pre>
      *
-     * <code>int32 post = 6;</code>
-     * @return The post.
+     * <code>int32 port = 6;</code>
+     * @return The port.
      */
-    int getPost();
+    int getPort();
   }
   /**
    * <pre>
@@ -2972,7 +3620,7 @@ public final class CommunicationProto {
             }
             case 48: {
 
-              post_ = input.readInt32();
+              port_ = input.readInt32();
               break;
             }
             default: {
@@ -3144,19 +3792,19 @@ public final class CommunicationProto {
       }
     }
 
-    public static final int POST_FIELD_NUMBER = 6;
-    private int post_;
+    public static final int PORT_FIELD_NUMBER = 6;
+    private int port_;
     /**
      * <pre>
      * 通讯端口号
      * </pre>
      *
-     * <code>int32 post = 6;</code>
-     * @return The post.
+     * <code>int32 port = 6;</code>
+     * @return The port.
      */
     @java.lang.Override
-    public int getPost() {
-      return post_;
+    public int getPort() {
+      return port_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3188,8 +3836,8 @@ public final class CommunicationProto {
       if (!getHostBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, host_);
       }
-      if (post_ != 0) {
-        output.writeInt32(6, post_);
+      if (port_ != 0) {
+        output.writeInt32(6, port_);
       }
       unknownFields.writeTo(output);
     }
@@ -3218,9 +3866,9 @@ public final class CommunicationProto {
       if (!getHostBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, host_);
       }
-      if (post_ != 0) {
+      if (port_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, post_);
+          .computeInt32Size(6, port_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3247,8 +3895,8 @@ public final class CommunicationProto {
           .equals(other.getToken())) return false;
       if (!getHost()
           .equals(other.getHost())) return false;
-      if (getPost()
-          != other.getPost()) return false;
+      if (getPort()
+          != other.getPort()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3271,8 +3919,8 @@ public final class CommunicationProto {
       hash = (53 * hash) + getToken().hashCode();
       hash = (37 * hash) + HOST_FIELD_NUMBER;
       hash = (53 * hash) + getHost().hashCode();
-      hash = (37 * hash) + POST_FIELD_NUMBER;
-      hash = (53 * hash) + getPost();
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + getPort();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3420,7 +4068,7 @@ public final class CommunicationProto {
 
         host_ = "";
 
-        post_ = 0;
+        port_ = 0;
 
         return this;
       }
@@ -3453,7 +4101,7 @@ public final class CommunicationProto {
         result.endTime_ = endTime_;
         result.token_ = token_;
         result.host_ = host_;
-        result.post_ = post_;
+        result.port_ = port_;
         onBuilt();
         return result;
       }
@@ -3519,8 +4167,8 @@ public final class CommunicationProto {
           host_ = other.host_;
           onChanged();
         }
-        if (other.getPost() != 0) {
-          setPost(other.getPost());
+        if (other.getPort() != 0) {
+          setPort(other.getPort());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3872,31 +4520,31 @@ public final class CommunicationProto {
         return this;
       }
 
-      private int post_ ;
+      private int port_ ;
       /**
        * <pre>
        * 通讯端口号
        * </pre>
        *
-       * <code>int32 post = 6;</code>
-       * @return The post.
+       * <code>int32 port = 6;</code>
+       * @return The port.
        */
       @java.lang.Override
-      public int getPost() {
-        return post_;
+      public int getPort() {
+        return port_;
       }
       /**
        * <pre>
        * 通讯端口号
        * </pre>
        *
-       * <code>int32 post = 6;</code>
-       * @param value The post to set.
+       * <code>int32 port = 6;</code>
+       * @param value The port to set.
        * @return This builder for chaining.
        */
-      public Builder setPost(int value) {
+      public Builder setPort(int value) {
         
-        post_ = value;
+        port_ = value;
         onChanged();
         return this;
       }
@@ -3905,12 +4553,12 @@ public final class CommunicationProto {
        * 通讯端口号
        * </pre>
        *
-       * <code>int32 post = 6;</code>
+       * <code>int32 port = 6;</code>
        * @return This builder for chaining.
        */
-      public Builder clearPost() {
+      public Builder clearPort() {
         
-        post_ = 0;
+        port_ = 0;
         onChanged();
         return this;
       }
@@ -9574,30 +10222,31 @@ public final class CommunicationProto {
       "\0132\010.RequestH\000\022\035\n\010response\030\005 \001(\0132\t.Respon" +
       "seH\000\"J\n\010DataType\022\020\n\014LoginRequest\020\000\022\021\n\rLo" +
       "ginResponse\020\001\022\013\n\007Request\020\002\022\014\n\010Response\020\003" +
-      "B\n\n\010dataBody\"C\n\014LoginRequest\022\017\n\007version\030" +
-      "\001 \001(\005\022\020\n\010userName\030\002 \001(\t\022\020\n\010password\030\003 \001(" +
-      "\t\"l\n\rLoginResponse\022\017\n\007version\030\001 \001(\005\022\016\n\006r" +
-      "esult\030\002 \001(\005\022\017\n\007endTime\030\003 \001(\003\022\r\n\005token\030\004 " +
-      "\001(\t\022\014\n\004host\030\005 \001(\t\022\014\n\004post\030\006 \001(\005\"o\n\010XComm" +
-      "and\022\022\n\nmethodName\030\001 \001(\t\022\023\n\013paramsClass\030\002" +
-      " \003(\t\022%\n\016paramsProtocol\030\003 \003(\0162\r.DataProto" +
-      "col\022\023\n\013paramsValue\030\004 \003(\014\"\244\002\n\007Request\022\017\n\007" +
-      "version\030\001 \001(\005\022\023\n\013sessionTime\030\002 \001(\003\022\014\n\004ti" +
-      "me\030\003 \001(\003\022\r\n\005token\030\004 \001(\t\022\021\n\tdataClass\030\005 \001" +
-      "(\t\022#\n\014dataProtocol\030\006 \001(\0162\r.DataProtocol\022" +
-      "\014\n\004data\030\007 \001(\014\022\017\n\007dataXID\030\010 \001(\t\022\022\n\ndataXI" +
-      "sNew\030\t \001(\010\022\031\n\021dataExpireTimeLen\030\n \001(\003\022\021\n" +
-      "\teventType\030\013 \001(\t\022\025\n\rdataOperation\030\014 \001(\t\022" +
-      "\023\n\013isRetunData\030\r \001(\010\022\021\n\tisNonSync\030\016 \001(\010\"" +
-      "\364\001\n\010Response\022\017\n\007version\030\001 \001(\005\022\023\n\013session" +
-      "Time\030\002 \001(\003\022\014\n\004time\030\003 \001(\003\022\r\n\005token\030\004 \001(\t\022" +
-      "\021\n\tdataClass\030\005 \001(\t\022#\n\014dataProtocol\030\006 \001(\016" +
-      "2\r.DataProtocol\022\014\n\004data\030\007 \001(\014\022\017\n\007dataXID" +
-      "\030\010 \001(\t\022\022\n\ndataXIsNew\030\t \001(\010\022\031\n\021dataExpire" +
-      "TimeLen\030\n \001(\003\022\016\n\006result\030\013 \001(\005\022\017\n\007endTime" +
-      "\030\014 \001(\003*9\n\014DataProtocol\022\021\n\rBasicDataType\020" +
-      "\000\022\010\n\004Json\020\001\022\014\n\010Protobuf\020\002B\024B\022Communicati" +
-      "onProtob\006proto3"
+      "B\n\n\010dataBody\"\177\n\014LoginRequest\022\017\n\007version\030" +
+      "\001 \001(\005\022\n\n\002id\030\002 \001(\t\022\022\n\nsystemName\030\003 \001(\t\022\014\n" +
+      "\004host\030\004 \001(\t\022\014\n\004port\030\005 \001(\005\022\020\n\010userName\030\006 " +
+      "\001(\t\022\020\n\010password\030\007 \001(\t\"l\n\rLoginResponse\022\017" +
+      "\n\007version\030\001 \001(\005\022\016\n\006result\030\002 \001(\005\022\017\n\007endTi" +
+      "me\030\003 \001(\003\022\r\n\005token\030\004 \001(\t\022\014\n\004host\030\005 \001(\t\022\014\n" +
+      "\004port\030\006 \001(\005\"o\n\010XCommand\022\022\n\nmethodName\030\001 " +
+      "\001(\t\022\023\n\013paramsClass\030\002 \003(\t\022%\n\016paramsProtoc" +
+      "ol\030\003 \003(\0162\r.DataProtocol\022\023\n\013paramsValue\030\004" +
+      " \003(\014\"\244\002\n\007Request\022\017\n\007version\030\001 \001(\005\022\023\n\013ses" +
+      "sionTime\030\002 \001(\003\022\014\n\004time\030\003 \001(\003\022\r\n\005token\030\004 " +
+      "\001(\t\022\021\n\tdataClass\030\005 \001(\t\022#\n\014dataProtocol\030\006" +
+      " \001(\0162\r.DataProtocol\022\014\n\004data\030\007 \001(\014\022\017\n\007dat" +
+      "aXID\030\010 \001(\t\022\022\n\ndataXIsNew\030\t \001(\010\022\031\n\021dataEx" +
+      "pireTimeLen\030\n \001(\003\022\021\n\teventType\030\013 \001(\t\022\025\n\r" +
+      "dataOperation\030\014 \001(\t\022\023\n\013isRetunData\030\r \001(\010" +
+      "\022\021\n\tisNonSync\030\016 \001(\010\"\364\001\n\010Response\022\017\n\007vers" +
+      "ion\030\001 \001(\005\022\023\n\013sessionTime\030\002 \001(\003\022\014\n\004time\030\003" +
+      " \001(\003\022\r\n\005token\030\004 \001(\t\022\021\n\tdataClass\030\005 \001(\t\022#" +
+      "\n\014dataProtocol\030\006 \001(\0162\r.DataProtocol\022\014\n\004d" +
+      "ata\030\007 \001(\014\022\017\n\007dataXID\030\010 \001(\t\022\022\n\ndataXIsNew" +
+      "\030\t \001(\010\022\031\n\021dataExpireTimeLen\030\n \001(\003\022\016\n\006res" +
+      "ult\030\013 \001(\005\022\017\n\007endTime\030\014 \001(\003*9\n\014DataProtoc" +
+      "ol\022\021\n\rBasicDataType\020\000\022\010\n\004Json\020\001\022\014\n\010Proto" +
+      "buf\020\002B\024B\022CommunicationProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9614,13 +10263,13 @@ public final class CommunicationProto {
     internal_static_LoginRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LoginRequest_descriptor,
-        new java.lang.String[] { "Version", "UserName", "Password", });
+        new java.lang.String[] { "Version", "Id", "SystemName", "Host", "Port", "UserName", "Password", });
     internal_static_LoginResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_LoginResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LoginResponse_descriptor,
-        new java.lang.String[] { "Version", "Result", "EndTime", "Token", "Host", "Post", });
+        new java.lang.String[] { "Version", "Result", "EndTime", "Token", "Host", "Port", });
     internal_static_XCommand_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_XCommand_fieldAccessorTable = new

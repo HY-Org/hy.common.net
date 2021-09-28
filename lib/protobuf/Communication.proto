@@ -31,8 +31,12 @@ message Data                                                       // 生成Data
 message LoginRequest
 {
              int32        version                  = 1;            // 通讯的接口版本
-             string       userName                 = 2;            // 用户名
-             string       password                 = 3;            // 密码
+             string       id                       = 2;            // 用户编号
+             string       systemName               = 3;            // 客户端的系统名称
+             string       host                     = 4;            // 客户端的IP
+             int32        port                     = 5;            // 客户端的通讯主端口
+             string       userName                 = 6;            // 用户名
+             string       password                 = 7;            // 密码
 }
 
 
@@ -45,7 +49,7 @@ message LoginResponse
              int64        endTime                  = 3;            // 通讯结束时间
              string       token                    = 4;            // 通讯票据
              string       host                     = 5;            // 通讯主机
-             int32        post                     = 6;            // 通讯端口号
+             int32        port                     = 6;            // 通讯端口号
 }
 
 

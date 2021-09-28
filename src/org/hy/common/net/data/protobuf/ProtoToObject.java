@@ -2,6 +2,7 @@ package org.hy.common.net.data.protobuf;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.LoginRequest;
@@ -49,16 +50,21 @@ public class ProtoToObject
      * @version     v1.0
      * 
      * @param i_Request
+     * @param i_Host
      * @return
      */
     public static LoginRequest toLoginRequest(CommunicationProto.LoginRequest i_Request ,String i_Host)
     {
-        LoginRequest v_Ret = new LoginRequest();
+        LoginRequest v_Ret = new ClientUserInfo();
         
-        v_Ret.setVersion( i_Request.getVersion());
-        v_Ret.setUserName(i_Request.getUserName());
-        v_Ret.setPassword(i_Request.getPassword());
-        v_Ret.setHost(    i_Host);
+        v_Ret.setVersion(      i_Request.getVersion());
+        v_Ret.setId(           i_Request.getId());
+        v_Ret.setSystemName(   i_Request.getSystemName());
+        v_Ret.setUserName(     i_Request.getUserName());
+        v_Ret.setPassword(     i_Request.getPassword());
+        v_Ret.setHost(         i_Request.getHost());
+        v_Ret.setPort(         i_Request.getPort());
+        v_Ret.setRemoteAddress(i_Host);
         
         return v_Ret;
     }

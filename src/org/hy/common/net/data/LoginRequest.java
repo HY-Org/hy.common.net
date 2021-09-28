@@ -15,6 +15,8 @@ import org.hy.common.xml.SerializableDef;
  *              v2.0  2021-09-25  添加：通讯的接口版本
  *                                添加：IP
  *                                添加：端口
+ *                                添加：用户编号
+ *                                添加：客户端的系统名称
  */
 public class LoginRequest extends SerializableDef
 {
@@ -23,19 +25,28 @@ public class LoginRequest extends SerializableDef
     
     
     /** 通讯的接口版本 */
-    protected int  version;
+    protected int   version;
+    
+    /** 用户编号 */
+    private String  id;
     
     /** 用户名 */
-    private String userName;
+    private String  userName;
     
     /** 密码 */
-    private String password;
+    private String  password;
+    
+    /** 客户端的系统名称 */
+    private String  systemName;
+    
+    /** 远程地址 */
+    private String  remoteAddress;
     
     /** IP */
-    private String host;
+    private String  host;
     
     /** 端口 */
-    private int    port;
+    private int     port;
     
     
     
@@ -151,6 +162,66 @@ public class LoginRequest extends SerializableDef
     public void setPort(int port)
     {
         this.port = port;
+    }
+    
+    
+    /**
+     * 获取：用户编号
+     */
+    public String getId()
+    {
+        return id;
+    }
+
+    
+    /**
+     * 设置：用户编号
+     * 
+     * @param id
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+
+    /**
+     * 获取：客户端的系统名称
+     */
+    public String getSystemName()
+    {
+        return systemName;
+    }
+
+
+    /**
+     * 设置：客户端的系统名称
+     * 
+     * @param id
+     */
+    public void setSystemName(String systemName)
+    {
+        this.systemName = systemName;
+    }
+
+
+    /**
+     * 获取：远程地址
+     */
+    public String getRemoteAddress()
+    {
+        return remoteAddress;
+    }
+
+
+    /**
+     * 设置：远程地址
+     * 
+     * @param remoteAddress
+     */
+    public void setRemoteAddress(String remoteAddress)
+    {
+        this.remoteAddress = remoteAddress;
     }
     
 }
