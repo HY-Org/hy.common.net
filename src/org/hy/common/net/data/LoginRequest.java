@@ -223,5 +223,13 @@ public class LoginRequest extends SerializableDef
     {
         this.remoteAddress = remoteAddress;
     }
+
+
+
+    @Override
+    public String toString()
+    {
+        return this.userName + ":" + this.systemName + ":" + this.remoteAddress;
+    }
     
 }

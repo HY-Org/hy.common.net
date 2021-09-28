@@ -3,8 +3,8 @@ package org.hy.common.net.data.protobuf;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.protobuf.CommunicationProto.DataProtocol;
-import org.hy.common.net.data.protobuf.CommunicationProto.Response;
 import org.hy.common.xml.XJSON;
 import org.hy.common.xml.log.Logger;
 
@@ -39,6 +39,33 @@ public class ObjectToProto
     
     
     /**
+     * 将 LoginRequest 对象转为 Protobuf 的 LoginRequest 对象
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-28
+     * @version     v1.0
+     * 
+     * @param i_LoginRequest
+     * @return
+     */
+    public static CommunicationProto.LoginRequest.Builder toLoginRequest(LoginRequest i_LoginRequest)
+    {
+        CommunicationProto.LoginRequest.Builder v_Ret = CommunicationProto.LoginRequest.newBuilder();
+        
+        v_Ret.setVersion(            i_LoginRequest.getVersion());
+        v_Ret.setId(        Help.NVL(i_LoginRequest.getId()));
+        v_Ret.setSystemName(Help.NVL(i_LoginRequest.getSystemName()));
+        v_Ret.setHost(      Help.NVL(i_LoginRequest.getHost()));
+        v_Ret.setPort(               i_LoginRequest.getPort());
+        v_Ret.setUserName(  Help.NVL(i_LoginRequest.getUserName()));
+        v_Ret.setPassword(  Help.NVL(i_LoginRequest.getPassword()));
+        
+        return v_Ret;
+    }
+    
+    
+    
+    /**
      * 将 CommunicationResponse 对象转为 Protobuf 的 Response 对象
      * 
      * 自动按 i_Response.data 的类型识别是 Json协议，还是Protobuf协议，还是Java基本数据类型
@@ -50,9 +77,9 @@ public class ObjectToProto
      * @param i_Response
      * @return
      */
-    public static Response.Builder toResponse(CommunicationResponse i_Response)
+    public static CommunicationProto.Response.Builder toResponse(CommunicationResponse i_Response)
     {
-        Response.Builder v_Ret = Response.newBuilder();
+        CommunicationProto.Response.Builder v_Ret = CommunicationProto.Response.newBuilder();
         
         // 会话时间
         if ( i_Response.getSessionTime() != null )
@@ -72,12 +99,12 @@ public class ObjectToProto
             v_Ret.setEndTime(i_Response.getEndTime().getTime());
         }
         
-        v_Ret.setVersion(          i_Response.getVersion());            // 通讯的接口版本
-        v_Ret.setToken(            i_Response.getToken());              // 通讯的接口版本
-        v_Ret.setDataXID(          i_Response.getDataXID());            // 数据的XID，即XJava的对象ID
-        v_Ret.setDataXIsNew(       i_Response.getDataXIsNew());         // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
-        v_Ret.setDataExpireTimeLen(i_Response.getDataExpireTimeLen());  // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-        v_Ret.setResult(           i_Response.getResult());             // 通讯的结果类型
+        v_Ret.setVersion(                   i_Response.getVersion());            // 通讯的接口版本
+        v_Ret.setToken(            Help.NVL(i_Response.getToken()));             // 通讯的接口版本
+        v_Ret.setDataXID(          Help.NVL(i_Response.getDataXID()));           // 数据的XID，即XJava的对象ID
+        v_Ret.setDataXIsNew(                i_Response.getDataXIsNew());         // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+        v_Ret.setDataExpireTimeLen(         i_Response.getDataExpireTimeLen());  // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+        v_Ret.setResult(                    i_Response.getResult());             // 通讯的结果类型
         
         if ( i_Response.getData() != null )
         {

@@ -80,18 +80,20 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             Data.Builder v_DataRetBuilder = Data.newBuilder();
             LoginResponse.Builder v_LoginRespBuilder = this.login(i_Ctx ,i_Msg);
             v_DataRetBuilder.setDataType(Data.DataType.LoginResponse).setLoginResponse(v_LoginRespBuilder.build());
+            
+            i_Ctx.writeAndFlush(v_DataRetBuilder.build());
         }
         // 已登录
         else
         {
-            writeResponse(i_Ctx ,this.mainActive(i_Ctx ,v_ClientUser ,i_Msg));
+            sendResponse(i_Ctx ,this.mainActive(i_Ctx ,v_ClientUser ,i_Msg));
         }
     }
     
     
     
     /**
-     * 返回响应信息
+     * 发送业务通讯的响应信息
      * 
      * @author      ZhengWei(HY)
      * @createDate  2021-09-27
@@ -100,7 +102,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @param i_Ctx
      * @param i_ResponseBuilder
      */
-    private void writeResponse(ChannelHandlerContext i_Ctx ,Response.Builder i_ResponseBuilder)
+    private void sendResponse(ChannelHandlerContext i_Ctx ,Response.Builder i_ResponseBuilder)
     {
         if ( i_ResponseBuilder != null )
         {
@@ -178,7 +180,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     private LoginResponse.Builder login(final ChannelHandlerContext i_Ctx ,final Data i_Msg)
     {
-        LoginResponse.Builder v_LoginRespBuilder = null;
+        LoginResponse.Builder v_LoginRespBuilder = LoginResponse.newBuilder().setVersion(1);
         
         if ( Data.DataType.LoginRequest == i_Msg.getDataType() )
         {
@@ -200,27 +202,32 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             // 允许游客访问
             else
             {
-                v_LoginRet = Help.isNull(i_Msg.getLoginRequest().getUserName()) && Help.isNull(i_Msg.getLoginRequest().getSystemName());
+                v_LoginRet = !Help.isNull(i_Msg.getLoginRequest().getUserName())
+                          && !Help.isNull(i_Msg.getLoginRequest().getSystemName());
             }
             
-            v_LoginRespBuilder = LoginResponse.newBuilder().setResult(v_LoginRet ? 1 : -1).setEndTime(Date.getNowTime().getTime());
             if ( v_LoginRet )
             {
-                v_LoginRespBuilder.setPort(this.mainServer.getPort());
-                
                 ClientUserInfo v_ClientUser = (ClientUserInfo)v_CLoginRequest;
                 v_ClientUser.setLoginTime(new Date());
                 v_ClientUser.setOnline(true);
                 this.removeExpireSameClientUser(v_ClientUser);
                 $Clients.put(i_Ctx ,v_ClientUser);
+                
+                v_LoginRespBuilder.setPort(this.mainServer.getPort());
+                v_LoginRespBuilder.setResult(CommunicationResponse.$Succeed);
+            }
+            else
+            {
+                v_LoginRespBuilder.setResult(NetError.$LoginValidateError);
             }
         }
         else
         {
-            v_LoginRespBuilder = LoginResponse.newBuilder().setResult(-9).setEndTime(Date.getNowTime().getTime());
+            v_LoginRespBuilder.setResult(NetError.$LoginTypeError);
         }
         
-        return v_LoginRespBuilder;
+        return v_LoginRespBuilder.setEndTime(Date.getNowTime().getTime());
     }
     
     
@@ -277,7 +284,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                 @Override
                 public Object call() throws Exception
                 {
-                    writeResponse(i_Ctx ,ObjectToProto.toResponse(execute(v_FListener ,v_FRequest ,i_ClientUser ,v_BTime.getTime())));
+                    sendResponse(i_Ctx ,ObjectToProto.toResponse(execute(v_FListener ,v_FRequest ,i_ClientUser ,v_BTime.getTime())));
                     return null;
                 }
             });
@@ -314,6 +321,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                 // 客户端要求：不返回执行的结果数据
                 v_Reponse.setData(null);
             }
+            v_Reponse.setResult(CommunicationResponse.$Succeed);
+            v_Reponse.setEndTime(new Date());
             
             i_ClientUser.addActiveCount();
             i_ClientUser.addActiveTimeLen(Date.getNowTime().getTime() - i_BTime);
@@ -386,10 +395,16 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     public void exceptionCaught(ChannelHandlerContext i_Ctx ,Throwable i_Cause) throws Exception
     {
-        super.exceptionCaught(i_Ctx ,i_Cause);
         this.logout(i_Ctx);
         i_Ctx.close();
-        $Logger.error(i_Cause);
+        
+        String         v_Error      = "";
+        ClientUserInfo v_ClientUser = $Clients.get(i_Ctx);
+        if ( v_ClientUser != null )
+        {
+            v_Error = v_ClientUser.toString();
+        }
+        $Logger.error(i_Cause.getMessage() + v_Error);
     }
     
 }

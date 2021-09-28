@@ -14,8 +14,11 @@ package org.hy.common.net;
 public class NetError
 {
     
+    /** 登陆数据类型异常（一般指未按协议传送数据） */
+    public static final int $LoginTypeError                = 95;
+    
     /** 登陆验证异常 */
-    public static final int $LoginValidateError            = 96; 
+    public static final int $LoginValidateError            = 96;
     
     /** 登陆异常。可能是网络 或 通讯的服务器错误 */
     public static final int $LoginError                    = 97;

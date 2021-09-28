@@ -6,6 +6,7 @@ import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.LoginRequest;
+import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.DataProtocol;
 import org.hy.common.net.data.protobuf.CommunicationProto.XCommand;
 import org.hy.common.net.protobuf.ProtobufHelp;
@@ -65,6 +66,34 @@ public class ProtoToObject
         v_Ret.setHost(         i_Request.getHost());
         v_Ret.setPort(         i_Request.getPort());
         v_Ret.setRemoteAddress(i_Host);
+        
+        return v_Ret;
+    }
+    
+    
+    
+    /**
+     * 将 CommunicationProto.LoginRequest 对象转为 org.hy.common.net.data.LoginRequest 对象
+     * 在转换后，就可以支持原接口 ServerSocketValidate 了。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-25
+     * @version     v1.0
+     * 
+     * @param i_Request
+     * @param i_Host
+     * @return
+     */
+    public static LoginResponse toLoginResponse(CommunicationProto.LoginResponse i_Response)
+    {
+        LoginResponse v_Ret = new LoginResponse();
+        
+        v_Ret.setVersion(         i_Response.getVersion());
+        v_Ret.setResult(          i_Response.getResult());
+        v_Ret.setEndTime(new Date(i_Response.getEndTime()));
+        v_Ret.setToken(           i_Response.getToken());
+        v_Ret.setHost(            i_Response.getHost());
+        v_Ret.setPort(            i_Response.getPort());
         
         return v_Ret;
     }

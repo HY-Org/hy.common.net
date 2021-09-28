@@ -233,5 +233,12 @@ public class ClientUserInfo extends LoginRequest
     {
         this.errorCount = errorCount;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return super.toString();
+    }
     
 }

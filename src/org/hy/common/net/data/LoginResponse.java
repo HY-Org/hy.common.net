@@ -1,5 +1,6 @@
 package org.hy.common.net.data;
 
+import org.hy.common.Date;
 import org.hy.common.xml.SerializableDef;
 
 
@@ -32,6 +33,12 @@ public class LoginResponse extends SerializableDef
     
     /** 通讯端口号 */
     private int    port;
+    
+    /** 通讯的结果类型(0：为成功； 其它为失败编码) */
+    private int    result;
+    
+    /** 通讯结束时间 */
+    private Date   endTime;
     
     
     
@@ -119,6 +126,58 @@ public class LoginResponse extends SerializableDef
     public void setHost(String host)
     {
         this.host = host;
+    }
+    
+    
+    
+    /**
+     * 获取：通讯结束时间
+     */
+    public Date getEndTime()
+    {
+        return endTime;
+    }
+
+
+    
+    /**
+     * 设置：通讯结束时间
+     * 
+     * @param endTime
+     */
+    public void setEndTime(Date endTime)
+    {
+        this.endTime = endTime;
+    }
+    
+    
+    
+    /**
+     * 获取：通讯的结果类型(0：为成功； 其它为失败编码)
+     */
+    public int getResult()
+    {
+        return result;
+    }
+
+
+    
+    /**
+     * 设置：通讯的结果类型(0：为成功； 其它为失败编码)
+     * 
+     * @param result
+     */
+    public void setResult(int result)
+    {
+        this.result = result;
+    }
+
+
+
+    @Override
+    public String toString()
+    {
+        return this.result + "";
     }
     
 }

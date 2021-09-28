@@ -56,7 +56,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * 
      * @param i_Msg
      */
-    public void send(Object i_Msg)
+    protected void send(Object i_Msg)
     {
         if ( !this.isStart || this.channel == null )
         {

@@ -17,6 +17,8 @@ public class CommunicationResponse extends Communication implements Comparable<C
 {
     
     private static final long serialVersionUID = -1271619329628744231L;
+    
+    public  static final int  $Succeed         = 0;
 
     
     
@@ -50,7 +52,7 @@ public class CommunicationResponse extends Communication implements Comparable<C
     /**
      * 设置：通讯的结果类型(0：为成功； 其它为失败编码)
      * 
-     * @param result 
+     * @param result
      */
     public void setResult(int result)
     {
@@ -72,7 +74,7 @@ public class CommunicationResponse extends Communication implements Comparable<C
     /**
      * 设置：通讯开始时间
      * 
-     * @param startTime 
+     * @param startTime
      */
     public void setStartTime(Date startTime)
     {
@@ -94,7 +96,7 @@ public class CommunicationResponse extends Communication implements Comparable<C
     /**
      * 设置：通讯结束时间
      * 
-     * @param endTime 
+     * @param endTime
      */
     public void setEndTime(Date endTime)
     {
