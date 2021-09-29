@@ -10,8 +10,9 @@ import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Client;
-import org.hy.common.net.netty.rpc.client.ClientRPCHandlerLogin;
-import org.hy.common.net.netty.rpc.client.ClientRPCOperation;
+import org.hy.common.net.netty.rpc.callable.ClientRPCCallableLogin;
+import org.hy.common.net.netty.rpc.callable.ClientRPCOperation;
+import org.hy.common.net.netty.rpc.encoder.LoginRequestEncoder;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelPipeline;
@@ -47,14 +48,19 @@ public class ClientRPC extends Client<ClientRPC>
     private boolean          isLogin;
     
     
-
+    
     @Override
     public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
-        i_Pipeline.addLast("编码器" ,new ProtobufEncoder());
-        i_Pipeline.addLast("解码器" ,new ProtobufDecoder(CommunicationProto.Data.getDefaultInstance()));  // 指定对哪种类型解码
-        i_Pipeline.addLast("业务器" ,this.clientHandler = new ClientRPCHandler(this));
+        // 编码器采用：先进后出原则。即最后的编码器，优先编码
+        i_Pipeline.addLast("编码器2" ,new ProtobufEncoder());
+        i_Pipeline.addLast("编码器1" ,new LoginRequestEncoder());
+        
+        // 解码器采用：先进先出原则。即最后的解码器，最后解码
+        i_Pipeline.addLast("解码器1" ,new ProtobufDecoder(CommunicationProto.Data.getDefaultInstance()));  // 指定对哪种类型解码
+        i_Pipeline.addLast("解码器2" ,this.clientHandler = new ClientRPCHandler(this));
     }
+    
     
     
     /**
@@ -72,7 +78,7 @@ public class ClientRPC extends Client<ClientRPC>
         {
             if ( "login".equals(iv_Method.getName()) )
             {
-                ClientRPCHandlerLogin v_LoginHandler = new ClientRPCHandlerLogin(this.clientHandler ,(LoginRequest)iv_Args[0]);
+                ClientRPCCallableLogin v_LoginHandler = new ClientRPCCallableLogin(this.clientHandler ,(LoginRequest)iv_Args[0]);
                 LoginResponse v_Ret = $ThreadPool.submit(v_LoginHandler).get();
                 
                 if ( v_Ret.getResult() == CommunicationResponse.$Succeed )

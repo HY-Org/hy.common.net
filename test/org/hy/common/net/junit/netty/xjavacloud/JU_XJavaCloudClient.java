@@ -11,7 +11,10 @@ public class JU_XJavaCloudClient
         ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("127.0.0.1");
         v_Client.start();
         
-        v_Client.getOperation().login(new LoginRequest());
+        LoginRequest v_LoginRequest = new LoginRequest();
+        v_LoginRequest.setUserName  ("用户1");
+        v_LoginRequest.setSystemName("系统1");
+        v_Client.getOperation().login(v_LoginRequest);
     }
     
 }

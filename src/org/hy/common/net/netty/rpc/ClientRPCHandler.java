@@ -79,9 +79,9 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      * @createDate  2021-09-28
      * @version     v1.0
      * 
-     * @param i_Data
+     * @param i_Data  此处不要明确类的类型。这样可以兼容更复杂的情况。如有自定义编码器的情况
      */
-    public synchronized Data send(Data i_Data) throws InterruptedException
+    public synchronized Data send(Object i_Data) throws InterruptedException
     {
         this.ctx.writeAndFlush(i_Data);
         this.wait();

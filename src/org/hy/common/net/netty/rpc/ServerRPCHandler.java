@@ -72,6 +72,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
+        $Logger.info("接受通讯：" + i_Msg.toString());
+        
         ClientUserInfo v_ClientUser = $Clients.get(i_Ctx);
         
         // 未登录
