@@ -21,6 +21,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/hy.common.xjava.jar" sourcepath="/hy.common.xjava"/>
-	<classpathentry kind="lib" path="lib/json/json-smart-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/json/json-smart-2.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/json/accessors-smart-2.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/json/asm-9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

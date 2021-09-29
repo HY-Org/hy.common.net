@@ -12,6 +12,7 @@ import org.hy.common.MethodReflect;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.net.protocol.NetError;
 import org.hy.common.xml.XJava;
 
 

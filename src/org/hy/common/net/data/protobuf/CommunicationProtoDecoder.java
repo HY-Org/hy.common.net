@@ -139,7 +139,7 @@ public class CommunicationProtoDecoder
         v_Ret.setRetunData(        i_Request.getIsRetunData());         // 是否返回数据，即通讯CommunicationResponse.data是否返回。
         
         String     v_DataClass = i_Request.getDataClass();
-        ByteString v_DataBytes = i_Request.getDataClassBytes();
+        ByteString v_DataBytes = i_Request.getData();
         if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
         {
             DataProtocol v_DataProtocol = i_Request.getDataProtocol();
@@ -223,7 +223,7 @@ public class CommunicationProtoDecoder
         v_Ret.setResult(           i_Response.getResult());              // 通讯的结果类型
         
         String     v_DataClass = i_Response.getDataClass();
-        ByteString v_DataBytes = i_Response.getDataClassBytes();
+        ByteString v_DataBytes = i_Response.getData();
         if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
         {
             DataProtocol v_DataProtocol = i_Response.getDataProtocol();
@@ -232,7 +232,7 @@ public class CommunicationProtoDecoder
             v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
             
             // 转换执行命令的数据
-            if ( XCommand.class == v_Ret.getData().getClass() )
+            if ( v_Ret.getData() != null && XCommand.class == v_Ret.getData().getClass() )
             {
                 Command  v_NCmd = new Command();
                 XCommand v_XCmd = (XCommand)v_Ret.getData();
@@ -288,7 +288,7 @@ public class CommunicationProtoDecoder
             
             try
             {
-                v_Ret = v_XJson.toJava(v_JsonString ,Help.forName(i_ClassName));
+                v_Ret = v_XJson.toJava(v_JsonString ,CommunicationProtoEncoder.$JsonRootName ,Help.forName(i_ClassName));
             }
             catch (Exception e)
             {

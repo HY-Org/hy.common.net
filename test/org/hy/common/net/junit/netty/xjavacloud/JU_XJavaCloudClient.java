@@ -1,11 +1,25 @@
 package org.hy.common.net.junit.netty.xjavacloud;
 
-import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.netty.rpc.ClientRPC;
+import org.hy.common.xml.log.Logger;
 
+
+
+
+
+/**
+ * 测试单元：XJavaCloud的客户端
+ * 
+ * @author      ZhengWei(HY)
+ * @createDate  2021-09-29
+ * @version     v1.0
+ */
 public class JU_XJavaCloudClient
 {
+    private static final Logger $Logger = new Logger(JU_XJavaCloudClient.class ,true);
+    
+    
     
     public static void main(String [] args)
     {
@@ -19,9 +33,10 @@ public class JU_XJavaCloudClient
         v_Client.operation().login(v_LoginRequest);
         
         // 通讯
-        CommunicationRequest v_Request = new CommunicationRequest();
-        v_Request.setDataXID("TEST-01");
-        v_Client.operation().send(v_Request);
+        $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
+        $Logger.info("获取服务端的对象：时间2：" + v_Client.operation().getObject("TEST-Date-2"));
+        
+        $Logger.info("获取服务端的对象：多个对象：" + v_Client.operation().getObjects("TEST-Date"));
     }
     
 }

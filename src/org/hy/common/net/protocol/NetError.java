@@ -1,4 +1,4 @@
-package org.hy.common.net;
+package org.hy.common.net.protocol;
 
 
 
@@ -11,7 +11,7 @@ package org.hy.common.net;
  * @createDate  2018-02-22
  * @version     v1.0
  */
-public class NetError
+public interface NetError
 {
     
     /** 请登录后再通讯 */

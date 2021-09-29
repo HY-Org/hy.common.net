@@ -23,7 +23,7 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
 {
     
     /** 所属的业务处理 */
-    private ClientRPCHandler myHandler;
+    private ClientRPCHandler clientHandler;
     
     /** 请求参数 */
     private R1               paramObject;
@@ -46,8 +46,8 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
     
     public ClientRPCCallable(ClientRPCHandler i_ClientRPCHandler ,R1 i_Request)
     {
-        this.myHandler   = i_ClientRPCHandler;
-        this.paramObject = i_Request;
+        this.clientHandler = i_ClientRPCHandler;
+        this.paramObject   = i_Request;
     }
     
     
@@ -62,7 +62,7 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
     @Override
     public R2 call() throws Exception
     {
-        Data v_Data = this.myHandler.send(this.paramObject);
+        Data v_Data = this.clientHandler.send(this.paramObject);
         
         return this.decoder(v_Data);
     }

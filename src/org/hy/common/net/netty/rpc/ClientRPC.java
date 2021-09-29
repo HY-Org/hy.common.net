@@ -1,24 +1,13 @@
 package org.hy.common.net.netty.rpc;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import org.hy.common.Date;
-import org.hy.common.net.NetError;
-import org.hy.common.net.data.CommunicationRequest;
-import org.hy.common.net.data.CommunicationResponse;
-import org.hy.common.net.data.LoginRequest;
-import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Client;
-import org.hy.common.net.netty.rpc.callable.ClientRPCCallableLogin;
-import org.hy.common.net.netty.rpc.callable.ClientRPCCallableSend;
-import org.hy.common.net.netty.rpc.callable.ClientRPCOperation;
+import org.hy.common.net.netty.rpc.callable.ClientRPCOperationProxy;
 import org.hy.common.net.netty.rpc.encoder.CommunicationRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginRequestEncoder;
-import org.hy.common.xml.log.Logger;
+import org.hy.common.net.protocol.ClientOperation;
 
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -41,16 +30,19 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 public class ClientRPC extends Client<ClientRPC>
 {
     
-    private static final Logger    $Logger     = new Logger(ClientRPC.class ,true);
-    
-    // 按CPU的核数创建线程池
-    private static ExecutorService $ThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    
     /** 业务处理器 */
     private ClientRPCHandler clientHandler;
     
-    /** 是否登录成功 */
-    private boolean          isLogin;
+    /** 业务接口 */
+    private ClientOperation  clientOperation;
+    
+    
+    
+    public ClientRPC()
+    {
+        super();
+        this.newOperation();
+    }
     
     
     
@@ -70,7 +62,7 @@ public class ClientRPC extends Client<ClientRPC>
     
     
     /**
-     * 获取客户端操作接口方法
+     * 获取业务接口
      * 
      * @author      ZhengWei(HY)
      * @createDate  2021-09-28
@@ -78,87 +70,37 @@ public class ClientRPC extends Client<ClientRPC>
      * 
      * @return
      */
-    public ClientRPCOperation operation()
+    public ClientOperation operation()
     {
-        return (ClientRPCOperation)this.getBean(ClientRPCOperation.class ,(iv_Proxy ,iv_Method ,iv_Args) ->
-        {
-            if ( "login".equals(iv_Method.getName()) )
-            {
-                ClientRPCCallableLogin v_LoginHandler = new ClientRPCCallableLogin(this.clientHandler ,(LoginRequest)iv_Args[0]);
-                LoginResponse v_Ret = $ThreadPool.submit(v_LoginHandler).get();
-                
-                if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
-                {
-                    this.isLogin = true;
-                    $Logger.info("登录成功：" + iv_Args[0].toString() + " -> " + v_Ret.toString());
-                }
-                else
-                {
-                    $Logger.info("登录失败：错误码=" + v_Ret.getResult() + " -> " + iv_Args[0].toString() + " -> " + v_Ret.toString());
-                }
-                
-                return v_Ret;
-            }
-            else if ( "send".equals(iv_Method.getName()) )
-            {
-                if ( !isLogin )
-                {
-                    // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
-                    return new CommunicationResponse().setResult(NetError.$LoginNotError).setEndTime(new Date());
-                }
-                
-                ClientRPCCallableSend v_SendHandler = new ClientRPCCallableSend(this.clientHandler ,(CommunicationRequest)iv_Args[0]);
-                CommunicationResponse v_Ret = $ThreadPool.submit(v_SendHandler).get();
-                
-                if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
-                {
-                    this.isLogin = true;
-                    $Logger.info("通讯成功：" + iv_Args[0].toString() + " -> " + v_Ret.toString());
-                }
-                else
-                {
-                    $Logger.info("通讯失败：错误码=" + v_Ret.getResult() + " -> " + iv_Args[0].toString() + " -> " + v_Ret.toString());
-                }
-                
-                return v_Ret;
-            }
-            else
-            {
-                return null;
-            }
-        });
+        return this.clientOperation;
     }
     
     
     
     /**
-     * 获取代理对象
+     * 包内使用：构建一个新的业务接口
      * 
-     * @param i_Class
-     * @param i_Handler
      * @return
      */
-    protected Object getBean(final Class<?> i_Class ,final InvocationHandler i_Handler)
+    protected ClientOperation newOperation()
     {
-        return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader() ,new Class<?>[] {i_Class} ,i_Handler);
+        return this.clientOperation = (ClientOperation)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader() ,new Class<?>[] {ClientOperation.class} ,new ClientRPCOperationProxy(this));
     }
-
-
+    
+    
     
     /**
-     * 是否登录成功
+     * 获取业务处理器
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-29
+     * @version     v1.0
      * 
      * @return
      */
-    public boolean isLogin()
+    public ClientRPCHandler clientHandler()
     {
-        return isLogin;
-    }
-    
-    
-    protected void setIslogonForFalse()
-    {
-        this.isLogin = false;
+        return this.clientHandler;
     }
     
 }

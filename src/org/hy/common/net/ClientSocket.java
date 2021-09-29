@@ -7,6 +7,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.protocol.NetError;
 import org.hy.common.xml.log.Logger;
 
 
@@ -74,7 +75,6 @@ public class ClientSocket extends ObjectSocketResponse
      *
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
-     * @param i_CommandParams  执行命令参数（即方法参数）
      * @return
      */
     public CommunicationResponse sendCommand(String i_XID ,String i_Command)
@@ -93,7 +93,6 @@ public class ClientSocket extends ObjectSocketResponse
      *
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
-     * @param i_CommandParams  执行命令参数（即方法参数）
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */

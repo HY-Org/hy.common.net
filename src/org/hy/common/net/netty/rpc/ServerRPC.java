@@ -11,6 +11,7 @@ import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Server;
 import org.hy.common.net.netty.rpc.encoder.CommunicationResponseEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginResponseEncoder;
+import org.hy.common.net.protocol.ServerValidate;
 
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -52,7 +53,7 @@ public class ServerRPC extends Server<ServerRPC>
     protected long                               allIdleTime;
     
     /** 登陆验证接口。当为 null 时不验证，直接登陆成功 */
-    protected ServerRPCValidate                  validate;
+    protected ServerValidate                     validate;
     
     /**
      * 数据通讯事件的监听者集合。
@@ -332,7 +333,7 @@ public class ServerRPC extends Server<ServerRPC>
     /**
      * 获取：登陆验证接口。当为 null 时不验证，直接登陆成功
      */
-    public ServerRPCValidate getValidate()
+    public ServerValidate getValidate()
     {
         return validate;
     }
@@ -344,7 +345,7 @@ public class ServerRPC extends Server<ServerRPC>
      * 
      * @param validate
      */
-    public ServerRPC setValidate(ServerRPCValidate validate)
+    public ServerRPC setValidate(ServerValidate validate)
     {
         this.validate = validate;
         return this;

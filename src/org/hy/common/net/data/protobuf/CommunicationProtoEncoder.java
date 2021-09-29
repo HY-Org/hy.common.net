@@ -29,7 +29,9 @@ import io.netty.util.CharsetUtil;
 public class CommunicationProtoEncoder
 {
     
-    private static final Logger $Logger = new Logger(CommunicationProtoEncoder.class ,true);
+    private static final Logger $Logger       = new Logger(CommunicationProtoEncoder.class ,true);
+    
+    public static  final String $JsonRootName = "XJavaCloudDatas";
     
     
     
@@ -163,7 +165,7 @@ public class CommunicationProtoEncoder
                 
                 try
                 {
-                    v_JsonString = v_XJson.toJson(i_Request.getData()).toJSONString();
+                    v_JsonString = v_XJson.toJson(i_Request.getData() ,$JsonRootName).toJSONString();
                 }
                 catch (Exception e)
                 {
@@ -249,7 +251,7 @@ public class CommunicationProtoEncoder
                 
                 try
                 {
-                    v_JsonString = v_XJson.toJson(i_Response.getData()).toJSONString();
+                    v_JsonString = v_XJson.toJson(i_Response.getData() ,$JsonRootName).toJSONString();
                 }
                 catch (Exception e)
                 {
