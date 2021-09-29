@@ -16,8 +16,9 @@ import org.hy.common.Help;
  *              v3.0  2017-02-28  添加：$Operation_SessionMap 获取Java.getSessionMap()数据
  *              v4.0  2019-02-27  添加：是否返回数据，即通讯CommunicationResponse.data是否返回。
  *                                      首次应用于定时任务的云任务执行上，确保定时任务服务器与云端任务间业务上的解偶性的相对独立。
+ *              v5.0  2021-09-29  添加：链式编程
  */
-public class CommunicationRequest extends Communication
+public class CommunicationRequest extends Communication<CommunicationRequest>
 {
 
     private static final long serialVersionUID = 5600700812975586963L;
@@ -57,7 +58,7 @@ public class CommunicationRequest extends Communication
     /** 数据的操作类型 */
     private String dataOperation;
     
-    /** 
+    /**
      * 是否返回数据，即通讯CommunicationResponse.data是否返回。
      * 
      * 默认情况是：true，返回数据。
@@ -104,11 +105,12 @@ public class CommunicationRequest extends Communication
     /**
      * 设置：数据通讯的事件类型。即通知哪一个事件监听者来处理数据通讯。默认为：XJava
      * 
-     * @param eventType 
+     * @param eventType
      */
-    public void setEventType(String eventType)
+    public CommunicationRequest setEventType(String eventType)
     {
         this.eventType = eventType;
+        return this;
     }
 
 
@@ -126,11 +128,12 @@ public class CommunicationRequest extends Communication
     /**
      * 设置：数据的操作类型
      * 
-     * @param dataOperation 
+     * @param dataOperation
      */
-    public void setDataOperation(String dataOperation)
+    public CommunicationRequest setDataOperation(String dataOperation)
     {
         this.dataOperation = dataOperation;
+        return this;
     }
 
 
@@ -162,11 +165,12 @@ public class CommunicationRequest extends Communication
      *       如，Server服务端执行方法后返回R.java对象，但Client端没有定义R对象，
      *       当此属性为false不返回数据时，Client端就不会java.lang.ClassNotFoundException异常。
      * 
-     * @param isRetunData 
+     * @param isRetunData
      */
-    public void setRetunData(boolean isRetunData)
+    public CommunicationRequest setRetunData(boolean isRetunData)
     {
         this.isRetunData = isRetunData;
+        return this;
     }
     
 }

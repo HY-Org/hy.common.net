@@ -88,10 +88,10 @@ message Request
              string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
              bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
              int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-             string       eventType                = 11;           // 数据通讯的事件类型
-             string       dataOperation            = 12;           // 数据的操作类型
-             bool         isRetunData              = 13;           // 是否返回数据，即通讯CommunicationResponse.data是否返回。
-             bool         isNonSync                = 14;           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+             bool         isNonSync                = 11;           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+             string       eventType                = 12;           // 数据通讯的事件类型
+             string       dataOperation            = 13;           // 数据的操作类型
+             bool         isRetunData              = 14;           // 是否返回数据，即通讯CommunicationResponse.data是否返回。
 }
 
 
@@ -109,7 +109,8 @@ message Response
              string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
              bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
              int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-             int32        result                   = 11;           // 通讯的结果类型
-             int64        endTime                  = 12;           // 通讯结束时间
+             bool         isNonSync                = 11;           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+             int32        result                   = 12;           // 通讯的结果类型
+             int64        endTime                  = 13;           // 通讯结束时间
 }
                                                                    // 生成*.java文件的命令：protoc.exe --java_out=. *.proto

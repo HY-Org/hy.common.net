@@ -5,6 +5,7 @@ import java.util.List;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data.DataType;
+import org.hy.common.net.data.protobuf.CommunicationProtoEncoder;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -31,7 +32,7 @@ public class CommunicationRequestEncoder extends MessageToMessageEncoder<Communi
         Data.Builder v_DataBuilder = Data.newBuilder();
         
         v_DataBuilder.setDataType(DataType.Request);
-        // v_DataBuilder.setRequest(ObjectToProto.toRequest(i_Msg).build());
+        v_DataBuilder.setRequest(CommunicationProtoEncoder.toRequest(i_Msg).build());
         
         io_Out.add(v_DataBuilder.build());
     }

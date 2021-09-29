@@ -5,13 +5,18 @@ import java.lang.reflect.Proxy;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.hy.common.Date;
+import org.hy.common.net.NetError;
+import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Client;
 import org.hy.common.net.netty.rpc.callable.ClientRPCCallableLogin;
+import org.hy.common.net.netty.rpc.callable.ClientRPCCallableSend;
 import org.hy.common.net.netty.rpc.callable.ClientRPCOperation;
+import org.hy.common.net.netty.rpc.encoder.CommunicationRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginRequestEncoder;
 import org.hy.common.xml.log.Logger;
 
@@ -53,7 +58,8 @@ public class ClientRPC extends Client<ClientRPC>
     public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
         // 编码器采用：先进后出原则。即最后的编码器，优先编码
-        i_Pipeline.addLast("编码器2" ,new ProtobufEncoder());
+        i_Pipeline.addLast("编码器3" ,new ProtobufEncoder());
+        i_Pipeline.addLast("编码器2" ,new CommunicationRequestEncoder());
         i_Pipeline.addLast("编码器1" ,new LoginRequestEncoder());
         
         // 解码器采用：先进先出原则。即最后的解码器，最后解码
@@ -72,7 +78,7 @@ public class ClientRPC extends Client<ClientRPC>
      * 
      * @return
      */
-    public ClientRPCOperation getOperation()
+    public ClientRPCOperation operation()
     {
         return (ClientRPCOperation)this.getBean(ClientRPCOperation.class ,(iv_Proxy ,iv_Method ,iv_Args) ->
         {
@@ -88,7 +94,30 @@ public class ClientRPC extends Client<ClientRPC>
                 }
                 else
                 {
-                    $Logger.info("登录失败：" + iv_Args[0].toString() + " -> " + v_Ret.toString());
+                    $Logger.info("登录失败：错误码=" + v_Ret.getResult() + " -> " + iv_Args[0].toString() + " -> " + v_Ret.toString());
+                }
+                
+                return v_Ret;
+            }
+            else if ( "send".equals(iv_Method.getName()) )
+            {
+                if ( !isLogin )
+                {
+                    // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
+                    return new CommunicationResponse().setResult(NetError.$LoginNotError).setEndTime(new Date());
+                }
+                
+                ClientRPCCallableSend v_SendHandler = new ClientRPCCallableSend(this.clientHandler ,(CommunicationRequest)iv_Args[0]);
+                CommunicationResponse v_Ret = $ThreadPool.submit(v_SendHandler).get();
+                
+                if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
+                {
+                    this.isLogin = true;
+                    $Logger.info("通讯成功：" + iv_Args[0].toString() + " -> " + v_Ret.toString());
+                }
+                else
+                {
+                    $Logger.info("通讯失败：错误码=" + v_Ret.getResult() + " -> " + iv_Args[0].toString() + " -> " + v_Ret.toString());
                 }
                 
                 return v_Ret;

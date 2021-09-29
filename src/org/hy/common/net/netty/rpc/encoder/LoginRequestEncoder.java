@@ -5,7 +5,7 @@ import java.util.List;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data.DataType;
-import org.hy.common.net.data.protobuf.ObjectToProto;
+import org.hy.common.net.data.protobuf.CommunicationProtoEncoder;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -32,7 +32,7 @@ public class LoginRequestEncoder extends MessageToMessageEncoder<LoginRequest>
         Data.Builder v_DataBuilder = Data.newBuilder();
         
         v_DataBuilder.setDataType(DataType.LoginRequest);
-        v_DataBuilder.setLoginRequest(ObjectToProto.toLoginRequest(i_Msg).build());
+        v_DataBuilder.setLoginRequest(CommunicationProtoEncoder.toLoginRequest(i_Msg).build());
         
         io_Out.add(v_DataBuilder.build());
     }

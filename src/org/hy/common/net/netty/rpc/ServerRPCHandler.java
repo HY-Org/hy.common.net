@@ -12,12 +12,10 @@ import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
+import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
-import org.hy.common.net.data.protobuf.CommunicationProto.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Request;
-import org.hy.common.net.data.protobuf.CommunicationProto.Response;
-import org.hy.common.net.data.protobuf.ObjectToProto;
-import org.hy.common.net.data.protobuf.ProtoToObject;
+import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -79,11 +77,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         // 未登录
         if ( v_ClientUser == null )
         {
-            Data.Builder v_DataRetBuilder = Data.newBuilder();
-            LoginResponse.Builder v_LoginRespBuilder = this.login(i_Ctx ,i_Msg);
-            v_DataRetBuilder.setDataType(Data.DataType.LoginResponse).setLoginResponse(v_LoginRespBuilder.build());
-            
-            i_Ctx.writeAndFlush(v_DataRetBuilder.build());
+            i_Ctx.writeAndFlush(this.login(i_Ctx ,i_Msg));
         }
         // 已登录
         else
@@ -102,15 +96,13 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @version     v1.0
      * 
      * @param i_Ctx
-     * @param i_ResponseBuilder
+     * @param i_Response
      */
-    private void sendResponse(ChannelHandlerContext i_Ctx ,Response.Builder i_ResponseBuilder)
+    private void sendResponse(ChannelHandlerContext i_Ctx ,CommunicationResponse i_Response)
     {
-        if ( i_ResponseBuilder != null )
+        if ( i_Response != null )
         {
-            Data.Builder v_DataRetBuilder = Data.newBuilder();
-            v_DataRetBuilder.setDataType(Data.DataType.Response).setResponse(i_ResponseBuilder.build());
-            i_Ctx.writeAndFlush(v_DataRetBuilder.build());
+            i_Ctx.writeAndFlush(i_Response);
         }
     }
     
@@ -180,14 +172,16 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @param i_Msg
      * @return
      */
-    private LoginResponse.Builder login(final ChannelHandlerContext i_Ctx ,final Data i_Msg)
+    private LoginResponse login(final ChannelHandlerContext i_Ctx ,final Data i_Msg)
     {
-        LoginResponse.Builder v_LoginRespBuilder = LoginResponse.newBuilder().setVersion(1);
+        LoginResponse v_Ret = new LoginResponse();
+        
+        v_Ret.setVersion(1);
         
         if ( Data.DataType.LoginRequest == i_Msg.getDataType() )
         {
             boolean      v_LoginRet      = true;
-            LoginRequest v_CLoginRequest = ProtoToObject.toLoginRequest(i_Msg.getLoginRequest() ,i_Ctx.channel().remoteAddress().toString());
+            LoginRequest v_CLoginRequest = CommunicationProtoDecoder.toLoginRequest(i_Msg.getLoginRequest() ,i_Ctx.channel().remoteAddress().toString());
             
             // 要求登录验证
             if ( this.mainServer.getValidate() != null )
@@ -216,20 +210,20 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                 this.removeExpireSameClientUser(v_ClientUser);
                 $Clients.put(i_Ctx ,v_ClientUser);
                 
-                v_LoginRespBuilder.setPort(this.mainServer.getPort());
-                v_LoginRespBuilder.setResult(CommunicationResponse.$Succeed);
+                v_Ret.setPort(this.mainServer.getPort());
+                v_Ret.setResult(CommunicationResponse.$Succeed);
             }
             else
             {
-                v_LoginRespBuilder.setResult(NetError.$LoginValidateError);
+                v_Ret.setResult(NetError.$LoginValidateError);
             }
         }
         else
         {
-            v_LoginRespBuilder.setResult(NetError.$LoginTypeError);
+            v_Ret.setResult(NetError.$LoginTypeError);
         }
         
-        return v_LoginRespBuilder.setEndTime(Date.getNowTime().getTime());
+        return v_Ret.setEndTime(new Date());
     }
     
     
@@ -246,7 +240,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @param i_Msg
      * @return
      */
-    private Response.Builder mainActive(final ChannelHandlerContext i_Ctx ,final ClientUserInfo i_ClientUser ,final Data i_Msg)
+    private CommunicationResponse mainActive(final ChannelHandlerContext i_Ctx ,final ClientUserInfo i_ClientUser ,final Data i_Msg)
     {
         Date                  v_BTime       = new Date();
         Request               v_RequestData = i_Msg.getRequest();
@@ -269,12 +263,12 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             }
         }
         
-        v_CRequest = ProtoToObject.toRequest(v_RequestData);
+        v_CRequest = CommunicationProtoDecoder.toRequest(v_RequestData);
         
         // 同步处理机制（服务端的事件机制为同步时，并且客户端没有主动要求为异步时）
         if ( v_Listener.isSync() && !v_RequestData.getIsNonSync() )
         {
-            return ObjectToProto.toResponse(execute(v_Listener ,v_CRequest ,i_ClientUser ,v_BTime.getTime()));
+            return execute(v_Listener ,v_CRequest ,i_ClientUser ,v_BTime.getTime());
         }
         // 异步线程处理机制
         else
@@ -286,7 +280,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                 @Override
                 public Object call() throws Exception
                 {
-                    sendResponse(i_Ctx ,ObjectToProto.toResponse(execute(v_FListener ,v_FRequest ,i_ClientUser ,v_BTime.getTime())));
+                    sendResponse(i_Ctx ,execute(v_FListener ,v_FRequest ,i_ClientUser ,v_BTime.getTime()));
                     return null;
                 }
             });
@@ -316,15 +310,16 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         
         try
         {
-            v_Reponse = i_Listener.communication(i_Request);
+            v_Reponse = i_Listener.communication(i_Request).setEndTime(new Date());;
             
             if ( !i_Request.isRetunData() )
             {
                 // 客户端要求：不返回执行的结果数据
                 v_Reponse.setData(null);
             }
-            v_Reponse.setResult(CommunicationResponse.$Succeed);
-            v_Reponse.setEndTime(new Date());
+            
+            // 是否返回成功，应由终端监听事件决定。本方法不应干涉，所以注释下行代码
+            // v_Reponse.setResult(CommunicationResponse.$Succeed);
             
             i_ClientUser.addActiveCount();
             i_ClientUser.addActiveTimeLen(Date.getNowTime().getTime() - i_BTime);

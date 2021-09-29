@@ -6236,10 +6236,20 @@ public final class CommunicationProto {
 
     /**
      * <pre>
+     * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+     * </pre>
+     *
+     * <code>bool isNonSync = 11;</code>
+     * @return The isNonSync.
+     */
+    boolean getIsNonSync();
+
+    /**
+     * <pre>
      * 数据通讯的事件类型
      * </pre>
      *
-     * <code>string eventType = 11;</code>
+     * <code>string eventType = 12;</code>
      * @return The eventType.
      */
     java.lang.String getEventType();
@@ -6248,7 +6258,7 @@ public final class CommunicationProto {
      * 数据通讯的事件类型
      * </pre>
      *
-     * <code>string eventType = 11;</code>
+     * <code>string eventType = 12;</code>
      * @return The bytes for eventType.
      */
     com.google.protobuf.ByteString
@@ -6259,7 +6269,7 @@ public final class CommunicationProto {
      * 数据的操作类型
      * </pre>
      *
-     * <code>string dataOperation = 12;</code>
+     * <code>string dataOperation = 13;</code>
      * @return The dataOperation.
      */
     java.lang.String getDataOperation();
@@ -6268,7 +6278,7 @@ public final class CommunicationProto {
      * 数据的操作类型
      * </pre>
      *
-     * <code>string dataOperation = 12;</code>
+     * <code>string dataOperation = 13;</code>
      * @return The bytes for dataOperation.
      */
     com.google.protobuf.ByteString
@@ -6279,20 +6289,10 @@ public final class CommunicationProto {
      * 是否返回数据，即通讯CommunicationResponse.data是否返回。
      * </pre>
      *
-     * <code>bool isRetunData = 13;</code>
+     * <code>bool isRetunData = 14;</code>
      * @return The isRetunData.
      */
     boolean getIsRetunData();
-
-    /**
-     * <pre>
-     * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-     * </pre>
-     *
-     * <code>bool isNonSync = 14;</code>
-     * @return The isNonSync.
-     */
-    boolean getIsNonSync();
   }
   /**
    * <pre>
@@ -6404,26 +6404,26 @@ public final class CommunicationProto {
               dataExpireTimeLen_ = input.readInt64();
               break;
             }
-            case 90: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 88: {
 
-              eventType_ = s;
+              isNonSync_ = input.readBool();
               break;
             }
             case 98: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              dataOperation_ = s;
+              eventType_ = s;
               break;
             }
-            case 104: {
+            case 106: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              isRetunData_ = input.readBool();
+              dataOperation_ = s;
               break;
             }
             case 112: {
 
-              isNonSync_ = input.readBool();
+              isRetunData_ = input.readBool();
               break;
             }
             default: {
@@ -6713,14 +6713,29 @@ public final class CommunicationProto {
       return dataExpireTimeLen_;
     }
 
-    public static final int EVENTTYPE_FIELD_NUMBER = 11;
+    public static final int ISNONSYNC_FIELD_NUMBER = 11;
+    private boolean isNonSync_;
+    /**
+     * <pre>
+     * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+     * </pre>
+     *
+     * <code>bool isNonSync = 11;</code>
+     * @return The isNonSync.
+     */
+    @java.lang.Override
+    public boolean getIsNonSync() {
+      return isNonSync_;
+    }
+
+    public static final int EVENTTYPE_FIELD_NUMBER = 12;
     private volatile java.lang.Object eventType_;
     /**
      * <pre>
      * 数据通讯的事件类型
      * </pre>
      *
-     * <code>string eventType = 11;</code>
+     * <code>string eventType = 12;</code>
      * @return The eventType.
      */
     @java.lang.Override
@@ -6741,7 +6756,7 @@ public final class CommunicationProto {
      * 数据通讯的事件类型
      * </pre>
      *
-     * <code>string eventType = 11;</code>
+     * <code>string eventType = 12;</code>
      * @return The bytes for eventType.
      */
     @java.lang.Override
@@ -6759,14 +6774,14 @@ public final class CommunicationProto {
       }
     }
 
-    public static final int DATAOPERATION_FIELD_NUMBER = 12;
+    public static final int DATAOPERATION_FIELD_NUMBER = 13;
     private volatile java.lang.Object dataOperation_;
     /**
      * <pre>
      * 数据的操作类型
      * </pre>
      *
-     * <code>string dataOperation = 12;</code>
+     * <code>string dataOperation = 13;</code>
      * @return The dataOperation.
      */
     @java.lang.Override
@@ -6787,7 +6802,7 @@ public final class CommunicationProto {
      * 数据的操作类型
      * </pre>
      *
-     * <code>string dataOperation = 12;</code>
+     * <code>string dataOperation = 13;</code>
      * @return The bytes for dataOperation.
      */
     @java.lang.Override
@@ -6805,34 +6820,19 @@ public final class CommunicationProto {
       }
     }
 
-    public static final int ISRETUNDATA_FIELD_NUMBER = 13;
+    public static final int ISRETUNDATA_FIELD_NUMBER = 14;
     private boolean isRetunData_;
     /**
      * <pre>
      * 是否返回数据，即通讯CommunicationResponse.data是否返回。
      * </pre>
      *
-     * <code>bool isRetunData = 13;</code>
+     * <code>bool isRetunData = 14;</code>
      * @return The isRetunData.
      */
     @java.lang.Override
     public boolean getIsRetunData() {
       return isRetunData_;
-    }
-
-    public static final int ISNONSYNC_FIELD_NUMBER = 14;
-    private boolean isNonSync_;
-    /**
-     * <pre>
-     * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-     * </pre>
-     *
-     * <code>bool isNonSync = 14;</code>
-     * @return The isNonSync.
-     */
-    @java.lang.Override
-    public boolean getIsNonSync() {
-      return isNonSync_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6879,17 +6879,17 @@ public final class CommunicationProto {
       if (dataExpireTimeLen_ != 0L) {
         output.writeInt64(10, dataExpireTimeLen_);
       }
+      if (isNonSync_ != false) {
+        output.writeBool(11, isNonSync_);
+      }
       if (!getEventTypeBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, eventType_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 12, eventType_);
       }
       if (!getDataOperationBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 12, dataOperation_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 13, dataOperation_);
       }
       if (isRetunData_ != false) {
-        output.writeBool(13, isRetunData_);
-      }
-      if (isNonSync_ != false) {
-        output.writeBool(14, isNonSync_);
+        output.writeBool(14, isRetunData_);
       }
       unknownFields.writeTo(output);
     }
@@ -6937,19 +6937,19 @@ public final class CommunicationProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(10, dataExpireTimeLen_);
       }
+      if (isNonSync_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, isNonSync_);
+      }
       if (!getEventTypeBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, eventType_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, eventType_);
       }
       if (!getDataOperationBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, dataOperation_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, dataOperation_);
       }
       if (isRetunData_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(13, isRetunData_);
-      }
-      if (isNonSync_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(14, isNonSync_);
+          .computeBoolSize(14, isRetunData_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6985,14 +6985,14 @@ public final class CommunicationProto {
           != other.getDataXIsNew()) return false;
       if (getDataExpireTimeLen()
           != other.getDataExpireTimeLen()) return false;
+      if (getIsNonSync()
+          != other.getIsNonSync()) return false;
       if (!getEventType()
           .equals(other.getEventType())) return false;
       if (!getDataOperation()
           .equals(other.getDataOperation())) return false;
       if (getIsRetunData()
           != other.getIsRetunData()) return false;
-      if (getIsNonSync()
-          != other.getIsNonSync()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7028,6 +7028,9 @@ public final class CommunicationProto {
       hash = (37 * hash) + DATAEXPIRETIMELEN_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getDataExpireTimeLen());
+      hash = (37 * hash) + ISNONSYNC_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsNonSync());
       hash = (37 * hash) + EVENTTYPE_FIELD_NUMBER;
       hash = (53 * hash) + getEventType().hashCode();
       hash = (37 * hash) + DATAOPERATION_FIELD_NUMBER;
@@ -7035,9 +7038,6 @@ public final class CommunicationProto {
       hash = (37 * hash) + ISRETUNDATA_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsRetunData());
-      hash = (37 * hash) + ISNONSYNC_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getIsNonSync());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7195,13 +7195,13 @@ public final class CommunicationProto {
 
         dataExpireTimeLen_ = 0L;
 
+        isNonSync_ = false;
+
         eventType_ = "";
 
         dataOperation_ = "";
 
         isRetunData_ = false;
-
-        isNonSync_ = false;
 
         return this;
       }
@@ -7239,10 +7239,10 @@ public final class CommunicationProto {
         result.dataXID_ = dataXID_;
         result.dataXIsNew_ = dataXIsNew_;
         result.dataExpireTimeLen_ = dataExpireTimeLen_;
+        result.isNonSync_ = isNonSync_;
         result.eventType_ = eventType_;
         result.dataOperation_ = dataOperation_;
         result.isRetunData_ = isRetunData_;
-        result.isNonSync_ = isNonSync_;
         onBuilt();
         return result;
       }
@@ -7324,6 +7324,9 @@ public final class CommunicationProto {
         if (other.getDataExpireTimeLen() != 0L) {
           setDataExpireTimeLen(other.getDataExpireTimeLen());
         }
+        if (other.getIsNonSync() != false) {
+          setIsNonSync(other.getIsNonSync());
+        }
         if (!other.getEventType().isEmpty()) {
           eventType_ = other.eventType_;
           onChanged();
@@ -7334,9 +7337,6 @@ public final class CommunicationProto {
         }
         if (other.getIsRetunData() != false) {
           setIsRetunData(other.getIsRetunData());
-        }
-        if (other.getIsNonSync() != false) {
-          setIsNonSync(other.getIsNonSync());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7990,13 +7990,56 @@ public final class CommunicationProto {
         return this;
       }
 
+      private boolean isNonSync_ ;
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @return The isNonSync.
+       */
+      @java.lang.Override
+      public boolean getIsNonSync() {
+        return isNonSync_;
+      }
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @param value The isNonSync to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsNonSync(boolean value) {
+        
+        isNonSync_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsNonSync() {
+        
+        isNonSync_ = false;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object eventType_ = "";
       /**
        * <pre>
        * 数据通讯的事件类型
        * </pre>
        *
-       * <code>string eventType = 11;</code>
+       * <code>string eventType = 12;</code>
        * @return The eventType.
        */
       public java.lang.String getEventType() {
@@ -8016,7 +8059,7 @@ public final class CommunicationProto {
        * 数据通讯的事件类型
        * </pre>
        *
-       * <code>string eventType = 11;</code>
+       * <code>string eventType = 12;</code>
        * @return The bytes for eventType.
        */
       public com.google.protobuf.ByteString
@@ -8037,7 +8080,7 @@ public final class CommunicationProto {
        * 数据通讯的事件类型
        * </pre>
        *
-       * <code>string eventType = 11;</code>
+       * <code>string eventType = 12;</code>
        * @param value The eventType to set.
        * @return This builder for chaining.
        */
@@ -8056,7 +8099,7 @@ public final class CommunicationProto {
        * 数据通讯的事件类型
        * </pre>
        *
-       * <code>string eventType = 11;</code>
+       * <code>string eventType = 12;</code>
        * @return This builder for chaining.
        */
       public Builder clearEventType() {
@@ -8070,7 +8113,7 @@ public final class CommunicationProto {
        * 数据通讯的事件类型
        * </pre>
        *
-       * <code>string eventType = 11;</code>
+       * <code>string eventType = 12;</code>
        * @param value The bytes for eventType to set.
        * @return This builder for chaining.
        */
@@ -8092,7 +8135,7 @@ public final class CommunicationProto {
        * 数据的操作类型
        * </pre>
        *
-       * <code>string dataOperation = 12;</code>
+       * <code>string dataOperation = 13;</code>
        * @return The dataOperation.
        */
       public java.lang.String getDataOperation() {
@@ -8112,7 +8155,7 @@ public final class CommunicationProto {
        * 数据的操作类型
        * </pre>
        *
-       * <code>string dataOperation = 12;</code>
+       * <code>string dataOperation = 13;</code>
        * @return The bytes for dataOperation.
        */
       public com.google.protobuf.ByteString
@@ -8133,7 +8176,7 @@ public final class CommunicationProto {
        * 数据的操作类型
        * </pre>
        *
-       * <code>string dataOperation = 12;</code>
+       * <code>string dataOperation = 13;</code>
        * @param value The dataOperation to set.
        * @return This builder for chaining.
        */
@@ -8152,7 +8195,7 @@ public final class CommunicationProto {
        * 数据的操作类型
        * </pre>
        *
-       * <code>string dataOperation = 12;</code>
+       * <code>string dataOperation = 13;</code>
        * @return This builder for chaining.
        */
       public Builder clearDataOperation() {
@@ -8166,7 +8209,7 @@ public final class CommunicationProto {
        * 数据的操作类型
        * </pre>
        *
-       * <code>string dataOperation = 12;</code>
+       * <code>string dataOperation = 13;</code>
        * @param value The bytes for dataOperation to set.
        * @return This builder for chaining.
        */
@@ -8188,7 +8231,7 @@ public final class CommunicationProto {
        * 是否返回数据，即通讯CommunicationResponse.data是否返回。
        * </pre>
        *
-       * <code>bool isRetunData = 13;</code>
+       * <code>bool isRetunData = 14;</code>
        * @return The isRetunData.
        */
       @java.lang.Override
@@ -8200,7 +8243,7 @@ public final class CommunicationProto {
        * 是否返回数据，即通讯CommunicationResponse.data是否返回。
        * </pre>
        *
-       * <code>bool isRetunData = 13;</code>
+       * <code>bool isRetunData = 14;</code>
        * @param value The isRetunData to set.
        * @return This builder for chaining.
        */
@@ -8215,55 +8258,12 @@ public final class CommunicationProto {
        * 是否返回数据，即通讯CommunicationResponse.data是否返回。
        * </pre>
        *
-       * <code>bool isRetunData = 13;</code>
+       * <code>bool isRetunData = 14;</code>
        * @return This builder for chaining.
        */
       public Builder clearIsRetunData() {
         
         isRetunData_ = false;
-        onChanged();
-        return this;
-      }
-
-      private boolean isNonSync_ ;
-      /**
-       * <pre>
-       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-       * </pre>
-       *
-       * <code>bool isNonSync = 14;</code>
-       * @return The isNonSync.
-       */
-      @java.lang.Override
-      public boolean getIsNonSync() {
-        return isNonSync_;
-      }
-      /**
-       * <pre>
-       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-       * </pre>
-       *
-       * <code>bool isNonSync = 14;</code>
-       * @param value The isNonSync to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIsNonSync(boolean value) {
-        
-        isNonSync_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-       * </pre>
-       *
-       * <code>bool isNonSync = 14;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearIsNonSync() {
-        
-        isNonSync_ = false;
         onChanged();
         return this;
       }
@@ -8465,10 +8465,20 @@ public final class CommunicationProto {
 
     /**
      * <pre>
+     * 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+     * </pre>
+     *
+     * <code>bool isNonSync = 11;</code>
+     * @return The isNonSync.
+     */
+    boolean getIsNonSync();
+
+    /**
+     * <pre>
      * 通讯的结果类型
      * </pre>
      *
-     * <code>int32 result = 11;</code>
+     * <code>int32 result = 12;</code>
      * @return The result.
      */
     int getResult();
@@ -8478,7 +8488,7 @@ public final class CommunicationProto {
      * 通讯结束时间
      * </pre>
      *
-     * <code>int64 endTime = 12;</code>
+     * <code>int64 endTime = 13;</code>
      * @return The endTime.
      */
     long getEndTime();
@@ -8593,10 +8603,15 @@ public final class CommunicationProto {
             }
             case 88: {
 
-              result_ = input.readInt32();
+              isNonSync_ = input.readBool();
               break;
             }
             case 96: {
+
+              result_ = input.readInt32();
+              break;
+            }
+            case 104: {
 
               endTime_ = input.readInt64();
               break;
@@ -8888,14 +8903,29 @@ public final class CommunicationProto {
       return dataExpireTimeLen_;
     }
 
-    public static final int RESULT_FIELD_NUMBER = 11;
+    public static final int ISNONSYNC_FIELD_NUMBER = 11;
+    private boolean isNonSync_;
+    /**
+     * <pre>
+     * 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+     * </pre>
+     *
+     * <code>bool isNonSync = 11;</code>
+     * @return The isNonSync.
+     */
+    @java.lang.Override
+    public boolean getIsNonSync() {
+      return isNonSync_;
+    }
+
+    public static final int RESULT_FIELD_NUMBER = 12;
     private int result_;
     /**
      * <pre>
      * 通讯的结果类型
      * </pre>
      *
-     * <code>int32 result = 11;</code>
+     * <code>int32 result = 12;</code>
      * @return The result.
      */
     @java.lang.Override
@@ -8903,14 +8933,14 @@ public final class CommunicationProto {
       return result_;
     }
 
-    public static final int ENDTIME_FIELD_NUMBER = 12;
+    public static final int ENDTIME_FIELD_NUMBER = 13;
     private long endTime_;
     /**
      * <pre>
      * 通讯结束时间
      * </pre>
      *
-     * <code>int64 endTime = 12;</code>
+     * <code>int64 endTime = 13;</code>
      * @return The endTime.
      */
     @java.lang.Override
@@ -8962,11 +8992,14 @@ public final class CommunicationProto {
       if (dataExpireTimeLen_ != 0L) {
         output.writeInt64(10, dataExpireTimeLen_);
       }
+      if (isNonSync_ != false) {
+        output.writeBool(11, isNonSync_);
+      }
       if (result_ != 0) {
-        output.writeInt32(11, result_);
+        output.writeInt32(12, result_);
       }
       if (endTime_ != 0L) {
-        output.writeInt64(12, endTime_);
+        output.writeInt64(13, endTime_);
       }
       unknownFields.writeTo(output);
     }
@@ -9014,13 +9047,17 @@ public final class CommunicationProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(10, dataExpireTimeLen_);
       }
+      if (isNonSync_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, isNonSync_);
+      }
       if (result_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, result_);
+          .computeInt32Size(12, result_);
       }
       if (endTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(12, endTime_);
+          .computeInt64Size(13, endTime_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9056,6 +9093,8 @@ public final class CommunicationProto {
           != other.getDataXIsNew()) return false;
       if (getDataExpireTimeLen()
           != other.getDataExpireTimeLen()) return false;
+      if (getIsNonSync()
+          != other.getIsNonSync()) return false;
       if (getResult()
           != other.getResult()) return false;
       if (getEndTime()
@@ -9095,6 +9134,9 @@ public final class CommunicationProto {
       hash = (37 * hash) + DATAEXPIRETIMELEN_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getDataExpireTimeLen());
+      hash = (37 * hash) + ISNONSYNC_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsNonSync());
       hash = (37 * hash) + RESULT_FIELD_NUMBER;
       hash = (53 * hash) + getResult();
       hash = (37 * hash) + ENDTIME_FIELD_NUMBER;
@@ -9257,6 +9299,8 @@ public final class CommunicationProto {
 
         dataExpireTimeLen_ = 0L;
 
+        isNonSync_ = false;
+
         result_ = 0;
 
         endTime_ = 0L;
@@ -9297,6 +9341,7 @@ public final class CommunicationProto {
         result.dataXID_ = dataXID_;
         result.dataXIsNew_ = dataXIsNew_;
         result.dataExpireTimeLen_ = dataExpireTimeLen_;
+        result.isNonSync_ = isNonSync_;
         result.result_ = result_;
         result.endTime_ = endTime_;
         onBuilt();
@@ -9379,6 +9424,9 @@ public final class CommunicationProto {
         }
         if (other.getDataExpireTimeLen() != 0L) {
           setDataExpireTimeLen(other.getDataExpireTimeLen());
+        }
+        if (other.getIsNonSync() != false) {
+          setIsNonSync(other.getIsNonSync());
         }
         if (other.getResult() != 0) {
           setResult(other.getResult());
@@ -10038,13 +10086,56 @@ public final class CommunicationProto {
         return this;
       }
 
+      private boolean isNonSync_ ;
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @return The isNonSync.
+       */
+      @java.lang.Override
+      public boolean getIsNonSync() {
+        return isNonSync_;
+      }
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @param value The isNonSync to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsNonSync(boolean value) {
+        
+        isNonSync_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+       * </pre>
+       *
+       * <code>bool isNonSync = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsNonSync() {
+        
+        isNonSync_ = false;
+        onChanged();
+        return this;
+      }
+
       private int result_ ;
       /**
        * <pre>
        * 通讯的结果类型
        * </pre>
        *
-       * <code>int32 result = 11;</code>
+       * <code>int32 result = 12;</code>
        * @return The result.
        */
       @java.lang.Override
@@ -10056,7 +10147,7 @@ public final class CommunicationProto {
        * 通讯的结果类型
        * </pre>
        *
-       * <code>int32 result = 11;</code>
+       * <code>int32 result = 12;</code>
        * @param value The result to set.
        * @return This builder for chaining.
        */
@@ -10071,7 +10162,7 @@ public final class CommunicationProto {
        * 通讯的结果类型
        * </pre>
        *
-       * <code>int32 result = 11;</code>
+       * <code>int32 result = 12;</code>
        * @return This builder for chaining.
        */
       public Builder clearResult() {
@@ -10087,7 +10178,7 @@ public final class CommunicationProto {
        * 通讯结束时间
        * </pre>
        *
-       * <code>int64 endTime = 12;</code>
+       * <code>int64 endTime = 13;</code>
        * @return The endTime.
        */
       @java.lang.Override
@@ -10099,7 +10190,7 @@ public final class CommunicationProto {
        * 通讯结束时间
        * </pre>
        *
-       * <code>int64 endTime = 12;</code>
+       * <code>int64 endTime = 13;</code>
        * @param value The endTime to set.
        * @return This builder for chaining.
        */
@@ -10114,7 +10205,7 @@ public final class CommunicationProto {
        * 通讯结束时间
        * </pre>
        *
-       * <code>int64 endTime = 12;</code>
+       * <code>int64 endTime = 13;</code>
        * @return This builder for chaining.
        */
       public Builder clearEndTime() {
@@ -10236,17 +10327,18 @@ public final class CommunicationProto {
       "\001(\t\022\021\n\tdataClass\030\005 \001(\t\022#\n\014dataProtocol\030\006" +
       " \001(\0162\r.DataProtocol\022\014\n\004data\030\007 \001(\014\022\017\n\007dat" +
       "aXID\030\010 \001(\t\022\022\n\ndataXIsNew\030\t \001(\010\022\031\n\021dataEx" +
-      "pireTimeLen\030\n \001(\003\022\021\n\teventType\030\013 \001(\t\022\025\n\r" +
-      "dataOperation\030\014 \001(\t\022\023\n\013isRetunData\030\r \001(\010" +
-      "\022\021\n\tisNonSync\030\016 \001(\010\"\364\001\n\010Response\022\017\n\007vers" +
+      "pireTimeLen\030\n \001(\003\022\021\n\tisNonSync\030\013 \001(\010\022\021\n\t" +
+      "eventType\030\014 \001(\t\022\025\n\rdataOperation\030\r \001(\t\022\023" +
+      "\n\013isRetunData\030\016 \001(\010\"\207\002\n\010Response\022\017\n\007vers" +
       "ion\030\001 \001(\005\022\023\n\013sessionTime\030\002 \001(\003\022\014\n\004time\030\003" +
       " \001(\003\022\r\n\005token\030\004 \001(\t\022\021\n\tdataClass\030\005 \001(\t\022#" +
       "\n\014dataProtocol\030\006 \001(\0162\r.DataProtocol\022\014\n\004d" +
       "ata\030\007 \001(\014\022\017\n\007dataXID\030\010 \001(\t\022\022\n\ndataXIsNew" +
-      "\030\t \001(\010\022\031\n\021dataExpireTimeLen\030\n \001(\003\022\016\n\006res" +
-      "ult\030\013 \001(\005\022\017\n\007endTime\030\014 \001(\003*9\n\014DataProtoc" +
-      "ol\022\021\n\rBasicDataType\020\000\022\010\n\004Json\020\001\022\014\n\010Proto" +
-      "buf\020\002B\024B\022CommunicationProtob\006proto3"
+      "\030\t \001(\010\022\031\n\021dataExpireTimeLen\030\n \001(\003\022\021\n\tisN" +
+      "onSync\030\013 \001(\010\022\016\n\006result\030\014 \001(\005\022\017\n\007endTime\030" +
+      "\r \001(\003*9\n\014DataProtocol\022\021\n\rBasicDataType\020\000" +
+      "\022\010\n\004Json\020\001\022\014\n\010Protobuf\020\002B\024B\022Communicatio" +
+      "nProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -10281,13 +10373,13 @@ public final class CommunicationProto {
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Request_descriptor,
-        new java.lang.String[] { "Version", "SessionTime", "Time", "Token", "DataClass", "DataProtocol", "Data", "DataXID", "DataXIsNew", "DataExpireTimeLen", "EventType", "DataOperation", "IsRetunData", "IsNonSync", });
+        new java.lang.String[] { "Version", "SessionTime", "Time", "Token", "DataClass", "DataProtocol", "Data", "DataXID", "DataXIsNew", "DataExpireTimeLen", "IsNonSync", "EventType", "DataOperation", "IsRetunData", });
     internal_static_Response_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Response_descriptor,
-        new java.lang.String[] { "Version", "SessionTime", "Time", "Token", "DataClass", "DataProtocol", "Data", "DataXID", "DataXIsNew", "DataExpireTimeLen", "Result", "EndTime", });
+        new java.lang.String[] { "Version", "SessionTime", "Time", "Token", "DataClass", "DataProtocol", "Data", "DataXID", "DataXIsNew", "DataExpireTimeLen", "IsNonSync", "Result", "EndTime", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

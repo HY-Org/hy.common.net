@@ -12,8 +12,9 @@ import org.hy.common.Date;
  * @author      ZhengWei(HY)
  * @createDate  2017-01-14
  * @version     v1.0
+ *              v2.0  2021-09-29  添加：链式编程
  */
-public class CommunicationResponse extends Communication implements Comparable<CommunicationResponse>
+public class CommunicationResponse extends Communication<CommunicationResponse> implements Comparable<CommunicationResponse>
 {
     
     private static final long serialVersionUID = -1271619329628744231L;
@@ -54,9 +55,10 @@ public class CommunicationResponse extends Communication implements Comparable<C
      * 
      * @param result
      */
-    public void setResult(int result)
+    public CommunicationResponse setResult(int result)
     {
         this.result = result;
+        return this;
     }
 
 
@@ -76,9 +78,10 @@ public class CommunicationResponse extends Communication implements Comparable<C
      * 
      * @param startTime
      */
-    public void setStartTime(Date startTime)
+    public CommunicationResponse setStartTime(Date startTime)
     {
         this.time = startTime;
+        return this;
     }
 
 
@@ -98,9 +101,10 @@ public class CommunicationResponse extends Communication implements Comparable<C
      * 
      * @param endTime
      */
-    public void setEndTime(Date endTime)
+    public CommunicationResponse setEndTime(Date endTime)
     {
         this.endTime = endTime;
+        return this;
     }
 
 

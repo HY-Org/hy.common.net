@@ -17,6 +17,7 @@ import org.hy.common.xml.SerializableDef;
  *                                添加：端口
  *                                添加：用户编号
  *                                添加：客户端的系统名称
+ *              v3.0  2021-09-29  添加：链式编程
  */
 public class LoginRequest extends SerializableDef
 {
@@ -79,9 +80,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param userName
      */
-    public void setUserName(String userName)
+    public LoginRequest setUserName(String userName)
     {
         this.userName = userName;
+        return this;
     }
 
     
@@ -99,9 +101,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param password
      */
-    public void setPassword(String password)
+    public LoginRequest setPassword(String password)
     {
         this.password = password;
+        return this;
     }
     
     
@@ -119,9 +122,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param version
      */
-    public void setVersion(int version)
+    public LoginRequest setVersion(int version)
     {
         this.version = version;
+        return this;
     }
 
 
@@ -139,9 +143,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param host
      */
-    public void setHost(String host)
+    public LoginRequest setHost(String host)
     {
         this.host = host;
+        return this;
     }
 
 
@@ -159,9 +164,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param port
      */
-    public void setPort(int port)
+    public LoginRequest setPort(int port)
     {
         this.port = port;
+        return this;
     }
     
     
@@ -179,9 +185,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param id
      */
-    public void setId(String id)
+    public LoginRequest setId(String id)
     {
         this.id = id;
+        return this;
     }
 
 
@@ -199,9 +206,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param id
      */
-    public void setSystemName(String systemName)
+    public LoginRequest setSystemName(String systemName)
     {
         this.systemName = systemName;
+        return this;
     }
 
 
@@ -219,9 +227,10 @@ public class LoginRequest extends SerializableDef
      * 
      * @param remoteAddress
      */
-    public void setRemoteAddress(String remoteAddress)
+    public LoginRequest setRemoteAddress(String remoteAddress)
     {
         this.remoteAddress = remoteAddress;
+        return this;
     }
 
 

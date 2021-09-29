@@ -15,6 +15,7 @@ import org.hy.common.xml.SerializableDef;
  * @version     v1.0
  *              v2.0  2021-09-25  添加：通讯的接口版本
  *                                添加：通讯主机
+ *              v3.0  2021-09-29  添加：链式编程
  */
 public class LoginResponse extends SerializableDef
 {
@@ -57,9 +58,10 @@ public class LoginResponse extends SerializableDef
      * 
      * @param port
      */
-    public void setPort(int port)
+    public LoginResponse setPort(int port)
     {
         this.port = port;
+        return this;
     }
 
 
@@ -79,9 +81,10 @@ public class LoginResponse extends SerializableDef
     /**
      * 获取：通讯票据
      */
-    public void setToken(String token)
+    public LoginResponse setToken(String token)
     {
         this.token = token;
+        return this;
     }
 
 
@@ -101,9 +104,10 @@ public class LoginResponse extends SerializableDef
      * 
      * @param version
      */
-    public void setVersion(int version)
+    public LoginResponse setVersion(int version)
     {
         this.version = version;
+        return this;
     }
 
 
@@ -123,9 +127,10 @@ public class LoginResponse extends SerializableDef
      * 
      * @param host
      */
-    public void setHost(String host)
+    public LoginResponse setHost(String host)
     {
         this.host = host;
+        return this;
     }
     
     
@@ -145,9 +150,10 @@ public class LoginResponse extends SerializableDef
      * 
      * @param endTime
      */
-    public void setEndTime(Date endTime)
+    public LoginResponse setEndTime(Date endTime)
     {
         this.endTime = endTime;
+        return this;
     }
     
     
@@ -167,9 +173,10 @@ public class LoginResponse extends SerializableDef
      * 
      * @param result
      */
-    public void setResult(int result)
+    public LoginResponse setResult(int result)
     {
         this.result = result;
+        return this;
     }
 
 

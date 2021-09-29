@@ -5,6 +5,7 @@ import org.hy.common.Help;
 import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
+import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.DataProtocol;
@@ -28,14 +29,14 @@ import io.netty.util.CharsetUtil;
  * @createDate  2021-09-27
  * @version     v1.0
  */
-public class ProtoToObject
+public class CommunicationProtoDecoder
 {
     
-    private static final Logger $Logger = new Logger(ProtoToObject.class ,true);
+    private static final Logger $Logger = new Logger(CommunicationProtoDecoder.class ,true);
     
     
     
-    private ProtoToObject()
+    private CommunicationProtoDecoder()
     {
         
     }
@@ -132,6 +133,7 @@ public class ProtoToObject
         v_Ret.setDataXID(          i_Request.getDataXID());             // 数据的XID，即XJava的对象ID
         v_Ret.setDataXIsNew(       i_Request.getDataXIsNew());          // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
         v_Ret.setDataExpireTimeLen(i_Request.getDataExpireTimeLen());   // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+        v_Ret.setNonSync(          i_Request.getIsNonSync());           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
         v_Ret.setEventType(        i_Request.getEventType());           // 数据通讯的事件类型
         v_Ret.setDataOperation(    i_Request.getDataOperation());       // 数据的操作类型
         v_Ret.setRetunData(        i_Request.getIsRetunData());         // 是否返回数据，即通讯CommunicationResponse.data是否返回。
@@ -141,6 +143,90 @@ public class ProtoToObject
         if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
         {
             DataProtocol v_DataProtocol = i_Request.getDataProtocol();
+            
+            // 转换通用数据
+            v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
+            
+            // 转换执行命令的数据
+            if ( XCommand.class == v_Ret.getData().getClass() )
+            {
+                Command  v_NCmd = new Command();
+                XCommand v_XCmd = (XCommand)v_Ret.getData();
+                if ( !Help.isNull(v_XCmd.getParamsClassList()) )
+                {
+                    v_NCmd.setParams(new Object[v_XCmd.getParamsClassCount()]);
+                    for (int i=0; i<v_XCmd.getParamsClassCount(); i++)
+                    {
+                        v_DataClass = v_XCmd.getParamsClass(i);
+                        v_DataBytes = v_XCmd.getParamsValue(i);
+                        
+                        if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+                        {
+                            v_NCmd.getParams()[i] = dataProtocolToObject(v_DataClass ,v_XCmd.getParamsProtocol(i) ,v_DataBytes.toByteArray());
+                        }
+                        else
+                        {
+                            v_NCmd.getParams()[i] = null;
+                        }
+                    }
+                }
+                
+                v_NCmd.setMethodName(v_XCmd.getMethodName());
+                v_Ret.setData(v_NCmd);
+            }
+        }
+        
+        return v_Ret;
+    }
+    
+    
+    
+    /**
+     * 将 CommunicationProto.Response 对象转为 org.hy.common.net.data.CommunicationResponse 对象
+     * 在转换后，就可以支持原接口 CommunicationListener 了。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-29
+     * @version     v1.0
+     * 
+     * @param i_Response
+     * @return
+     */
+    public static CommunicationResponse toResponse(CommunicationProto.Response i_Response)
+    {
+        CommunicationResponse v_Ret = new CommunicationResponse();
+        
+        // 会话时间
+        if ( i_Response.getSessionTime() > 0 )
+        {
+            v_Ret.setSessionTime(new Date(i_Response.getSessionTime()));
+        }
+        
+        // 通讯的时间
+        if ( i_Response.getTime() > 0 )
+        {
+            v_Ret.setTime(new Date(i_Response.getTime()));
+        }
+        
+        // 通讯结束时间
+        if ( i_Response.getEndTime() > 0 )
+        {
+            v_Ret.setEndTime(new Date(i_Response.getEndTime()));
+        }
+        
+        v_Ret.setVersion(          i_Response.getVersion());             // 通讯的接口版本
+        v_Ret.setToken(            i_Response.getToken());               // 通讯票据
+        v_Ret.setDataXID(          i_Response.getDataXID());             // 数据的XID，即XJava的对象ID
+        v_Ret.setDataXIsNew(       i_Response.getDataXIsNew());          // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+        v_Ret.setDataExpireTimeLen(i_Response.getDataExpireTimeLen());   // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+        v_Ret.setNonSync(          i_Response.getIsNonSync());           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+        v_Ret.setResult(           i_Response.getResult());              // 通讯的结果类型
+        
+        String     v_DataClass = i_Response.getDataClass();
+        ByteString v_DataBytes = i_Response.getDataClassBytes();
+        if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+        {
+            DataProtocol v_DataProtocol = i_Response.getDataProtocol();
             
             // 转换通用数据
             v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));

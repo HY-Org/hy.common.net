@@ -14,8 +14,9 @@ import org.hy.common.xml.SerializableDef;
  * @createDate  2017-01-14
  * @version     v1.0
  *              v2.0  2021-09-25  添加：通讯的接口版本
+ *              v3.0  2021-09-29  添加：链式编程
  */
-public class Communication extends SerializableDef
+public class Communication<T extends Communication<T>> extends SerializableDef
 {
     
     private static final long serialVersionUID = 7513185667760947675L;
@@ -45,6 +46,9 @@ public class Communication extends SerializableDef
     /** 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效 */
     protected long    dataExpireTimeLen;
     
+    /** 通讯处理时是否为异步的。当为 true 时，表示服务端\客户端开启线程处理 */
+    protected boolean isNonSync;
+    
     
     
     public Communication()
@@ -52,6 +56,7 @@ public class Communication extends SerializableDef
         this.time        = new Date();
         this.sessionTime = null;
         this.dataXIsNew  = false;
+        this.isNonSync   = false;
     }
     
     
@@ -70,9 +75,11 @@ public class Communication extends SerializableDef
      * 
      * @param data
      */
-    public void setData(Object data)
+    @SuppressWarnings("unchecked")
+    public T setData(Object data)
     {
         this.data = data;
+        return (T) this;
     }
     
 
@@ -92,9 +99,11 @@ public class Communication extends SerializableDef
      * 
      * @param dataXID
      */
-    public void setDataXID(String dataXID)
+    @SuppressWarnings("unchecked")
+    public T setDataXID(String dataXID)
     {
         this.dataXID = dataXID;
+        return (T) this;
     }
 
 
@@ -114,9 +123,11 @@ public class Communication extends SerializableDef
      * 
      * @param dataXIsNew
      */
-    public void setDataXIsNew(boolean dataXIsNew)
+    @SuppressWarnings("unchecked")
+    public T setDataXIsNew(boolean dataXIsNew)
     {
         this.dataXIsNew = dataXIsNew;
+        return (T) this;
     }
     
     
@@ -136,9 +147,11 @@ public class Communication extends SerializableDef
      * 
      * @param dataExpireTimeLen
      */
-    public void setDataExpireTimeLen(long dataExpireTimeLen)
+    @SuppressWarnings("unchecked")
+    public T setDataExpireTimeLen(long dataExpireTimeLen)
     {
         this.dataExpireTimeLen = dataExpireTimeLen;
+        return (T) this;
     }
 
 
@@ -158,9 +171,11 @@ public class Communication extends SerializableDef
      * 
      * @param time
      */
-    public void setTime(Date time)
+    @SuppressWarnings("unchecked")
+    public T setTime(Date time)
     {
         this.time = time;
+        return (T) this;
     }
     
 
@@ -180,9 +195,11 @@ public class Communication extends SerializableDef
      * 
      * @param sessionTime
      */
-    public void setSessionTime(Date sessionTime)
+    @SuppressWarnings("unchecked")
+    public T setSessionTime(Date sessionTime)
     {
         this.sessionTime = sessionTime;
+        return (T) this;
     }
 
     
@@ -202,9 +219,11 @@ public class Communication extends SerializableDef
      * 
      * @param sessionTime
      */
-    public void setToken(String token)
+    @SuppressWarnings("unchecked")
+    public T setToken(String token)
     {
         this.token = token;
+        return (T) this;
     }
     
     
@@ -224,9 +243,35 @@ public class Communication extends SerializableDef
      * 
      * @param version
      */
-    public void setVersion(int version)
+    @SuppressWarnings("unchecked")
+    public T setVersion(int version)
     {
         this.version = version;
+        return (T) this;
+    }
+
+
+    
+    /**
+     * 获取：通讯处理时是否为异步的。当为 true 时，表示服务端\客户端开启线程处理
+     */
+    public boolean isNonSync()
+    {
+        return isNonSync;
+    }
+
+
+    
+    /**
+     * 设置：通讯处理时是否为异步的。当为 true 时，表示服务端\客户端开启线程处理
+     * 
+     * @param isNonSync
+     */
+    @SuppressWarnings("unchecked")
+    public T setNonSync(boolean isNonSync)
+    {
+        this.isNonSync = isNonSync;
+        return (T) this;
     }
 
 

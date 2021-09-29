@@ -14,6 +14,9 @@ package org.hy.common.net;
 public class NetError
 {
     
+    /** 请登录后再通讯 */
+    public static final int $LoginNotError                 = 94;
+    
     /** 登陆数据类型异常（一般指未按协议传送数据） */
     public static final int $LoginTypeError                = 95;
     

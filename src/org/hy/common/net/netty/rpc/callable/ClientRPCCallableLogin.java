@@ -3,7 +3,7 @@ package org.hy.common.net.netty.rpc.callable;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
-import org.hy.common.net.data.protobuf.ProtoToObject;
+import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
 import org.hy.common.net.netty.rpc.ClientRPCHandler;
 
 
@@ -30,7 +30,7 @@ public class ClientRPCCallableLogin extends ClientRPCCallable<LoginRequest ,Logi
     @Override
     public LoginResponse decoder(Data i_Data)
     {
-        return ProtoToObject.toLoginResponse(i_Data.getLoginResponse());
+        return CommunicationProtoDecoder.toLoginResponse(i_Data.getLoginResponse());
     }
     
 }

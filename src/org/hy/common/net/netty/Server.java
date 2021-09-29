@@ -197,9 +197,11 @@ public abstract class Server<T extends Server<T>> extends App<T>
      * 
      * @param waitConnMax
      */
-    public void setWaitConnMax(int waitConnMax)
+    @SuppressWarnings("unchecked")
+    public T setWaitConnMax(int waitConnMax)
     {
         this.waitConnMax = waitConnMax;
+        return (T) this;
     }
 
 }
