@@ -1,4 +1,4 @@
-package org.hy.common.net.protobuf;
+package org.hy.common.net.data.protobuf;
 
 import java.lang.reflect.Method;
 

@@ -10,7 +10,6 @@ import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.DataProtocol;
 import org.hy.common.net.data.protobuf.CommunicationProto.XCommand;
-import org.hy.common.net.protobuf.ProtobufHelp;
 import org.hy.common.xml.XJSON;
 import org.hy.common.xml.log.Logger;
 
@@ -103,7 +102,7 @@ public class CommunicationProtoDecoder
     
     /**
      * 将 CommunicationProto.Request 对象转为 org.hy.common.net.data.CommunicationRequest 对象
-     * 在转换后，就可以支持原接口 CommunicationListener 了。
+     * 在转换后，就可以支持原接口 ServerEventListener 了。
      * 
      * @author      ZhengWei(HY)
      * @createDate  2021-09-27
@@ -183,7 +182,7 @@ public class CommunicationProtoDecoder
     
     /**
      * 将 CommunicationProto.Response 对象转为 org.hy.common.net.data.CommunicationResponse 对象
-     * 在转换后，就可以支持原接口 CommunicationListener 了。
+     * 在转换后，就可以支持原接口 ServerEventListener 了。
      * 
      * @author      ZhengWei(HY)
      * @createDate  2021-09-29

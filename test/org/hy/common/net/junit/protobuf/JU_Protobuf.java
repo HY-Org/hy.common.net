@@ -1,7 +1,7 @@
 package org.hy.common.net.junit.protobuf;
 
+import org.hy.common.net.data.protobuf.ProtobufHelp;
 import org.hy.common.net.junit.netty.protobuf.DataPOJO;
-import org.hy.common.net.protobuf.ProtobufHelp;
 import org.hy.common.xml.log.Logger;
 
 

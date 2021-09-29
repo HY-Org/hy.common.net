@@ -6,7 +6,6 @@ import java.util.concurrent.Callable;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
-import org.hy.common.net.CommunicationListener;
 import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
@@ -14,8 +13,9 @@ import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Request;
-import org.hy.common.net.protocol.NetError;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
+import org.hy.common.net.protocol.NetError;
+import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -245,7 +245,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         Date                  v_BTime       = new Date();
         Request               v_RequestData = i_Msg.getRequest();
         CommunicationRequest  v_CRequest    = null;
-        CommunicationListener v_Listener    = null;
+        ServerEventListener   v_Listener    = null;
         
         i_ClientUser.setActiveTime(v_BTime);
         
@@ -273,8 +273,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         // 异步线程处理机制
         else
         {
-            final CommunicationListener v_FListener = v_Listener;
-            final CommunicationRequest  v_FRequest  = v_CRequest;
+            final ServerEventListener  v_FListener = v_Listener;
+            final CommunicationRequest v_FRequest  = v_CRequest;
             this.mainServer.getExecutorPool().submit(new Callable<Object>()
             {
                 @Override
@@ -304,7 +304,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @param i_BTime       通讯的开始时间
      * @return              返回给客户端的响应数据。在异常时，也能保证创建出响应对象
      */
-    private CommunicationResponse execute(CommunicationListener i_Listener ,CommunicationRequest i_Request ,ClientUserInfo i_ClientUser ,long i_BTime)
+    private CommunicationResponse execute(ServerEventListener i_Listener ,CommunicationRequest i_Request ,ClientUserInfo i_ClientUser ,long i_BTime)
     {
         CommunicationResponse v_Reponse = null;
         

@@ -59,7 +59,7 @@
 
 服务端自定义事件
 ```java
-public class ServerDemo implements CommunicationListener
+public class ServerDemo implements ServerEventListener
 {
     
     /**

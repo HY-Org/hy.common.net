@@ -1,4 +1,4 @@
-package org.hy.common.net;
+package org.hy.common.net.protocol.defaults;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -13,6 +13,7 @@ import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.protocol.NetError;
+import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.XJava;
 
 
@@ -28,7 +29,7 @@ import org.hy.common.xml.XJava;
  *              v2.0  2017-02-07  添加：查询多个本地XJava中的对象
  *              v3.0  2017-02-28  添加：获取服务端的Java.getSessionMap()数据
  */
-public class XJavaCommunicationListener implements CommunicationListener
+public class XJavaCommunicationListener implements ServerEventListener
 {
     
     /**

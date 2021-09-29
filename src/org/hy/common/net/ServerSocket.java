@@ -6,6 +6,14 @@ import java.util.Map;
 import org.hy.common.Date;
 import org.hy.common.Execute;
 import org.hy.common.Help;
+import org.hy.common.net.protocol.ServerEventListener;
+import org.hy.common.net.protocol.ServerValidate;
+import org.hy.common.net.protocol.defaults.XJavaCommunicationListener;
+import org.hy.common.net.socket.PortPool;
+import org.hy.common.net.socket.ServerBase;
+import org.hy.common.net.socket.ServerSocketCommunication;
+import org.hy.common.net.socket.ServerSocketListener;
+import org.hy.common.net.socket.SocketRepuest;
 import org.hy.common.xml.log.Logger;
 
 
@@ -23,7 +31,7 @@ import org.hy.common.xml.log.Logger;
  * 默认情况下：登陆时，没有什么验证，如验证用户名及密码。
  *           此验证动作通过 org.hy.common.net.ServerSocketValidate 接口提供给外界来实现登陆验证。
  * 
- * 外界可通过添加数据通讯的监听者 org.hy.common.net.CommunicationListener 来实现定制化功能。
+ * 外界可通过添加数据通讯的监听者 org.hy.common.net.ServerEventListener 来实现定制化功能。
  *
  * @author      ZhengWei(HY)
  * @createDate  2017-01-12
@@ -47,17 +55,17 @@ public class ServerSocket extends ServerBase
     private boolean                                        isStartCheckCloseTimeout;
     
     /** 登陆验证接口。当为 null 时不验证，直接登陆成功 */
-    private ServerSocketValidate                           validate;
+    private ServerValidate                                 validate;
     
     /**
      * 数据通讯事件的监听者集合。
      * 
      * 同样的事件类型，只能有一个监听者。
      */
-    private Map<String ,CommunicationListener>             listeners;
+    private Map<String ,ServerEventListener>               listeners;
     
     /** 默认的数据通讯监听者 */
-    private CommunicationListener                          defaultListener;
+    private ServerEventListener                            defaultListener;
     
     
     
@@ -88,7 +96,7 @@ public class ServerSocket extends ServerBase
         this.communicationServers     = new Hashtable<Integer ,ServerBase>();
         this.request                  = new ServerSocketListener(this);
         this.validate                 = null;
-        this.listeners                = new Hashtable<String ,CommunicationListener>();
+        this.listeners                = new Hashtable<String ,ServerEventListener>();
         this.defaultListener          = new XJavaCommunicationListener();
     }
     
@@ -268,7 +276,7 @@ public class ServerSocket extends ServerBase
      *
      * @return
      */
-    public CommunicationListener getDefaultListener()
+    public ServerEventListener getDefaultListener()
     {
         return this.defaultListener;
     }
@@ -286,7 +294,7 @@ public class ServerSocket extends ServerBase
      *
      * @param i_Listener
      */
-    public void setListener(CommunicationListener i_Listener)
+    public void setListener(ServerEventListener i_Listener)
     {
         this.addListener(i_Listener);
     }
@@ -302,16 +310,16 @@ public class ServerSocket extends ServerBase
      *
      * @param i_Listener
      */
-    public void addListener(CommunicationListener i_Listener)
+    public void addListener(ServerEventListener i_Listener)
     {
         if ( i_Listener == null )
         {
-            throw new NullPointerException("CommunicationListener is null.");
+            throw new NullPointerException("ServerEventListener is null.");
         }
         
         if ( Help.isNull(i_Listener.getEventType()) )
         {
-            throw new NullPointerException("CommunicationListener.getEventType() is null.");
+            throw new NullPointerException("ServerEventListener.getEventType() is null.");
         }
         
         this.listeners.put(i_Listener.getEventType() ,i_Listener);
@@ -329,7 +337,7 @@ public class ServerSocket extends ServerBase
      * @param i_EventType  事件类型（区分大小写）
      * @return
      */
-    public CommunicationListener getListeners(String i_EventType)
+    public ServerEventListener getListeners(String i_EventType)
     {
         return this.listeners.get(i_EventType);
     }
@@ -345,16 +353,16 @@ public class ServerSocket extends ServerBase
      *
      * @param i_Listener
      */
-    public void removeListener(CommunicationListener i_Listener)
+    public void removeListener(ServerEventListener i_Listener)
     {
         if ( i_Listener == null )
         {
-            throw new NullPointerException("CommunicationListener is null.");
+            throw new NullPointerException("ServerEventListener is null.");
         }
         
         if ( Help.isNull(i_Listener.getEventType()) )
         {
-            throw new NullPointerException("CommunicationListener.getEventType() is null.");
+            throw new NullPointerException("ServerEventListener.getEventType() is null.");
         }
         
         this.listeners.remove(i_Listener.getEventType());
@@ -515,7 +523,7 @@ public class ServerSocket extends ServerBase
     /**
      * 获取：登陆验证接口。当为 null 时不验证，直接登陆成功
      */
-    public ServerSocketValidate getValidate()
+    public ServerValidate getValidate()
     {
         return validate;
     }
@@ -527,7 +535,7 @@ public class ServerSocket extends ServerBase
      * 
      * @param validate
      */
-    public ServerSocket setValidate(ServerSocketValidate validate)
+    public ServerSocket setValidate(ServerValidate validate)
     {
         this.validate = validate;
         return this;

@@ -1,4 +1,4 @@
-package org.hy.common.net;
+package org.hy.common.net.socket;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -93,7 +93,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                 $Logger.error(exce);
             }
             
-            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Response is ready to send datas.");
+            $Logger.debug("ServerBase：Port " + i_ServerBase.getPort() + " Response is ready to send datas.");
             
             try
             {
@@ -110,7 +110,7 @@ public abstract class ObjectSocketRequest implements SocketRepuest
                 $Logger.error(exce);
             }
             
-            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " Response is finish.");
+            $Logger.debug("ServerBase：Port " + i_ServerBase.getPort() + " Response is finish.");
         }
         catch (EOFException exce)
         {

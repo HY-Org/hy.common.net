@@ -1,4 +1,4 @@
-package org.hy.common.net;
+package org.hy.common.net.socket;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -7,6 +7,7 @@ import org.hy.common.ExecuteEvent;
 import org.hy.common.ExecuteListener;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
+import org.hy.common.net.ClientSocket;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.xml.log.Logger;
 

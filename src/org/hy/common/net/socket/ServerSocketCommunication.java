@@ -1,8 +1,10 @@
-package org.hy.common.net;
+package org.hy.common.net.socket;
 
 import org.hy.common.Help;
+import org.hy.common.net.ServerSocket;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.log.Logger;
 
 
@@ -65,16 +67,16 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             
             CommunicationRequest  v_RequestData  = (CommunicationRequest)i_RequestData;
             CommunicationResponse v_ResponseData = null;
-            CommunicationListener v_Listener     = null;
+            ServerEventListener   v_Listener     = null;
             
-            $Logger.debug("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + Help.NVL(v_RequestData.getEventType() ,"Default") + ".");
+            $Logger.debug("ServerCommunication：Port " + i_ServerBase.getPort() + " Event action is " + Help.NVL(v_RequestData.getEventType() ,"Default") + ".");
             
             if ( !Help.isNull(v_RequestData.getToken()) )
             {
                 Integer v_CheckPort = ServerSocketListener.getPort(v_RequestData.getToken());
-                if ( v_CheckPort == null || v_CheckPort.intValue() != i_ServerBase.port )
+                if ( v_CheckPort == null || v_CheckPort.intValue() != i_ServerBase.getPort() )
                 {
-                    $Logger.info("ServerCommunication：Port " + i_ServerBase.port + " 非法通讯、非法票据");
+                    $Logger.info("ServerCommunication：Port " + i_ServerBase.getPort() + " 非法通讯、非法票据");
                     return null;
                 }
                 
@@ -111,7 +113,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
                 exce.printStackTrace();
             }
             
-            $Logger.debug("ServerCommunication：Port " + i_ServerBase.port + " Event action is " + v_Listener.getEventType() + " finish.");
+            $Logger.debug("ServerCommunication：Port " + i_ServerBase.getPort() + " Event action is " + v_Listener.getEventType() + " finish.");
             return v_ResponseData;
         }
         finally

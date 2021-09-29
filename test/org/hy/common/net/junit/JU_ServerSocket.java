@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.hy.common.Date;
 import org.hy.common.net.ClientSocket;
-import org.hy.common.net.ClientSocketValidate;
 import org.hy.common.net.ServerSocket;
-import org.hy.common.net.ServerSocketValidate;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
+import org.hy.common.net.protocol.ServerValidate;
+import org.hy.common.net.socket.ClientSocketValidate;
 import org.hy.common.xml.SerializableDef;
 import org.hy.common.xml.XJava;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import org.junit.Test;
 
 
 
-public class JU_ServerSocket extends SerializableDef implements ServerSocketValidate ,ClientSocketValidate
+public class JU_ServerSocket extends SerializableDef implements ServerValidate ,ClientSocketValidate
 {
     
     private static final long serialVersionUID = -1693715094193260126L;

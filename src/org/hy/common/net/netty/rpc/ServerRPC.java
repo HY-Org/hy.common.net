@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.hy.common.Help;
-import org.hy.common.net.CommunicationListener;
-import org.hy.common.net.XJavaCommunicationListener;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Server;
 import org.hy.common.net.netty.rpc.encoder.CommunicationResponseEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginResponseEncoder;
+import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.net.protocol.ServerValidate;
+import org.hy.common.net.protocol.defaults.XJavaCommunicationListener;
 
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -60,10 +60,10 @@ public class ServerRPC extends Server<ServerRPC>
      * 
      * 同样的事件类型，只能有一个监听者。
      */
-    protected Map<String ,CommunicationListener> listeners;
+    protected Map<String ,ServerEventListener> listeners;
     
     /** 默认的数据通讯监听者 */
-    protected CommunicationListener              defaultListener;
+    protected ServerEventListener              defaultListener;
     
     
     
@@ -76,7 +76,7 @@ public class ServerRPC extends Server<ServerRPC>
         this.allIdleTime      = 30;
         this.executorPoolSize = Runtime.getRuntime().availableProcessors();
         
-        this.listeners        = new Hashtable<String ,CommunicationListener>();
+        this.listeners        = new Hashtable<String ,ServerEventListener>();
         this.defaultListener  = new XJavaCommunicationListener();
     }
     
@@ -130,7 +130,7 @@ public class ServerRPC extends Server<ServerRPC>
      *
      * @return
      */
-    public CommunicationListener getDefaultListener()
+    public ServerEventListener getDefaultListener()
     {
         return this.defaultListener;
     }
@@ -148,7 +148,7 @@ public class ServerRPC extends Server<ServerRPC>
      *
      * @param i_Listener
      */
-    public void setListener(CommunicationListener i_Listener)
+    public void setListener(ServerEventListener i_Listener)
     {
         this.addListener(i_Listener);
     }
@@ -164,16 +164,16 @@ public class ServerRPC extends Server<ServerRPC>
      *
      * @param i_Listener
      */
-    public void addListener(CommunicationListener i_Listener)
+    public void addListener(ServerEventListener i_Listener)
     {
         if ( i_Listener == null )
         {
-            throw new NullPointerException("CommunicationListener is null.");
+            throw new NullPointerException("ServerEventListener is null.");
         }
         
         if ( Help.isNull(i_Listener.getEventType()) )
         {
-            throw new NullPointerException("CommunicationListener.getEventType() is null.");
+            throw new NullPointerException("ServerEventListener.getEventType() is null.");
         }
         
         this.listeners.put(i_Listener.getEventType() ,i_Listener);
@@ -191,7 +191,7 @@ public class ServerRPC extends Server<ServerRPC>
      * @param i_EventType  事件类型（区分大小写）
      * @return
      */
-    public CommunicationListener getListeners(String i_EventType)
+    public ServerEventListener getListeners(String i_EventType)
     {
         return this.listeners.get(i_EventType);
     }
@@ -207,16 +207,16 @@ public class ServerRPC extends Server<ServerRPC>
      *
      * @param i_Listener
      */
-    public void removeListener(CommunicationListener i_Listener)
+    public void removeListener(ServerEventListener i_Listener)
     {
         if ( i_Listener == null )
         {
-            throw new NullPointerException("CommunicationListener is null.");
+            throw new NullPointerException("ServerEventListener is null.");
         }
         
         if ( Help.isNull(i_Listener.getEventType()) )
         {
-            throw new NullPointerException("CommunicationListener.getEventType() is null.");
+            throw new NullPointerException("ServerEventListener.getEventType() is null.");
         }
         
         this.listeners.remove(i_Listener.getEventType());

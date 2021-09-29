@@ -1,4 +1,4 @@
-package org.hy.common.net;
+package org.hy.common.net.socket;
 
 import org.hy.common.Queue;
 import org.hy.common.xml.log.Logger;
