@@ -70,7 +70,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
-        $Logger.info("接受通讯：" + i_Msg.toString());
+        $Logger.debug("接受通讯：" + i_Msg.toString());
         
         ClientUserInfo v_ClientUser = $Clients.get(i_Ctx);
         
@@ -102,7 +102,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         if ( i_Response != null )
         {
-            $Logger.info("响应数据：" + i_Response + " -> " + i_Response.getData());
+            $Logger.debug("响应数据：" + i_Response + " -> " + i_Response.getData());
             i_Ctx.writeAndFlush(i_Response);
         }
     }

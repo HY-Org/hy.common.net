@@ -1,6 +1,5 @@
 package org.hy.common.net.netty;
 
-import org.hy.common.net.junit.netty.chat.ChatServer;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -26,7 +25,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public abstract class Server<T extends Server<T>> extends App<T>
 {
-    private static final Logger $Logger = new Logger(ChatServer.class ,true);
+    private static final Logger $Logger = new Logger(Server.class ,true);
     
     
     /** 接受新连接线程，主要负责创建新连接 */
@@ -40,6 +39,9 @@ public abstract class Server<T extends Server<T>> extends App<T>
     
     /** 线程队列等待的连接个数 */
     private int             waitConnMax;
+    
+    /** 渠道 */
+    private ChannelFuture   channelFuture;
     
     
     
@@ -91,9 +93,9 @@ public abstract class Server<T extends Server<T>> extends App<T>
      * @version     v1.0
      */
     @Override
-    public synchronized void start()
+    public synchronized T start()
     {
-        this.start(this.newBootstrap());
+        return this.start(this.newBootstrap());
     }
     
     
@@ -107,12 +109,13 @@ public abstract class Server<T extends Server<T>> extends App<T>
      * 
      * @param io_Bootstrap
      */
-    public synchronized void start(ServerBootstrap io_Bootstrap)
+    @SuppressWarnings("unchecked")
+    public synchronized T start(ServerBootstrap io_Bootstrap)
     {
         if ( this.isStart )
         {
             $Logger.warn("服务已启动，请勿重复启动");
-            return;
+            return (T) this;
         }
         this.isStart = true;
         
@@ -126,9 +129,9 @@ public abstract class Server<T extends Server<T>> extends App<T>
             this.bootstrap.childHandler(new ServerInitChannel<T>(this));             // 创建一个通道pipeLine对象，给我们的WorkerGroup的EventLoop设置管道处理器
             this.bootstrap.option(ChannelOption.SO_BACKLOG  ,this.waitConnMax);      // 线程队列等待的连接个数
             
-            ChannelFuture v_ChannelFuture = this.bootstrap.bind(this.port).sync();   // 异步非阻塞
+            this.channelFuture = this.bootstrap.bind(this.port).sync();              // 异步非阻塞
             
-            v_ChannelFuture.addListener(new ChannelFutureListener()
+            this.channelFuture.addListener(new ChannelFutureListener()
             {
                 @Override
                 public void operationComplete(ChannelFuture i_ChannelFuture) throws Exception
@@ -143,13 +146,34 @@ public abstract class Server<T extends Server<T>> extends App<T>
                     }
                 }
             });
-            
-            v_ChannelFuture.channel().closeFuture().sync();                          // 对关闭通道监听
         }
         catch (Exception e)
         {
             $Logger.error(e);
             this.shutdown();
+        }
+        
+        return (T) this;
+    }
+    
+    
+    
+    /**
+     * 对关闭通道监听
+     */
+    public void sync()
+    {
+        if ( this.channelFuture != null )
+        {
+            try
+            {
+                this.channelFuture.channel().close().sync();
+            }
+            catch (Exception e)
+            {
+                $Logger.error(e);
+                this.shutdown();
+            }
         }
     }
     

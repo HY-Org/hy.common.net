@@ -46,7 +46,8 @@ public class ProtobufLengthHeadDecoder extends ByteToMessageDecoder
         byte [] v_DataLengthBytes = new byte[ProtobufLengthHeadEncoder.$HeadLength];
         if ( i_In.readableBytes() < ProtobufLengthHeadEncoder.$HeadLength )
         {
-            $Logger.error("Data length less min length[" + ProtobufLengthHeadEncoder.$HeadLength + "]: " + i_In.readableBytes());
+            // 有可能是端口探测工具发出的消息
+            $Logger.debug("Data length less min length[" + ProtobufLengthHeadEncoder.$HeadLength + "]: " + i_In.readableBytes());
             return;
         }
         
@@ -56,7 +57,7 @@ public class ProtobufLengthHeadDecoder extends ByteToMessageDecoder
         {
             if ( v_DataLength < 0 )
             {
-                $Logger.error("Invalid data length: " + v_DataLength);
+                $Logger.debug("Invalid data length: " + v_DataLength);
                 return;
             }
             else

@@ -98,9 +98,9 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * @param io_Bootstrap
      */
     @Override
-    public synchronized void start()
+    public synchronized T start()
     {
-        this.start(this.newBootstrap());
+        return this.start(this.newBootstrap());
     }
     
     
@@ -114,11 +114,12 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * 
      * @param io_Bootstrap
      */
-    public synchronized void start(Bootstrap io_Bootstrap)
+    @SuppressWarnings("unchecked")
+    public synchronized T start(Bootstrap io_Bootstrap)
     {
         if ( this.isStart )
         {
-            return;
+            return (T) this;
         }
         
         this.clientGroup = new NioEventLoopGroup();
@@ -139,6 +140,8 @@ public abstract class Client<T extends Client<T>> extends App<T>
             $Logger.error(e);
             this.shutdown();
         }
+        
+        return (T) this;
     }
     
     

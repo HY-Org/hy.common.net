@@ -32,11 +32,14 @@ public class App<T extends App<T>>
      * @createDate  2021-09-15
      * @version     v1.0
      */
-    public void start()
+    @SuppressWarnings("unchecked")
+    public T start()
     {
         this.isStart = true;
         this.port    = 1721;
         this.host    = "127.0.0.1";
+        
+        return (T) this;
     }
     
     
