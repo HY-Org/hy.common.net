@@ -68,8 +68,8 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         this.notify();         // 唤醒等待的线程。即唤醒 call 方法
     }
     
-    
-    
+
+
     /**
      * 发消息给服务器
      * 

@@ -102,6 +102,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         if ( i_Response != null )
         {
+            $Logger.info("响应数据：" + i_Response + " -> " + i_Response.getData());
             i_Ctx.writeAndFlush(i_Response);
         }
     }

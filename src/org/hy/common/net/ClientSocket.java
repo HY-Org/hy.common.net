@@ -35,7 +35,7 @@ import org.hy.common.xml.log.Logger;
  *              v2.0  2017-02-07  添加：查询多个对象getObjects(...);
  *              v3.0  2017-02-28  添加：获取服务端的Java.getSessionMap()数据
  *              v4.0  2019-02-27  添加：服务端是否返回执行结果的数据。
- *              v5.0  2021-08-26  添加： 端口池、打开的端口不再关闭、每次的数据通讯均要票据
+ *              v5.0  2021-08-26  添加：端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
 public class ClientSocket extends ObjectSocketResponse
 {

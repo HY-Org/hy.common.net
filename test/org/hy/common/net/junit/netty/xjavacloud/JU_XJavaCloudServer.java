@@ -20,9 +20,18 @@ public class JU_XJavaCloudServer
     
     public static void main(String [] args)
     {
+        XJava.putObject("TEST-Date-0" ,new Date());
         XJava.putObject("TEST-Date-1" ,new Date());
         XJava.putObject("TEST-Date-2" ,new java.util.Date());
+        XJava.putObject("TEST-Date-3" ,new Date());
+        XJava.putObject("TEST-Date-4" ,new Date());
+        XJava.putObject("TEST-Date-5" ,new Date());
+        XJava.putObject("TEST-Date-6" ,new Date());
+        XJava.putObject("TEST-Date-7" ,new Date());
+        XJava.putObject("TEST-Date-8" ,new Date());
         
+        XJava.putObject("TEST-DataInfo-1" ,new DataInfo().setValueString("数据1").setValueDate(new Date("2021-10-11 13:00:00")).setValueObject(1L));
+        XJava.putObject("TEST-DataInfo-2" ,new DataInfo().setValueString("数据2").setValueDate(new Date("2021-10-11 14:00:00")).setValueObject("2"));
         
         
         ServerRPC v_Server = new ServerRPC().setPort(3021);

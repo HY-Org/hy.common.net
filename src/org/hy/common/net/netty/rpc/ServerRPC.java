@@ -7,8 +7,10 @@ import java.util.concurrent.TimeUnit;
 import org.hy.common.Help;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Server;
+import org.hy.common.net.netty.rpc.decoder.ProtobufLengthHeadDecoder;
 import org.hy.common.net.netty.rpc.encoder.CommunicationResponseEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginResponseEncoder;
+import org.hy.common.net.netty.rpc.encoder.ProtobufLengthHeadEncoder;
 import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.net.protocol.ServerValidate;
 import org.hy.common.net.protocol.defaults.XJavaCommunicationListener;
@@ -86,16 +88,18 @@ public class ServerRPC extends Server<ServerRPC>
     public void initChannel(SocketChannel i_Channel ,ChannelPipeline i_Pipeline)
     {
         // 编码器采用：先进后出原则。即最后的编码器，优先编码
+        i_Pipeline.addLast("编码器4" ,new ProtobufLengthHeadEncoder());
         i_Pipeline.addLast("编码器3" ,new ProtobufEncoder());
         i_Pipeline.addLast("编码器2" ,new CommunicationResponseEncoder());
         i_Pipeline.addLast("编码器1" ,new LoginResponseEncoder());
         
         // 解码器采用：先进先出原则。即最后的解码器，最后解码
-        i_Pipeline.addLast("解码器" ,new ProtobufDecoder(CommunicationProto.Data.getDefaultInstance()));  // 指定对哪种类型解码
+        i_Pipeline.addLast("解码器1" ,new ProtobufLengthHeadDecoder());
+        i_Pipeline.addLast("解码器2" ,new ProtobufDecoder(CommunicationProto.Data.getDefaultInstance()));  // 指定对哪种类型解码
         // 将会触发一个IdleStateEvent的事件，并且事件会传递到下一个处理器来处理，
         // 通过触发下一个Handler的userEventTrigged方法
-        i_Pipeline.addLast("心跳器" ,new IdleStateHandler(this.readerIdleTime ,this.writerIdleTime ,this.allIdleTime ,TimeUnit.SECONDS));
-        i_Pipeline.addLast("业务器" ,new ServerRPCHandler(this));
+        i_Pipeline.addLast("心跳器"  ,new IdleStateHandler(this.readerIdleTime ,this.writerIdleTime ,this.allIdleTime ,TimeUnit.SECONDS));
+        i_Pipeline.addLast("业务器"  ,new ServerRPCHandler(this));
     }
     
     

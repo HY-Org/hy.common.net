@@ -8,7 +8,8 @@
   <packaging>jar</packaging>
 
   <name>hy.common.net</name>
-  <url>https://github.com/HY-ZhengWei/hy.common.net</url>   <!-- https://gitee.com/HY-ZhengWei/hy.common.net -->
+  <url>https://github.com/HY-ZhengWei/hy.common.net</url>   
+  <!-- https://gitee.com/HY-ZhengWei/hy.common.net -->
   
   <developers>
     <developer>
@@ -32,6 +33,12 @@
     </dependency>
     
     <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>4.1.68.Final</version>
+    </dependency>
+    
+    <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
         <version>3.17.3</version>
@@ -44,5 +51,6 @@
         <artifactId>hy.common.file</artifactId>
         <version>1.1.12</version>
     </dependency>
+    
   </dependencies>
 </project>

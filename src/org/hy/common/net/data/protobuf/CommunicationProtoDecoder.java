@@ -15,8 +15,6 @@ import org.hy.common.xml.log.Logger;
 
 import com.google.protobuf.ByteString;
 
-import io.netty.util.CharsetUtil;
-
 
 
 
@@ -282,7 +280,7 @@ public class CommunicationProtoDecoder
         
         if ( DataProtocol.Json == i_Protocol )
         {
-            String v_JsonString = new String(i_Data ,CharsetUtil.UTF_8);
+            String v_JsonString = new String(i_Data ,CommunicationProtoEncoder.$Charset);
             XJSON  v_XJson      = new XJSON();
             
             try
@@ -302,7 +300,7 @@ public class CommunicationProtoDecoder
         {
             try
             {
-                v_Ret = Help.toObject(Help.forName(i_ClassName) ,new String(i_Data ,CharsetUtil.UTF_8));
+                v_Ret = Help.toObject(Help.forName(i_ClassName) ,new String(i_Data ,CommunicationProtoEncoder.$Charset));
             }
             catch (Exception e)
             {

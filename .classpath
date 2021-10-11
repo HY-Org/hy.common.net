@@ -10,11 +10,6 @@
 	<classpathentry kind="lib" path="lib/hy.common.tpool.jar" sourcepath="/hy.common.tpool"/>
 	<classpathentry kind="lib" path="lib/junit-4.13.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/netty/netty-all-4.1.67.Final.jar" sourcepath="lib/netty/netty-all-4.1.67.Final-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/hy.common.net/lib/netty/netty-all-4.1.67.Final-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/protobuf/protobuf-java-3.17.3.jar" sourcepath="lib/protobuf/protobuf-java-3.17.3-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/hy.common.net/lib/protobuf/protobuf-java-3.17.3-javadoc.jar!/"/>
@@ -24,5 +19,6 @@
 	<classpathentry kind="lib" path="lib/json/json-smart-2.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/json/accessors-smart-2.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/json/asm-9.1.jar"/>
+	<classpathentry kind="lib" path="lib/netty/netty-all-4.1.68.Final.jar" sourcepath="C:/Users/hyzhe/.m2/io/netty/netty-all/4.1.68.Final/netty-all-4.1.68.Final-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

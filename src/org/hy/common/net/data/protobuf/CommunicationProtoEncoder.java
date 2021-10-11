@@ -1,5 +1,8 @@
 package org.hy.common.net.data.protobuf;
 
+import java.nio.charset.Charset;
+import java.util.List;
+
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationRequest;
@@ -29,9 +32,11 @@ import io.netty.util.CharsetUtil;
 public class CommunicationProtoEncoder
 {
     
-    private static final Logger $Logger       = new Logger(CommunicationProtoEncoder.class ,true);
+    private static final Logger  $Logger       = new Logger(CommunicationProtoEncoder.class ,true);
     
-    public static  final String $JsonRootName = "XJavaCloudDatas";
+    public static  final String  $JsonRootName = "XJavaCloudDatas";
+    
+    public static  final Charset $Charset      = CharsetUtil.UTF_8;
     
     
     
@@ -154,7 +159,7 @@ public class CommunicationProtoEncoder
             else if ( Help.isBasicDataType(i_Request.getData().getClass()) )
             {
                 v_Ret.setDataProtocol(DataProtocol.BasicDataType);
-                v_Ret.setData(ByteString.copyFrom(StringHelp.toString(i_Request.getData()).getBytes(CharsetUtil.UTF_8)));
+                v_Ret.setData(ByteString.copyFrom(StringHelp.toString(i_Request.getData()).getBytes($Charset)));
             }
             // Json协议
             else
@@ -162,6 +167,7 @@ public class CommunicationProtoEncoder
                 String v_JsonString = "";
                 XJSON  v_XJson      = new XJSON();
                 v_XJson.setReturnNVL(false);
+                v_XJson.setSerializable(true);    // 实现Json的序列化
                 
                 try
                 {
@@ -173,7 +179,7 @@ public class CommunicationProtoEncoder
                 }
                 
                 v_Ret.setDataProtocol(DataProtocol.Json);
-                v_Ret.setData(ByteString.copyFrom(v_JsonString.getBytes(CharsetUtil.UTF_8)));
+                v_Ret.setData(ByteString.copyFrom(v_JsonString.getBytes($Charset)));
             }
         }
         
@@ -240,14 +246,23 @@ public class CommunicationProtoEncoder
             else if ( Help.isBasicDataType(i_Response.getData().getClass()) )
             {
                 v_Ret.setDataProtocol(DataProtocol.BasicDataType);
-                v_Ret.setData(ByteString.copyFrom(StringHelp.toString(i_Response.getData()).getBytes(CharsetUtil.UTF_8)));
+                v_Ret.setData(ByteString.copyFrom(StringHelp.toString(i_Response.getData()).getBytes($Charset)));
             }
             // Json协议
             else
             {
+                if ( i_Response.getData() instanceof List )
+                {
+                    if ( !Help.isNull(i_Response.getData()) )
+                    {
+                        v_Ret.setDataClass(((List<?>)i_Response.getData()).get(0).getClass().getName());
+                    }
+                }
+                
                 String v_JsonString = "";
                 XJSON  v_XJson      = new XJSON();
                 v_XJson.setReturnNVL(false);
+                v_XJson.setSerializable(true);    // 实现Json的序列化
                 
                 try
                 {
@@ -259,7 +274,7 @@ public class CommunicationProtoEncoder
                 }
                 
                 v_Ret.setDataProtocol(DataProtocol.Json);
-                v_Ret.setData(ByteString.copyFrom(v_JsonString.getBytes(CharsetUtil.UTF_8)));
+                v_Ret.setData(ByteString.copyFrom(v_JsonString.getBytes($Charset)));
             }
         }
         
