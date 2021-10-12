@@ -1,7 +1,7 @@
 package org.hy.common.net.socket;
 
+import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.CommunicationResponse;
-import org.hy.common.net.protocol.NetError;
 
 
 

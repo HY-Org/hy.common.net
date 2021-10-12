@@ -1,4 +1,4 @@
-package org.hy.common.net.protocol;
+package org.hy.common.net.common;
 
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;

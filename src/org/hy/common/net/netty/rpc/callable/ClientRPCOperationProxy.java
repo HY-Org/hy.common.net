@@ -7,13 +7,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.hy.common.Date;
+import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.netty.rpc.ClientRPC;
-import org.hy.common.net.protocol.NetError;
 import org.hy.common.xml.log.Logger;
 
 

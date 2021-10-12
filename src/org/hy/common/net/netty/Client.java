@@ -32,6 +32,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
     /** 启动配置参数 */
     private Bootstrap       bootstrap;
     
+    /** 通讯渠道 */
     private Channel         channel;
     
     

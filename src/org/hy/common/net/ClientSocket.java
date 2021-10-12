@@ -2,12 +2,14 @@ package org.hy.common.net;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.net.common.ClientCluster;
+import org.hy.common.net.common.ClientOperation;
+import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
-import org.hy.common.net.protocol.NetError;
 import org.hy.common.net.socket.ClientCommunication;
 import org.hy.common.net.socket.ClientSocketValidate;
 import org.hy.common.net.socket.ObjectSocketResponse;
@@ -37,7 +39,7 @@ import org.hy.common.xml.log.Logger;
  *              v4.0  2019-02-27  添加：服务端是否返回执行结果的数据。
  *              v5.0  2021-08-26  添加：端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
-public class ClientSocket extends ObjectSocketResponse
+public class ClientSocket extends ObjectSocketResponse implements ClientOperation ,ClientCluster
 {
     private static final Logger $Logger = new Logger(ClientSocket.class);
     
@@ -70,6 +72,92 @@ public class ClientSocket extends ObjectSocketResponse
     
     
     /**
+     * 获取客户端的业务操作接口
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public ClientOperation operation()
+    {
+        return this;
+    }
+    
+    
+    
+    /**
+     * 获取客户端的主机地址
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public String getHost()
+    {
+        return super.getHostName();
+    }
+    
+    
+    
+    /**
+     * 获取客户端的主机端口
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public int getPort()
+    {
+        return super.getPort();
+    }
+    
+    
+    
+    /**
+     * 是否登录成功
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public boolean isLogin()
+    {
+        return true;
+    }
+
+
+    
+    /**
+     * 登录操作
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @param i_Request  登录信息。必填参数[userName ,systemName]
+     * @return
+     */
+    @Override
+    public LoginResponse login(LoginRequest i_Request)
+    {
+        return new LoginResponse();
+    }
+    
+    
+    
+    /**
      * 向服务端发送执行命令
      * 
      * @author      ZhengWei(HY)
@@ -80,6 +168,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_Command        执行命令名称（即方法名称）
      * @return
      */
+    @Override
     public CommunicationResponse sendCommand(String i_XID ,String i_Command)
     {
         return this.sendCommand(i_XID ,i_Command ,new Object[]{} ,true);
@@ -99,6 +188,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
+    @Override
     public CommunicationResponse sendCommand(String i_XID ,String i_Command ,boolean i_ServerIsReturn)
     {
         return this.sendCommand(i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn);
@@ -118,6 +208,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_CommandParams  执行命令参数（即方法参数）
      * @return
      */
+    @Override
     public CommunicationResponse sendCommand(String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
         return this.sendCommand(i_XID ,i_Command ,i_CommandParams ,true);
@@ -139,6 +230,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
+    @Override
     public CommunicationResponse sendCommand(String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -167,6 +259,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_XID            XJava对象池的ID
      * @return
      */
+    @Override
     public CommunicationResponse removeObject(String i_XID )
     {
         return removeObject(i_XID ,true);
@@ -186,6 +279,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
+    @Override
     public CommunicationResponse removeObject(String i_XID ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -209,6 +303,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_XID            XJava对象池的ID
      * @return
      */
+    @Override
     public CommunicationResponse getObject(String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -231,6 +326,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_XID  XJava对象池的ID标识符的前缀(区分大小写)
      * @return       CommunicationResponse.getData() 是一个List<CommunicationResponse>()结构的实例。
      */
+    @Override
     public CommunicationResponse getObjects(String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -252,6 +348,7 @@ public class ClientSocket extends ObjectSocketResponse
      *
      * @return       CommunicationResponse.getData() 是一个ExpireMap<String ,Object>()结构的实例。
      */
+    @Override
     public CommunicationResponse getSessionMap()
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -274,6 +371,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_Data           XJava对象
      * @return
      */
+    @Override
     public CommunicationResponse sendObject(String i_XID ,Object i_Data)
     {
         return this.sendObject(i_XID ,i_Data ,0 ,true);
@@ -293,6 +391,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
+    @Override
     public CommunicationResponse sendObject(String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
     {
         return this.sendObject(i_XID ,i_Data ,0 ,i_ServerIsReturn);
@@ -312,6 +411,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @return
      */
+    @Override
     public CommunicationResponse sendObject(String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
         return this.sendObject(i_XID ,i_Data ,i_ExpireTimeLen ,true);
@@ -333,6 +433,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
+    @Override
     public CommunicationResponse sendObject(String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
@@ -363,6 +464,7 @@ public class ClientSocket extends ObjectSocketResponse
      * @param i_RequestData  请求发送给服务端的数据
      * @return               由本类来保证：任何情况下，返回值都不会为null
      */
+    @Override
     public CommunicationResponse send(CommunicationRequest i_RequestData)
     {
         Date         v_StartTime   = new Date();

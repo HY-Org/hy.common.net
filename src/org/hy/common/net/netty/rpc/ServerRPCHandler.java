@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
@@ -14,7 +15,6 @@ import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Request;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
-import org.hy.common.net.protocol.NetError;
 import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.log.Logger;
 

@@ -2,6 +2,8 @@ package org.hy.common.net.netty.rpc;
 
 import java.lang.reflect.Proxy;
 
+import org.hy.common.net.common.ClientCluster;
+import org.hy.common.net.common.ClientOperation;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Client;
 import org.hy.common.net.netty.rpc.callable.ClientRPCOperationProxy;
@@ -9,7 +11,6 @@ import org.hy.common.net.netty.rpc.decoder.ProtobufLengthHeadDecoder;
 import org.hy.common.net.netty.rpc.encoder.CommunicationRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.ProtobufLengthHeadEncoder;
-import org.hy.common.net.protocol.ClientOperation;
 
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -29,7 +30,7 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
  * @createDate  2021-09-25
  * @version     v1.0
  */
-public class ClientRPC extends Client<ClientRPC>
+public class ClientRPC extends Client<ClientRPC> implements ClientCluster
 {
     
     /** 业务处理器 */
@@ -74,9 +75,43 @@ public class ClientRPC extends Client<ClientRPC>
      * 
      * @return
      */
+    @Override
     public ClientOperation operation()
     {
         return this.clientOperation;
+    }
+    
+    
+    
+    /**
+     * 获取客户端的主机地址
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public String getHos()
+    {
+        return super.getHost();
+    }
+    
+    
+    
+    /**
+     * 获取客户端的主机端口
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public int getPort()
+    {
+        return super.getPort();
     }
     
     

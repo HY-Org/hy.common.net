@@ -8,10 +8,11 @@ import java.util.Map;
 import org.hy.common.Date;
 import org.hy.common.Execute;
 import org.hy.common.Help;
+import org.hy.common.net.common.ClientCluster;
+import org.hy.common.net.common.ClientClusterListener;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
-import org.hy.common.net.socket.ClientSocketClusterListener;
 
 
 
@@ -23,9 +24,9 @@ import org.hy.common.net.socket.ClientSocketClusterListener;
  *   1. 多并发执行。多线程并发执行。
  *   2. 顺次执行。一个执行完，再执行另一个。
  * 
- * 注意: ClientSocketCluster类所有方法的入参timeout与ClientSocket.timeout是有区别的，含义不同。
+ * 注意: ClientSocketCluster类所有方法的入参timeout与ClientCluster.timeout是有区别的，含义不同。
  *       1. ClientSocketCluster类的timeout重点指，有大量数据通讯时，超过定义时长后，自动结束。一般本类的timeout可以配置大些。
- *       2. ClientSocket.timeout重点指连路是否正常，是在数据通讯前建立连接的等待时长。一般配置较小，如10秒。
+ *       2. ClientCluster.timeout重点指连路是否正常，是在数据通讯前建立连接的等待时长。一般配置较小，如10秒。
  *
  * @author      ZhengWei(HY)
  * @createDate  2017-01-19
@@ -35,6 +36,7 @@ import org.hy.common.net.socket.ClientSocketClusterListener;
  *              v3.0  2017-02-07  添加：查询每服务上的多个对象getObjectss(...);
  *              v4.0  2019-01-18  添加：显示日志
  *              v5.0  2019-02-27  添加：服务端是否返回执行结果的数据。
+ *              v6.0  2021-10-12  升级：所有对客户端的操作，均改成ClientCluster接口
  */
 public class ClientSocketCluster
 {
@@ -52,7 +54,7 @@ public class ClientSocketCluster
      * @param i_Command        执行命令名称（即方法名称）
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true ,true ,null);
     }
@@ -74,7 +76,7 @@ public class ClientSocketCluster
      *                         不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,true ,null);
     }
@@ -97,7 +99,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,String i_Log)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,true ,i_Log);
     }
@@ -120,7 +122,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
@@ -144,7 +146,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_IsWaitReturn ,i_ServerIsReturn ,i_Log);
     }
@@ -165,7 +167,7 @@ public class ClientSocketCluster
      * @param i_CommandParams  执行命令参数（即方法参数）
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,true ,null);
     }
@@ -188,7 +190,7 @@ public class ClientSocketCluster
      *                         不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,true ,null);
     }
@@ -212,7 +214,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
@@ -237,7 +239,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,String i_Log)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_Timeout ,i_XID ,i_Command ,i_CommandParams ,i_IsWaitReturn ,true ,i_Log);
     }
@@ -264,7 +266,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
@@ -294,7 +296,7 @@ public class ClientSocketCluster
      * @param i_XID            XJava对象池的ID
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> removeObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID)
     {
         return removeObjects(i_Cluster ,i_Timeout ,i_XID ,true ,true);
     }
@@ -315,7 +317,7 @@ public class ClientSocketCluster
      *                         不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> removeObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn)
     {
         return removeObjects(i_Cluster ,i_Timeout ,i_XID ,i_IsWaitReturn ,true);
     }
@@ -338,7 +340,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> removeObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -363,7 +365,7 @@ public class ClientSocketCluster
      * @param i_XID            XJava对象池的ID
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> getObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> getObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -388,7 +390,7 @@ public class ClientSocketCluster
      * @return                 Map.Value.getData() 是一个List<CommunicationResponse>()结构的实例。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> getObjectss(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> getObjectss(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -413,7 +415,7 @@ public class ClientSocketCluster
      * @param i_Data           XJava对象
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,true ,true ,null);
     }
@@ -435,7 +437,7 @@ public class ClientSocketCluster
      *                         不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,true ,null);
     }
@@ -458,7 +460,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
@@ -481,7 +483,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,String i_Log)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,true ,i_Log);
     }
@@ -505,7 +507,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,0 ,i_IsWaitReturn ,i_ServerIsReturn ,i_Log);
     }
@@ -526,7 +528,7 @@ public class ClientSocketCluster
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true ,true ,null);
     }
@@ -549,7 +551,7 @@ public class ClientSocketCluster
      *                         不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,true ,null);
     }
@@ -573,7 +575,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,i_ServerIsReturn ,null);
     }
@@ -598,7 +600,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,String i_Log)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,i_IsWaitReturn ,true ,i_Log);
     }
@@ -625,7 +627,7 @@ public class ClientSocketCluster
      * @param i_Log            日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_IsWaitReturn ,boolean i_ServerIsReturn ,String i_Log)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -657,7 +659,7 @@ public class ClientSocketCluster
      * @param i_RequestData  请求发送给服务端的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData)
+    public static Map<ClientCluster ,CommunicationResponse> sends(List<ClientCluster> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData)
     {
         return sends(i_Cluster ,i_Timeout ,i_RequestData ,true);
     }
@@ -683,7 +685,7 @@ public class ClientSocketCluster
      *                       不等待时，返回0元素个数的Map。
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sends(List<ClientCluster> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn)
     {
         return sends(i_Cluster ,i_Timeout ,i_RequestData ,i_IsWaitReturn ,null);
     }
@@ -711,7 +713,7 @@ public class ClientSocketCluster
      * @param i_Log          日志信息。当为null或空字符串时，表示不显示日志
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn ,String i_Log)
+    public static Map<ClientCluster ,CommunicationResponse> sends(List<ClientCluster> i_Cluster ,long i_Timeout ,CommunicationRequest i_RequestData ,boolean i_IsWaitReturn ,String i_Log)
     {
         if ( i_Timeout <= 1000 )
         {
@@ -720,12 +722,12 @@ public class ClientSocketCluster
         
         if ( Help.isNull(i_Cluster) )
         {
-            return new Hashtable<ClientSocket ,CommunicationResponse>();
+            return new Hashtable<ClientCluster ,CommunicationResponse>();
         }
         
-        ClientSocketClusterListener v_Listener = new ClientSocketClusterListener(i_Log);
+        ClientClusterListener v_Listener = new ClientClusterListener(i_Log);
         
-        for (ClientSocket v_Client : i_Cluster)
+        for (ClientCluster v_Client : i_Cluster)
         {
             Execute v_Execute = new Execute(v_Client ,"send" ,i_RequestData);
             
@@ -754,7 +756,7 @@ public class ClientSocketCluster
         }
         else
         {
-            return new Hashtable<ClientSocket ,CommunicationResponse>();
+            return new Hashtable<ClientCluster ,CommunicationResponse>();
         }
     }
     
@@ -772,7 +774,7 @@ public class ClientSocketCluster
      * @param i_Command        执行命令名称（即方法名称）
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,String i_XID ,String i_Command)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,new Object[]{} ,true);
     }
@@ -792,7 +794,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,String i_XID ,String i_Command ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn);
     }
@@ -812,7 +814,7 @@ public class ClientSocketCluster
      * @param i_CommandParams  执行命令参数（即方法参数）
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
         return ClientSocketCluster.sendCommands(i_Cluster ,i_XID ,i_Command ,i_CommandParams ,true);
     }
@@ -834,7 +836,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendCommands(List<ClientSocket> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendCommands(List<ClientCluster> i_Cluster ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
@@ -863,7 +865,7 @@ public class ClientSocketCluster
      * @param i_XID            XJava对象池的ID
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> removeObjects(List<ClientCluster> i_Cluster ,String i_XID)
     {
         return removeObjects(i_Cluster ,i_XID ,false);
     }
@@ -883,7 +885,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> removeObjects(List<ClientSocket> i_Cluster ,String i_XID ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> removeObjects(List<ClientCluster> i_Cluster ,String i_XID ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -906,7 +908,7 @@ public class ClientSocketCluster
      * @param i_XID            XJava对象池的ID
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> getObjects(List<ClientSocket> i_Cluster ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> getObjects(List<ClientCluster> i_Cluster ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -928,7 +930,7 @@ public class ClientSocketCluster
      * @param i_XID  XJava对象池的ID标识符的前缀(区分大小写)
      * @return       Map.Value.getData() 是一个List<CommunicationResponse>()结构的实例。
      */
-    public static Map<ClientSocket ,CommunicationResponse> getObjectss(List<ClientSocket> i_Cluster ,String i_XID)
+    public static Map<ClientCluster ,CommunicationResponse> getObjectss(List<ClientCluster> i_Cluster ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -951,7 +953,7 @@ public class ClientSocketCluster
      * @param i_Data           XJava对象
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,String i_XID ,Object i_Data)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,0 ,true);
     }
@@ -970,7 +972,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,0 ,i_ServerIsReturn);
     }
@@ -989,7 +991,7 @@ public class ClientSocketCluster
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
         return ClientSocketCluster.sendObjects(i_Cluster ,i_XID ,i_Data ,i_ExpireTimeLen ,true);
     }
@@ -1010,7 +1012,7 @@ public class ClientSocketCluster
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sendObjects(List<ClientSocket> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
+    public static Map<ClientCluster ,CommunicationResponse> sendObjects(List<ClientCluster> i_Cluster ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -1041,18 +1043,18 @@ public class ClientSocketCluster
      * @param i_RequestData  请求发送给服务端的数据
      * @return
      */
-    public static Map<ClientSocket ,CommunicationResponse> sends(List<ClientSocket> i_Cluster ,CommunicationRequest i_RequestData)
+    public static Map<ClientCluster ,CommunicationResponse> sends(List<ClientCluster> i_Cluster ,CommunicationRequest i_RequestData)
     {
-        Map<ClientSocket ,CommunicationResponse> v_ClusterResponses = new LinkedHashMap<ClientSocket ,CommunicationResponse>();
+        Map<ClientCluster ,CommunicationResponse> v_ClusterResponses = new LinkedHashMap<ClientCluster ,CommunicationResponse>();
         
         if ( Help.isNull(i_Cluster) )
         {
             return v_ClusterResponses;
         }
         
-        for (ClientSocket v_Client : i_Cluster)
+        for (ClientCluster v_Client : i_Cluster)
         {
-            CommunicationResponse v_ResponseData = v_Client.send(i_RequestData);
+            CommunicationResponse v_ResponseData = v_Client.operation().send(i_RequestData);
             
             v_ClusterResponses.put(v_Client ,v_ResponseData);
         }

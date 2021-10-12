@@ -1,4 +1,4 @@
-package org.hy.common.net.socket;
+package org.hy.common.net.common;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -7,7 +7,6 @@ import org.hy.common.ExecuteEvent;
 import org.hy.common.ExecuteListener;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
-import org.hy.common.net.ClientSocket;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.xml.log.Logger;
 
@@ -22,35 +21,36 @@ import org.hy.common.xml.log.Logger;
  * @createDate  2017-01-19
  * @version     v1.0
  *              v2.0  2019-01-18  添加：显示日志
+ *              v3.0  2021-10-12  升级：所有对客户端的操作，均改成ClientCluster接口
  */
-public class ClientSocketClusterListener implements ExecuteListener
+public class ClientClusterListener implements ExecuteListener
 {
     
-    private static final Logger $Logger = new Logger(ClientSocketClusterListener.class);
+    private static final Logger $Logger = new Logger(ClientClusterListener.class);
     
     
     /** 集群的总体执行结果 */
-    private Map<ClientSocket ,CommunicationResponse> clusterResult;
+    private Map<ClientCluster ,CommunicationResponse> clusterResult;
     
     /** 集群执行后返回结果的数量 */
-    private int                                      clusterCount;
+    private int                                       clusterCount;
     
     /** 日志信息。当为null或空字符串时，表示不显示日志 */
-    private String                                   logInfo;
+    private String                                    logInfo;
     
     
     
-    public ClientSocketClusterListener()
+    public ClientClusterListener()
     {
         this(null);
     }
     
     
     
-    public ClientSocketClusterListener(String i_LogInfo)
+    public ClientClusterListener(String i_LogInfo)
     {
         this.logInfo       = i_LogInfo;
-        this.clusterResult = new Hashtable<ClientSocket ,CommunicationResponse>();
+        this.clusterResult = new Hashtable<ClientCluster ,CommunicationResponse>();
     }
     
     
@@ -67,21 +67,21 @@ public class ClientSocketClusterListener implements ExecuteListener
     @Override
     public synchronized void result(ExecuteEvent i_Event)
     {
-        this.clusterResult.put((ClientSocket)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
+        this.clusterResult.put((ClientCluster)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
         this.clusterCount++;
         
         if ( !Help.isNull(this.logInfo) )
         {
-            ClientSocket          v_Client = (ClientSocket)i_Event.getSource();
+            ClientCluster         v_Client = (ClientCluster)i_Event.getSource();
             CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
             StringBuilder         v_Buffer = new StringBuilder();
             
             v_Buffer.append("集群通讯已收到 ");
             v_Buffer.append(StringHelp.lpad(this.clusterCount ,4 ," "));
             v_Buffer.append(" 次返回。本次为 ");
-            v_Buffer.append(v_Client.getHostName());
+            v_Buffer.append(v_Client.getHost());
             v_Buffer.append(":");
-            v_Buffer.append(v_Client.getPort() );
+            v_Buffer.append(v_Client.getPort());
             v_Buffer.append(" ");
             v_Buffer.append(this.logInfo);
             v_Buffer.append(" ");
@@ -93,7 +93,7 @@ public class ClientSocketClusterListener implements ExecuteListener
 
 
     
-    public Map<ClientSocket ,CommunicationResponse> getClusterResult()
+    public Map<ClientCluster ,CommunicationResponse> getClusterResult()
     {
         return clusterResult;
     }
