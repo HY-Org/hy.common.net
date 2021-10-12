@@ -40,6 +40,14 @@ public abstract class Server<T extends Server<T>> extends App<T>
     /** 线程队列等待的连接个数 */
     private int             waitConnMax;
     
+    /**
+     * 同一账户多次登录的最大上限，当超过时自动退出之前的任一登录账户。
+     * 
+     * 默认为：0，表示允许同一账户无限制登录
+     * 设置成：1，表示当前最新的登录，将踢出之前的登录
+     */
+    private int             sameUserOnlineMaxCount;
+    
     /** 渠道 */
     private ChannelFuture   channelFuture;
     
@@ -59,7 +67,8 @@ public abstract class Server<T extends Server<T>> extends App<T>
     public Server()
     {
         super();
-        this.waitConnMax = 1024 * 4;
+        this.waitConnMax            = 1024 * 4;
+        this.sameUserOnlineMaxCount = 0;
     }
     
     
@@ -226,6 +235,36 @@ public abstract class Server<T extends Server<T>> extends App<T>
     {
         this.waitConnMax = waitConnMax;
         return (T) this;
+    }
+
+
+
+    /**
+     * 获取：同一账户多次登录的最大上限，当超过时自动退出之前的任一登录账户。
+     * 
+     * 默认为：0，表示允许同一账户无限制登录
+     * 设置成：1，表示当前最新的登录，将踢出之前的登录
+     * 
+     * @return
+     */
+    public int getSameUserOnlineMaxCount()
+    {
+        return sameUserOnlineMaxCount;
+    }
+
+
+
+    /**
+     * 设置：同一账户多次登录的最大上限，当超过时自动退出之前的任一登录账户。
+     * 
+     * 默认为：0，表示允许同一账户无限制登录
+     * 设置成：1，表示当前最新的登录，将踢出之前的登录
+     * 
+     * @param waitConnMax
+     */
+    public void setSameUserOnlineMaxCount(int sameUserOnlineMaxCount)
+    {
+        this.sameUserOnlineMaxCount = sameUserOnlineMaxCount;
     }
 
 }

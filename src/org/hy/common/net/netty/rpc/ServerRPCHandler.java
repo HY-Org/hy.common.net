@@ -144,15 +144,28 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     private void removeExpireSameClientUser(ClientUserInfo i_ClientUser)
     {
-        for (Map.Entry<ChannelHandlerContext ,ClientUserInfo> v_Item : $Clients.entrySet())
+        if ( this.mainServer.getSameUserOnlineMaxCount() > 0 )
         {
-            ClientUserInfo v_ClientUser = v_Item.getValue();
-            
-            if ( v_ClientUser.getUserName()  .equals(i_ClientUser.getUserName())
-              && v_ClientUser.getSystemName().equals(i_ClientUser.getSystemName()) )
+            int v_OnlineCount = 0;
+            for (Map.Entry<ChannelHandlerContext ,ClientUserInfo> v_Item : $Clients.entrySet())
             {
-                $Clients.remove(v_Item.getKey());
-                break;
+                ClientUserInfo v_ClientUser = v_Item.getValue();
+                
+                if ( v_ClientUser.getUserName()  .equals(i_ClientUser.getUserName())
+                  && v_ClientUser.getSystemName().equals(i_ClientUser.getSystemName()) )
+                {
+                    if ( v_OnlineCount < this.mainServer.getSameUserOnlineMaxCount() )
+                    {
+                        v_OnlineCount++;
+                        continue;
+                    }
+                    else
+                    {
+                        $Clients.remove(v_Item.getKey());
+                        v_Item.getKey().close();
+                        break;
+                    }
+                }
             }
         }
     }

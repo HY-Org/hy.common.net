@@ -24,9 +24,9 @@ import org.junit.Test;
 public class JU_LoadRunner
 {
     
-    public static String $ID          = "0175C6BE1B7BFCF2390793C91642AEC0";
+    public static String $ID          = "7B04093A5BD5F7918DBC7E35BB6FF588";
     
-    public static int    $ForCount    = 100000;
+    public static int    $ForCount    = 1000000;
     
     public static int    $ThreadCount = 100;
 
