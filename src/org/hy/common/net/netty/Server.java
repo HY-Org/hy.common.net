@@ -1,5 +1,6 @@
 package org.hy.common.net.netty;
 
+import org.hy.common.net.common.App;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.bootstrap.ServerBootstrap;

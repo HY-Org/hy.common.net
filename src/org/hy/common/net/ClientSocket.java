@@ -39,7 +39,7 @@ import org.hy.common.xml.log.Logger;
  *              v4.0  2019-02-27  添加：服务端是否返回执行结果的数据。
  *              v5.0  2021-08-26  添加：端口池、打开的端口不再关闭、每次的数据通讯均要票据
  */
-public class ClientSocket extends ObjectSocketResponse implements ClientOperation ,ClientCluster
+public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements ClientOperation ,ClientCluster
 {
     private static final Logger $Logger = new Logger(ClientSocket.class);
     
@@ -509,7 +509,7 @@ public class ClientSocket extends ObjectSocketResponse implements ClientOperatio
         // 登陆验证成功后，进行数据通讯
         i_RequestData.setTime(new Date());
         i_RequestData.setToken(v_ResponseData.getToken());
-        ClientCommunication   v_ClientCommunication = new ClientCommunication(this.hostName ,v_ResponseData.getPort());
+        ClientCommunication   v_ClientCommunication = new ClientCommunication(this.host ,v_ResponseData.getPort());
         CommunicationResponse v_Communication       = (CommunicationResponse)v_ClientCommunication.send(i_RequestData);
         
         if ( v_Communication == null )

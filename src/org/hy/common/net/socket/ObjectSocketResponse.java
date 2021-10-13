@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import org.hy.common.Help;
+import org.hy.common.net.common.App;
 import org.hy.common.xml.log.Logger;
 
 
@@ -27,15 +28,9 @@ import org.hy.common.xml.log.Logger;
  * @version     v1.0
  *              v2.0  2019-03-06  添加：超时时长的机制
  */
-public abstract class ObjectSocketResponse implements SocketResponse
+public abstract class ObjectSocketResponse<T extends ObjectSocketResponse<T>> extends App<T> implements SocketResponse
 {
     private static final Logger $Logger = new Logger(ObjectSocketResponse.class);
-    
-    /** 主机名称 */
-    protected String hostName;
-    
-    /** 端口号 */
-    protected int    port;
     
     /**  超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒 */
     protected int    timeout;
@@ -44,8 +39,9 @@ public abstract class ObjectSocketResponse implements SocketResponse
     
     public ObjectSocketResponse(String i_HostName ,int i_Port)
     {
-        this.hostName = i_HostName;
-        this.port     = i_Port;
+        super();
+        this.setHost(i_HostName);
+        this.setPort(i_Port);
         this.timeout  = 10 * 1000;
     }
     
@@ -74,11 +70,11 @@ public abstract class ObjectSocketResponse implements SocketResponse
                 return null;
             }
             
-            v_Socket = Help.getSocket(this.hostName ,this.port ,this.timeout);
+            v_Socket = Help.getSocket(this.host ,this.port ,this.timeout);
             if ( v_Socket == null )
             {
                 // 这里在压力大时，报错极多，需要优化
-                $Logger.warn("无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接");
+                $Logger.warn("无法与 " + this.host + ":" + this.port + " 建立网络通讯连接");
                 return null;
             }
             
@@ -110,7 +106,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
         }
         catch (Throwable exce)
         {
-            $Logger.warn("无法与 " + this.hostName + ":" + this.port + " 建立网络通讯连接.");
+            $Logger.warn("无法与 " + this.host + ":" + this.port + " 建立网络通讯连接.");
             $Logger.error(exce);
         }
         finally
@@ -171,7 +167,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
      */
     public String getHostName()
     {
-        return hostName;
+        return super.getHost();
     }
 
     
@@ -183,29 +179,7 @@ public abstract class ObjectSocketResponse implements SocketResponse
      */
     public void setHostName(String hostName)
     {
-        this.hostName = hostName;
-    }
-
-    
-    
-    /**
-     * 获取：端口号
-     */
-    public int getPort()
-    {
-        return port;
-    }
-
-    
-    
-    /**
-     * 设置：端口号
-     * 
-     * @param port
-     */
-    public void setPort(int port)
-    {
-        this.port = port;
+        super.setHost(hostName);
     }
 
 
