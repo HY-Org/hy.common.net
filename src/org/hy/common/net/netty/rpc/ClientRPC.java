@@ -12,6 +12,7 @@ import org.hy.common.net.netty.rpc.encoder.CommunicationRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.LoginRequestEncoder;
 import org.hy.common.net.netty.rpc.encoder.ProtobufLengthHeadEncoder;
 
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
@@ -67,6 +68,58 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     
     
     /**
+     * 启动服务，配置参数外界传入。为了重新登录而重写start方法
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     * 
+     * @param io_Bootstrap
+     */
+    @Override
+    public synchronized ClientRPC start()
+    {
+        this.operation().logout();
+        return super.start();
+    }
+
+
+
+    /**
+     * 启动服务，配置参数外界传入。为了重新登录而重写start方法
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     * 
+     * @param io_Bootstrap
+     */
+    @Override
+    public synchronized ClientRPC start(Bootstrap io_Bootstrap)
+    {
+        this.operation().logout();
+        return super.start(io_Bootstrap);
+    }
+
+
+    
+    /**
+     * 关闭程序。退出而重写shutdown方法
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-09-16
+     * @version     v1.0
+     */
+    @Override
+    public synchronized void shutdown()
+    {
+        this.operation().logout();
+        super.shutdown();
+    }
+
+
+
+    /**
      * 获取业务接口
      * 
      * @author      ZhengWei(HY)
@@ -121,7 +174,7 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
      * 
      * @return
      */
-    protected ClientOperation newOperation()
+    private ClientOperation newOperation()
     {
         return this.clientOperation = (ClientOperation)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader() ,new Class<?>[] {ClientOperation.class} ,new ClientRPCOperationProxy(this));
     }

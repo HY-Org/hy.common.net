@@ -47,6 +47,17 @@ public interface ClientOperation
     
     
     /**
+     * 登出操作。一般为异常时，内部自动调用使用
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     */
+    public boolean logout();
+    
+    
+    
+    /**
      * 发送通讯数据
      * 
      * @author      ZhengWei(HY)

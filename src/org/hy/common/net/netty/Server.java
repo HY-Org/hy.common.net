@@ -29,6 +29,12 @@ public abstract class Server<T extends Server<T>> extends App<T>
     private static final Logger $Logger = new Logger(Server.class ,true);
     
     
+    /** BossGroup分配的线程数。默认的线程数是：CPU核数 * 2 */
+    private int             bossMaxThread;
+    
+    /** WorkerGroup分配的线程数。默认的线程数是：CPU核数 * 2 */
+    private int             workerMaxThread;
+    
     /** 接受新连接线程，主要负责创建新连接 */
     private EventLoopGroup  bossGroup;
     
@@ -68,8 +74,11 @@ public abstract class Server<T extends Server<T>> extends App<T>
     public Server()
     {
         super();
+        this.bossMaxThread          = 0;         // 0值表示：默认的线程数是：CPU核数 * 2
+        this.workerMaxThread        = 0;         // 0值表示：默认的线程数是：CPU核数 * 2
         this.waitConnMax            = 1024 * 4;
         this.sameUserOnlineMaxCount = 0;
+        this.bootstrap              = this.newBootstrap();
     }
     
     
@@ -105,7 +114,7 @@ public abstract class Server<T extends Server<T>> extends App<T>
     @Override
     public synchronized T start()
     {
-        return this.start(this.newBootstrap());
+        return this.start(this.bootstrap);
     }
     
     
@@ -127,12 +136,19 @@ public abstract class Server<T extends Server<T>> extends App<T>
             $Logger.warn("服务已启动，请勿重复启动");
             return (T) this;
         }
-        this.isStart = true;
+        
+        super.start();
         
         try
         {
-            this.bossGroup   = new NioEventLoopGroup();
-            this.workerGroup = new NioEventLoopGroup();
+            /*
+             * 1. 创建两个线程组 BossGroup 和 WorkerGroup
+             * 2. BossGroup只处理连接请求，真正的业务处理，会交给WorkerGroup完成
+             * 3. 两者都是无限循环
+             * 4. BossGroup 和 WorkerGroup 默认的线程数是：CPU核数 * 2
+             */
+            this.bossGroup   = new NioEventLoopGroup(this.bossMaxThread);
+            this.workerGroup = new NioEventLoopGroup(this.workerMaxThread);
             
             this.bootstrap = io_Bootstrap;
             this.bootstrap.group(this.bossGroup ,this.workerGroup);                  // 设置两个线程组
@@ -209,7 +225,7 @@ public abstract class Server<T extends Server<T>> extends App<T>
             this.workerGroup.shutdownGracefully();
         }
         
-        this.isStart = false;
+        super.shutdown();
     }
 
 
@@ -266,6 +282,46 @@ public abstract class Server<T extends Server<T>> extends App<T>
     public void setSameUserOnlineMaxCount(int sameUserOnlineMaxCount)
     {
         this.sameUserOnlineMaxCount = sameUserOnlineMaxCount;
+    }
+
+
+
+    /**
+     * 获取：BossGroup分配的线程数。默认的线程数是：CPU核数 * 2
+     * 
+     * @return
+     */
+    public int getBossMaxThread()
+    {
+        return bossMaxThread;
+    }
+
+
+
+    
+    public void setBossMaxThread(int bossMaxThread)
+    {
+        this.bossMaxThread = bossMaxThread;
+    }
+
+
+
+    /**
+     * 获取：WorkerGroup分配的线程数。默认的线程数是：CPU核数 * 2
+     * 
+     * @return
+     */
+    public int getWorkerMaxThread()
+    {
+        return workerMaxThread;
+    }
+
+
+
+    
+    public void setWorkerMaxThread(int workerMaxThread)
+    {
+        this.workerMaxThread = workerMaxThread;
     }
 
 }

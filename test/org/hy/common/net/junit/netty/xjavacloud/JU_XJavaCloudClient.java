@@ -66,6 +66,22 @@ public class JU_XJavaCloudClient
                 $Logger.info("->" + item);
             });
         }
+        
+        
+        while ( true )
+        {
+            if ( !v_Client.isStart() )
+            {
+                v_Client.start(v_Client.newBootstrap());
+            }
+            
+            if ( !v_Client.operation().isLogin() )
+            {
+                v_Client.operation().login(v_LoginRequest);
+            }
+            
+            $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
+        }
     }
     
 }

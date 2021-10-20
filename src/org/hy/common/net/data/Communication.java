@@ -21,6 +21,8 @@ public class Communication<T extends Communication<T>> extends SerializableDef
     
     private static final long serialVersionUID = 7513185667760947675L;
     
+    public  static final int  $Succeed         = 0;
+    
     
     /** 通讯的接口版本 */
     protected int     version;

@@ -19,8 +19,6 @@ public class CommunicationResponse extends Communication<CommunicationResponse> 
     
     private static final long serialVersionUID = -1271619329628744231L;
     
-    public  static final int  $Succeed         = 0;
-
     
     
     /** 通讯的结果类型(0：为成功； 其它为失败编码) */

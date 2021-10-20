@@ -6,6 +6,7 @@ import org.hy.common.xml.log.Logger;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -35,6 +36,14 @@ public abstract class Client<T extends Client<T>> extends App<T>
     
     /** 通讯渠道 */
     private Channel         channel;
+    
+    
+    
+    public Client()
+    {
+        super();
+        this.bootstrap = this.newBootstrap();
+    }
     
     
     
@@ -84,6 +93,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
         Bootstrap v_Bootstrap = new Bootstrap();
         
         v_Bootstrap.channel(NioSocketChannel.class);
+        v_Bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
         
         return v_Bootstrap;
     }
@@ -102,7 +112,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
     @Override
     public synchronized T start()
     {
-        return this.start(this.newBootstrap());
+        return this.start(this.bootstrap);
     }
     
     
@@ -124,6 +134,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
             return (T) this;
         }
         
+        super.start();
         this.clientGroup = new NioEventLoopGroup();
         
         try
@@ -163,7 +174,8 @@ public abstract class Client<T extends Client<T>> extends App<T>
             this.clientGroup.shutdownGracefully();
         }
         
-        this.isStart = false;
+        super.shutdown();
+        $Logger.info("客户端已停止");
     }
     
 }

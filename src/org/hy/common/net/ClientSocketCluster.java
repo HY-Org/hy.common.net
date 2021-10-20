@@ -1,5 +1,6 @@
 package org.hy.common.net;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,8 +12,11 @@ import org.hy.common.Help;
 import org.hy.common.net.common.ClientCluster;
 import org.hy.common.net.common.ClientClusterListener;
 import org.hy.common.net.data.Command;
+import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.net.data.LoginRequest;
+import org.hy.common.net.data.LoginResponse;
 
 
 
@@ -40,6 +44,56 @@ import org.hy.common.net.data.CommunicationResponse;
  */
 public class ClientSocketCluster
 {
+    
+    /**
+     * 集群登录
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-13
+     * @version     v1.0
+     * 
+     * @param i_Cluster   集群信息
+     * @param i_Request   登录对象
+     * @return            返回登录失败的客户端对象。只有为 null 时返回集群登录全部成功。
+     */
+    public static List<ClientCluster> login(List<ClientCluster> i_Cluster ,LoginRequest i_Request)
+    {
+        List<ClientCluster> v_Ret = new ArrayList<ClientCluster>();
+        
+        if ( Help.isNull(i_Cluster) )
+        {
+            return v_Ret;
+        }
+        
+        for (ClientCluster v_Client : i_Cluster)
+        {
+            if ( v_Client.operation().isLogin() )
+            {
+                continue;
+            }
+            
+            LoginResponse v_Response = v_Client.operation().login(i_Request);
+            
+            if ( v_Response.getResult() != Communication.$Succeed )
+            {
+                v_Ret.add(v_Client);
+            }
+        }
+        
+        if ( v_Ret.size() >= 0 )
+        {
+            return v_Ret;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    
+    
+    
+    
     
     /**
      * 以并发的方式，向集群服务端发送执行命令

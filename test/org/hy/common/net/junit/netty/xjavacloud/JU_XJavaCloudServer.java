@@ -20,6 +20,7 @@ public class JU_XJavaCloudServer
     
     public static void main(String [] args)
     {
+        // 准备服务端的测试数据
         XJava.putObject("TEST-Date-0" ,new Date());
         XJava.putObject("TEST-Date-1" ,new Date());
         XJava.putObject("TEST-Date-2" ,new java.util.Date());

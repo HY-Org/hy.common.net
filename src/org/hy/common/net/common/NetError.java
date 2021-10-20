@@ -13,6 +13,10 @@ package org.hy.common.net.common;
  */
 public interface NetError
 {
+    /** 请启动服务后再通讯 */
+    public static final int $StartNotError                 = 80;
+    
+    
     
     /** 请登录后再通讯 */
     public static final int $LoginNotError                 = 94;

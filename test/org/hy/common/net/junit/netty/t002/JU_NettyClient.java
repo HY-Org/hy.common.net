@@ -53,6 +53,8 @@ public class JU_NettyClient
             
             // 对关闭通道监听
             v_ChannelFuture.channel().closeFuture().sync();
+            
+            Thread.sleep(1000 * 60 * 10);
         }
         catch (Exception e)
         {

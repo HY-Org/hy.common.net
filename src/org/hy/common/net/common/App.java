@@ -36,8 +36,6 @@ public class App<T extends App<T>>
     public T start()
     {
         this.isStart = true;
-        this.port    = 1721;
-        this.host    = "127.0.0.1";
         
         return (T) this;
     }

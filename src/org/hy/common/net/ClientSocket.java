@@ -158,6 +158,21 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     
     
     /**
+     * 登出操作。一般为异常时，内部自动调用使用
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     */
+    @Override
+    public boolean logout()
+    {
+        return true;
+    }
+    
+    
+    
+    /**
      * 向服务端发送执行命令
      * 
      * @author      ZhengWei(HY)

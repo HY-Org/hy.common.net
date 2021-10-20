@@ -97,7 +97,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     public void exceptionCaught(ChannelHandlerContext i_Ctx ,Throwable i_Cause) throws Exception
     {
         i_Ctx.close();
-        this.clientRPC.newOperation();
+        this.clientRPC.shutdown();
         
         $Logger.error(i_Cause.getMessage());
     }

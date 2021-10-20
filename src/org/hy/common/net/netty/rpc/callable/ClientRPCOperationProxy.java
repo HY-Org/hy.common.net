@@ -48,24 +48,51 @@ public class ClientRPCOperationProxy implements InvocationHandler
         this.clientRPC = i_ClientRPC;
     }
     
-
+    
     
     @Override
     public Object invoke(Object i_Proxy ,Method i_Method ,Object [] i_Args) throws Throwable
     {
-        if ( "login".equals(i_Method.getName()) )
+        if ( "logout".equals(i_Method.getName()) )
         {
-            return this.proxyLogin(i_Args);
+            this.isLogin =  false;
+            return true;
+        }
+        else if ( "login".equals(i_Method.getName()) )
+        {
+            if ( this.clientRPC.isStart() )
+            {
+                return this.proxyLogin(i_Args);
+            }
+            else
+            {
+                return false;
+            }
         }
         else if ( "isLogin".equals(i_Method.getName()) )
         {
-            return this.isLogin;
+            if ( this.clientRPC.isStart() )
+            {
+                return this.isLogin;
+            }
+            else
+            {
+                return false;
+            }
         }
-        
-        if ( !this.isLogin )
+        else
         {
-            // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
-            return new CommunicationResponse().setResult(NetError.$LoginNotError).setEndTime(new Date());
+            if ( !this.clientRPC.isStart() )
+            {
+                // 必须先启动后才能通讯
+                return new CommunicationResponse().setResult(NetError.$StartNotError).setEndTime(new Date());
+            }
+            
+            if ( !this.isLogin )
+            {
+                // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
+                return new CommunicationResponse().setResult(NetError.$LoginNotError).setEndTime(new Date());
+            }
         }
         
         CommunicationRequest v_Request = new CommunicationRequest();
