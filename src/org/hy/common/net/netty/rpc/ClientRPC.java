@@ -145,7 +145,8 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
      * 
      * @return
      */
-    public String getHos()
+    @Override
+    public String getHost()
     {
         return super.getHost();
     }
