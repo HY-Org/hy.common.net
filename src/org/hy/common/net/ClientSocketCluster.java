@@ -8,9 +8,11 @@ import java.util.Map;
 
 import org.hy.common.Date;
 import org.hy.common.Execute;
+import org.hy.common.ExecuteEvent;
 import org.hy.common.Help;
 import org.hy.common.net.common.ClientCluster;
 import org.hy.common.net.common.ClientClusterListener;
+import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.CommunicationRequest;
@@ -41,6 +43,7 @@ import org.hy.common.net.data.LoginResponse;
  *              v4.0  2019-01-18  添加：显示日志
  *              v5.0  2019-02-27  添加：服务端是否返回执行结果的数据。
  *              v6.0  2021-10-12  升级：所有对客户端的操作，均改成ClientCluster接口
+ *              v6.1  2021-12-03  升级：数据通讯前，要求先验证是否登录成功（但不会自动登录，只是纯验证）。对于未登录的，也返回错误信息。
  */
 public class ClientSocketCluster
 {
@@ -780,14 +783,19 @@ public class ClientSocketCluster
         }
         
         ClientClusterListener v_Listener = new ClientClusterListener(i_Log);
-        
         for (ClientCluster v_Client : i_Cluster)
         {
-            Execute v_Execute = new Execute(v_Client ,"send" ,i_RequestData);
-            
-            v_Execute.addListener(v_Listener);
-            
-            v_Execute.start(i_Timeout);
+            if ( !v_Client.operation().isLogin() )
+            {
+                // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
+                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$LoginNotError)));
+            }
+            else
+            {
+                Execute v_Execute = new Execute(v_Client.operation() ,"send" ,i_RequestData);
+                v_Execute.addListener(v_Listener);
+                v_Execute.start(i_Timeout);
+            }
         }
         
         if ( i_IsWaitReturn )
@@ -1108,7 +1116,17 @@ public class ClientSocketCluster
         
         for (ClientCluster v_Client : i_Cluster)
         {
-            CommunicationResponse v_ResponseData = v_Client.operation().send(i_RequestData);
+            CommunicationResponse v_ResponseData = null;
+            
+            if ( !v_Client.operation().isLogin() )
+            {
+                // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
+                v_ResponseData = new CommunicationResponse().setResult(NetError.$LoginNotError);
+            }
+            else
+            {
+                v_ResponseData = v_Client.operation().send(i_RequestData);
+            }
             
             v_ClusterResponses.put(v_Client ,v_ResponseData);
         }
