@@ -14,7 +14,7 @@ import org.hy.common.net.data.CommunicationResponse;
  * @createDate  2017-01-14
  * @version     v1.0
  */
-public class ClientCommunication extends ObjectSocketResponse
+public class ClientCommunication extends ObjectSocketResponse<ClientCommunication>
 {
     
     public ClientCommunication(String i_HostName ,int i_Port)

@@ -49,6 +49,84 @@ public class ClientSocketCluster
 {
     
     /**
+     * 集群开启客户端连接
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-06
+     * @version     v1.0
+     * 
+     * @param i_Cluster   集群信息
+     * @return            返回连接失败的客户端对象。只有为 null 时返回集群登录全部成功。
+     */
+    public static List<ClientCluster> startServer(List<ClientCluster> i_Cluster)
+    {
+        List<ClientCluster> v_Errors = new ArrayList<ClientCluster>();
+        
+        if ( Help.isNull(i_Cluster) )
+        {
+            return v_Errors;
+        }
+        
+        for (ClientCluster v_Client : i_Cluster)
+        {
+            if ( !v_Client.operation().startServer() )
+            {
+                v_Errors.add(v_Client);
+            }
+        }
+        
+        if ( v_Errors.size() >= 0 )
+        {
+            return v_Errors;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    
+    
+    /**
+     * 集群关闭客户端连接
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-06
+     * @version     v1.0
+     * 
+     * @param i_Cluster   集群信息
+     * @return            返回连接失败的客户端对象。只有为 null 时返回集群登录全部成功。
+     */
+    public static List<ClientCluster> shutdownServer(List<ClientCluster> i_Cluster)
+    {
+        List<ClientCluster> v_Errors = new ArrayList<ClientCluster>();
+        
+        if ( Help.isNull(i_Cluster) )
+        {
+            return v_Errors;
+        }
+        
+        for (ClientCluster v_Client : i_Cluster)
+        {
+            if ( !v_Client.operation().shutdownServer() )
+            {
+                v_Errors.add(v_Client);
+            }
+        }
+        
+        if ( v_Errors.size() >= 0 )
+        {
+            return v_Errors;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    
+    
+    /**
      * 集群登录
      * 
      * @author      ZhengWei(HY)
@@ -61,11 +139,11 @@ public class ClientSocketCluster
      */
     public static List<ClientCluster> login(List<ClientCluster> i_Cluster ,LoginRequest i_Request)
     {
-        List<ClientCluster> v_Ret = new ArrayList<ClientCluster>();
+        List<ClientCluster> v_Errors = new ArrayList<ClientCluster>();
         
         if ( Help.isNull(i_Cluster) )
         {
-            return v_Ret;
+            return v_Errors;
         }
         
         for (ClientCluster v_Client : i_Cluster)
@@ -79,13 +157,13 @@ public class ClientSocketCluster
             
             if ( v_Response.getResult() != Communication.$Succeed )
             {
-                v_Ret.add(v_Client);
+                v_Errors.add(v_Client);
             }
         }
         
-        if ( v_Ret.size() >= 0 )
+        if ( v_Errors.size() >= 0 )
         {
-            return v_Ret;
+            return v_Errors;
         }
         else
         {

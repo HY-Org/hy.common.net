@@ -123,6 +123,36 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     
     
     /**
+     * 启动服务
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-06
+     * @version     v1.0
+     */
+    @Override
+    public boolean startServer()
+    {
+        return true;
+    }
+
+
+
+    /**
+     * 关闭服务
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-06
+     * @version     v1.0
+     */
+    @Override
+    public boolean shutdownServer()
+    {
+        return true;
+    }
+    
+    
+    
+    /**
      * 是否登录成功
      * 
      * @author      ZhengWei(HY)

@@ -53,9 +53,19 @@ public class ClientRPCOperationProxy implements InvocationHandler
     @Override
     public Object invoke(Object i_Proxy ,Method i_Method ,Object [] i_Args) throws Throwable
     {
-        if ( "logout".equals(i_Method.getName()) )
+        if ( "startServer".equals(i_Method.getName()) )
         {
-            this.isLogin =  false;
+            this.clientRPC.start();
+            return true;
+        }
+        else if ( "shutdownServer".equals(i_Method.getName()) )
+        {
+            this.clientRPC.shutdown();
+            return true;
+        }
+        else if ( "logout".equals(i_Method.getName()) )
+        {
+            this.isLogin = false;
             return true;
         }
         else if ( "login".equals(i_Method.getName()) )
@@ -66,7 +76,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             }
             else
             {
-                return false;
+                return new LoginResponse().setResult(NetError.$StartNotError);
             }
         }
         else if ( "isLogin".equals(i_Method.getName()) )
