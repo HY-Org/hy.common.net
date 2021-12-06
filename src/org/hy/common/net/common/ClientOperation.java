@@ -42,6 +42,19 @@ public interface ClientOperation
     
     
     /**
+     * 是否启动服务
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-06
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public boolean isStartServer();
+    
+    
+    
+    /**
      * 是否登录成功
      * 
      * @author      ZhengWei(HY)

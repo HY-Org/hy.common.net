@@ -63,6 +63,10 @@ public class ClientRPCOperationProxy implements InvocationHandler
             this.clientRPC.shutdown();
             return true;
         }
+        else if ( "isStartServer".equals(i_Method.getName()) )
+        {
+            return this.clientRPC.isStart();
+        }
         else if ( "logout".equals(i_Method.getName()) )
         {
             this.isLogin = false;

@@ -863,7 +863,12 @@ public class ClientSocketCluster
         ClientClusterListener v_Listener = new ClientClusterListener(i_Log);
         for (ClientCluster v_Client : i_Cluster)
         {
-            if ( !v_Client.operation().isLogin() )
+            if ( !v_Client.operation().isStartServer() )
+            {
+                // 将未开启连接服务的，直接放入结果池中，并设置异常结果为：未启动
+                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$StartNotError)));
+            }
+            else if ( !v_Client.operation().isLogin() )
             {
                 // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
                 v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$LoginNotError)));
@@ -1196,7 +1201,12 @@ public class ClientSocketCluster
         {
             CommunicationResponse v_ResponseData = null;
             
-            if ( !v_Client.operation().isLogin() )
+            if ( !v_Client.operation().isStartServer() )
+            {
+                // 将未开启连接服务的，直接放入结果池中，并设置异常结果为：未启动
+                v_ResponseData = new CommunicationResponse().setResult(NetError.$StartNotError);
+            }
+            else if ( !v_Client.operation().isLogin() )
             {
                 // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
                 v_ResponseData = new CommunicationResponse().setResult(NetError.$LoginNotError);
