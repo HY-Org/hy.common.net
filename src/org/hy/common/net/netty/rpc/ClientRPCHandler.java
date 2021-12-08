@@ -1,6 +1,7 @@
 package org.hy.common.net.netty.rpc;
 
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
+import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -20,7 +21,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
 {
-    private static final Logger $Logger  = new Logger(ClientRPCHandler.class ,true);
+    private static final Logger $Logger = new Logger(ClientRPCHandler.class ,true);
     
     /** 所属的客户端 */
     private ClientRPC             clientRPC;
@@ -64,6 +65,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected synchronized void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
+        $Logger.debug("响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         this.response = i_Msg;
         this.notify();         // 唤醒等待的线程。即唤醒 call 方法
     }
@@ -83,8 +85,11 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     public synchronized Data send(Object i_Data) throws InterruptedException
     {
+        $Logger.debug("请求类型：" + i_Data.toString());
         this.ctx.writeAndFlush(i_Data);
+        $Logger.debug("等待响应");
         this.wait();
+        $Logger.debug("响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
         return this.response;
     }
     

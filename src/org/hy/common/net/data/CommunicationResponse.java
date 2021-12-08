@@ -136,4 +136,12 @@ public class CommunicationResponse extends Communication<CommunicationResponse> 
         }
     }
     
+    
+    
+    @Override
+    public String toString()
+    {
+        return this.result + "";
+    }
+    
 }

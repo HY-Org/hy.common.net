@@ -172,5 +172,13 @@ public class CommunicationRequest extends Communication<CommunicationRequest>
         this.isRetunData = isRetunData;
         return this;
     }
+
+
+
+    @Override
+    public String toString()
+    {
+        return "eventType=" + this.eventType + "; dataOperation=" + this.dataOperation + "; dataXID=" + this.dataXID;
+    }
     
 }

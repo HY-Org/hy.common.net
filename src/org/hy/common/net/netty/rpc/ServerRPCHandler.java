@@ -15,6 +15,7 @@ import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Request;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
+import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.log.Logger;
 
@@ -70,7 +71,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
-        $Logger.debug("接受通讯：" + i_Msg.toString());
+        $Logger.debug("接受类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         
         ClientUserInfo v_ClientUser = $Clients.get(i_Ctx);
         
@@ -102,7 +103,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         if ( i_Response != null )
         {
-            $Logger.debug("响应数据：" + i_Response + " -> " + i_Response.getData());
+            $Logger.debug("返回结果：" + i_Response.getResult());
             i_Ctx.writeAndFlush(i_Response);
         }
     }
@@ -237,6 +238,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Ret.setResult(NetError.$LoginTypeError);
         }
         
+        $Logger.debug("返回结果：" + v_Ret.getResult());
         return v_Ret.setEndTime(new Date());
     }
     
