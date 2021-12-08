@@ -35,10 +35,13 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
 {
     
     /** 业务处理器 */
-    private ClientRPCHandler clientHandler;
+    private ClientRPCHandler        clientHandler;
     
     /** 业务接口 */
-    private ClientOperation  clientOperation;
+    private ClientOperation         clientOperation;
+    
+    /** 业务代理 */
+    private ClientRPCOperationProxy clientProxy;
     
     
     
@@ -115,6 +118,10 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     {
         this.operation().logout();
         super.shutdown();
+        if ( this.clientProxy != null )
+        {
+            this.clientProxy.shutdown();
+        }
     }
 
 
@@ -177,7 +184,8 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
      */
     private ClientOperation newOperation()
     {
-        return this.clientOperation = (ClientOperation)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader() ,new Class<?>[] {ClientOperation.class} ,new ClientRPCOperationProxy(this));
+        this.clientProxy = new ClientRPCOperationProxy(this);
+        return this.clientOperation = (ClientOperation)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader() ,new Class<?>[] {ClientOperation.class} ,this.clientProxy);
     }
     
     

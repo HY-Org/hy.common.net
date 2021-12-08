@@ -171,7 +171,14 @@ public abstract class Client<T extends Client<T>> extends App<T>
     {
         if ( this.clientGroup != null )
         {
-            this.clientGroup.shutdownGracefully();
+            try
+            {
+                this.clientGroup.shutdownGracefully().sync();
+            }
+            catch (Exception exce)
+            {
+                $Logger.error(exce);
+            }
         }
         
         super.shutdown();

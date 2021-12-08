@@ -67,12 +67,12 @@ public class ClientClusterListener implements ExecuteListener
     @Override
     public synchronized void result(ExecuteEvent i_Event)
     {
-        this.clusterResult.put((ClientCluster)i_Event.getSource() ,(CommunicationResponse)i_Event.getResult());
+        ClientCluster v_Client = ((ClientOperation)i_Event.getSource()).getClient();
+        this.clusterResult.put(v_Client ,(CommunicationResponse)i_Event.getResult());
         this.clusterCount++;
         
         if ( !Help.isNull(this.logInfo) )
         {
-            ClientCluster         v_Client = (ClientCluster)i_Event.getSource();
             CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
             StringBuilder         v_Buffer = new StringBuilder();
             

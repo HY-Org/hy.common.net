@@ -93,6 +93,21 @@ public interface ClientOperation
     
     
     /**
+     * 原本ClientOperation实例是被ClientCluster接口引用的。
+     * 
+     * 本方法是反向引用本类的ClientCluster实例。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public ClientCluster getClient();
+    
+    
+    
+    /**
      * 发送通讯数据
      * 
      * @author      ZhengWei(HY)

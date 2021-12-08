@@ -30,22 +30,62 @@ import org.hy.common.xml.log.Logger;
 public class ClientRPCOperationProxy implements InvocationHandler
 {
     
-    private static final Logger    $Logger     = new Logger(ClientRPCOperationProxy.class ,true);
+    private static final Logger $Logger = new Logger(ClientRPCOperationProxy.class ,true);
     
     /** 按CPU的核数创建线程池 */
-    private static ExecutorService $ThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private  ExecutorService threadPool;
     
     /** 所属的客户端 */
-    private ClientRPC clientRPC;
+    private ClientRPC        clientRPC;
     
     /** 是否登录成功 */
-    private boolean   isLogin;
+    private boolean          isLogin;
     
     
     
     public ClientRPCOperationProxy(ClientRPC i_ClientRPC)
     {
         this.clientRPC = i_ClientRPC;
+    }
+    
+    
+    
+    /**
+     * 获取线程池
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-08
+     * @version     v1.0
+     * 
+     * @return
+     */
+    private synchronized ExecutorService getThreadPool()
+    {
+        if ( this.threadPool == null )
+        {
+            this.threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        }
+        
+        return this.threadPool;
+    }
+    
+    
+    
+    /**
+     * 关闭线程池
+     * 
+     * 将关闭方法开放出来，是为了外界直接通过ClientRPC对象关闭时，也能同时将线程池关闭
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-12-08
+     * @version     v1.0
+     */
+    public synchronized void shutdown()
+    {
+        if ( this.threadPool != null && !this.threadPool.isShutdown() )
+        {
+            this.threadPool.shutdown();
+        }
     }
     
     
@@ -93,6 +133,10 @@ public class ClientRPCOperationProxy implements InvocationHandler
             {
                 return false;
             }
+        }
+        if ( "getClient".equals(i_Method.getName()) )
+        {
+            return this.clientRPC;
         }
         else
         {
@@ -228,7 +272,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
     private Object proxyLogin(Object [] i_Args) throws InterruptedException, ExecutionException
     {
         ClientRPCCallableLogin v_Handler = new ClientRPCCallableLogin(this.clientRPC.clientHandler() ,(LoginRequest)i_Args[0]);
-        LoginResponse v_Ret = $ThreadPool.submit(v_Handler).get();
+        LoginResponse          v_Ret     = this.getThreadPool().submit(v_Handler).get();
         
         if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
         {
@@ -260,7 +304,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
     private Object send(CommunicationRequest i_Request) throws InterruptedException, ExecutionException
     {
         ClientRPCCallableSend v_Handler = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
-        CommunicationResponse v_Ret = $ThreadPool.submit(v_Handler).get();
+        CommunicationResponse v_Ret     = this.getThreadPool().submit(v_Handler).get();
         
         if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
         {

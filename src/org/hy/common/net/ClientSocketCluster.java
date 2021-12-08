@@ -19,6 +19,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.netty.rpc.ClientRPC;
 
 
 
@@ -75,7 +76,7 @@ public class ClientSocketCluster
             }
         }
         
-        if ( v_Errors.size() >= 0 )
+        if ( v_Errors.size() >= 1 )
         {
             return v_Errors;
         }
@@ -114,7 +115,7 @@ public class ClientSocketCluster
             }
         }
         
-        if ( v_Errors.size() >= 0 )
+        if ( v_Errors.size() >= 1 )
         {
             return v_Errors;
         }
@@ -161,7 +162,7 @@ public class ClientSocketCluster
             }
         }
         
-        if ( v_Errors.size() >= 0 )
+        if ( v_Errors.size() >= 1 )
         {
             return v_Errors;
         }
@@ -872,6 +873,11 @@ public class ClientSocketCluster
             {
                 // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
                 v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$LoginNotError)));
+            }
+            else if ( v_Client instanceof ClientRPC )
+            {
+                CommunicationResponse v_CResp = v_Client.operation().send(i_RequestData);
+                v_Listener.result(new ExecuteEvent(v_Client.operation() ,0L ,v_CResp.getResult() != Communication.$Succeed ,v_CResp));
             }
             else
             {

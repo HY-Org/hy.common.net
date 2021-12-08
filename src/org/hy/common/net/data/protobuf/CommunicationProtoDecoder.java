@@ -289,7 +289,15 @@ public class CommunicationProtoDecoder
             }
             catch (Exception e)
             {
-                $Logger.error(e);
+                $Logger.error(i_ClassName + " TO " + v_JsonString ,e);
+                try
+                {
+                    v_Ret = Help.forName(i_ClassName).newInstance();
+                }
+                catch (Exception exce)
+                {
+                    $Logger.error(exce);
+                }
             }
         }
         else if ( DataProtocol.Protobuf == i_Protocol )
@@ -305,6 +313,14 @@ public class CommunicationProtoDecoder
             catch (Exception e)
             {
                 $Logger.error(e);
+                try
+                {
+                    v_Ret = Help.forName(i_ClassName).newInstance();
+                }
+                catch (Exception exce)
+                {
+                    $Logger.error(exce);
+                }
             }
         }
         

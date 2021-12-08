@@ -1,6 +1,5 @@
 package org.hy.common.net.protocol.defaults;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +60,7 @@ public class XJavaCommunicationListener implements ServerEventListener
      * @param i_RequestData
      * @return
      */
+    @Override
     public CommunicationResponse communication(CommunicationRequest i_RequestData)
     {
         CommunicationResponse v_ResponseData = new CommunicationResponse();
@@ -188,12 +188,7 @@ public class XJavaCommunicationListener implements ServerEventListener
                             else
                             {
                                 Object v_MethodRet = v_Method.invoke(v_Instance ,v_Command.getParams());
-                                
-                                // 当执行方法的返回值可以被序列化时，将返回给客户端
-                                if ( MethodReflect.isExtendImplement(v_MethodRet ,Serializable.class) )
-                                {
-                                    v_ResponseData.setData(v_MethodRet);
-                                }
+                                v_ResponseData.setData(v_MethodRet);
                             }
                         }
                     }

@@ -220,6 +220,25 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     
     
     /**
+     * 原本ClientOperation实例是被ClientCluster接口引用的。
+     * 
+     * 本方法是反向引用本类的ClientCluster实例。
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2021-10-19
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public ClientCluster getClient()
+    {
+        return this;
+    }
+    
+    
+    
+    /**
      * 向服务端发送执行命令
      * 
      * @author      ZhengWei(HY)

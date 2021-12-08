@@ -6,6 +6,7 @@ import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data.DataType;
 import org.hy.common.net.data.protobuf.CommunicationProtoEncoder;
+import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -25,16 +26,27 @@ import io.netty.handler.codec.MessageToMessageEncoder;
  */
 public class LoginResponseEncoder extends MessageToMessageEncoder<LoginResponse>
 {
+    private static final Logger $Logger = new Logger(LoginResponseEncoder.class ,true);
+    
+    
 
     @Override
     protected void encode(ChannelHandlerContext i_Ctx ,LoginResponse i_Msg ,List<Object> io_Out) throws Exception
     {
-        Data.Builder v_DataBuilder = Data.newBuilder();
-        
-        v_DataBuilder.setDataType(DataType.LoginResponse);
-        v_DataBuilder.setLoginResponse(CommunicationProtoEncoder.toLoginResponse(i_Msg).build());
-        
-        io_Out.add(v_DataBuilder.build());
+        try
+        {
+            Data.Builder v_DataBuilder = Data.newBuilder();
+            
+            v_DataBuilder.setDataType(DataType.LoginResponse);
+            v_DataBuilder.setLoginResponse(CommunicationProtoEncoder.toLoginResponse(i_Msg).build());
+            
+            io_Out.add(v_DataBuilder.build());
+        }
+        catch (Exception exce)
+        {
+            $Logger.error(exce);
+            throw exce;
+        }
     }
     
 }

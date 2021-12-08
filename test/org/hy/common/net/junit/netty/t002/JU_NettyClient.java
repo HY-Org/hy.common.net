@@ -52,9 +52,9 @@ public class JU_NettyClient
             ChannelFuture v_ChannelFuture = v_Bootstarp.connect("127.0.0.1" ,2021).sync();   // 异步非阻塞
             
             // 对关闭通道监听
-            v_ChannelFuture.channel().closeFuture().sync();
+            v_ChannelFuture.channel().closeFuture().sync();    // 阻塞
             
-            Thread.sleep(1000 * 60 * 10);
+            Thread.sleep(1000 * 1 * 10);
         }
         catch (Exception e)
         {

@@ -44,6 +44,9 @@ public class JU_XJavaCloudClient
         CommunicationResponse v_Response = null;
         List<?>               v_Datas    = null;
         
+        
+        v_Response = v_Client.operation().sendCommand("TEST-Date-1" ,"getFull");
+        
         $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
         $Logger.info("获取服务端的对象：时间2：" + v_Client.operation().getObject("TEST-Date-2"));
 
@@ -68,7 +71,8 @@ public class JU_XJavaCloudClient
         }
         
         
-        while ( true )
+        int v_Count = 0;
+        while ( ++v_Count < 100 )
         {
             if ( !v_Client.isStart() )
             {
@@ -82,6 +86,8 @@ public class JU_XJavaCloudClient
             
             $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
         }
+        
+        v_Client.shutdown();
     }
     
 }
