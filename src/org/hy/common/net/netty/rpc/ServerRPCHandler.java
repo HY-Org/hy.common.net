@@ -71,8 +71,6 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
-        $Logger.debug("接受类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
-        
         ClientUserInfo v_ClientUser = $Clients.get(i_Ctx);
         
         // 未登录
@@ -189,9 +187,11 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     private LoginResponse login(final ChannelHandlerContext i_Ctx ,final Data i_Msg)
     {
+        StringBuffer  v_Buf = new StringBuffer();
         LoginResponse v_Ret = new LoginResponse();
         
         v_Ret.setVersion(1);
+        v_Buf.append("接受类型：").append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         
         if ( Data.DataType.LoginRequest == i_Msg.getDataType() )
         {
@@ -217,6 +217,10 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                           && !Help.isNull(i_Msg.getLoginRequest().getSystemName());
             }
             
+            v_Buf
+            .append("; user=")  .append(i_Msg.getLoginRequest().getUserName())
+            .append("; system=").append(i_Msg.getLoginRequest().getSystemName());
+            
             if ( v_LoginRet )
             {
                 ClientUserInfo v_ClientUser = (ClientUserInfo)v_CLoginRequest;
@@ -238,7 +242,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Ret.setResult(NetError.$LoginTypeError);
         }
         
-        $Logger.debug("返回结果：" + v_Ret.getResult());
+        v_Buf.append(" -> ").append(v_Ret.getResult());
+        $Logger.debug(v_Buf.toString());
         return v_Ret.setEndTime(new Date());
     }
     
@@ -262,6 +267,12 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         Request               v_RequestData = i_Msg.getRequest();
         CommunicationRequest  v_CRequest    = null;
         ServerEventListener   v_Listener    = null;
+        StringBuffer          v_Buf         = new StringBuffer();
+        
+        v_Buf.append("接受类型：")   .append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
+        v_Buf.append("; user=")     .append(i_ClientUser.getUserName());
+        v_Buf.append("; system=")   .append(i_ClientUser.getSystemName());
+        v_Buf.append("; loginTime=").append(i_ClientUser.getLoginTime().getFull());
         
         i_ClientUser.setActiveTime(v_BTime);
         
@@ -280,15 +291,21 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         }
         
         v_CRequest = CommunicationProtoDecoder.toRequest(v_RequestData);
+        v_Buf.append("; ").append(v_CRequest.toString());
         
         // 同步处理机制（服务端的事件机制为同步时，并且客户端没有主动要求为异步时）
         if ( v_Listener.isSync() && !v_RequestData.getIsNonSync() )
         {
+            v_Buf.append("; sync=1");
+            $Logger.debug(v_Buf.toString());
             return execute(v_Listener ,v_CRequest ,i_ClientUser ,v_BTime.getTime());
         }
         // 异步线程处理机制
         else
         {
+            v_Buf.append("; sync=0");
+            $Logger.debug(v_Buf.toString());
+            
             final ServerEventListener  v_FListener = v_Listener;
             final CommunicationRequest v_FRequest  = v_CRequest;
             this.mainServer.getExecutorPool().submit(new Callable<Object>()

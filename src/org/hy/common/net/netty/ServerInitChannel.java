@@ -35,7 +35,7 @@ public class ServerInitChannel<T extends Server<T>> extends ChannelInitializer<S
     @Override
     protected void initChannel(SocketChannel i_Channel) throws Exception
     {
-        $Logger.info("客户标示：" + i_Channel.hashCode());
+        $Logger.debug("客户标示：" + i_Channel.hashCode());
         
         this.myServer.initChannel(i_Channel ,i_Channel.pipeline());
     }

@@ -178,7 +178,28 @@ public class CommunicationRequest extends Communication<CommunicationRequest>
     @Override
     public String toString()
     {
-        return "eventType=" + this.eventType + "; dataOperation=" + this.dataOperation + "; dataXID=" + this.dataXID;
+        StringBuilder v_Buffer = new StringBuilder();
+        
+        v_Buffer
+        .append("eventType=")      .append(this.eventType)
+        .append("; dataOperation=").append(this.dataOperation)
+        .append("; dataXID=")      .append(this.dataXID);
+        
+        if ( this.data instanceof Command )
+        {
+            Command v_Cmd = (Command)this.data;
+            
+            v_Buffer.append("; command=").append(v_Cmd.getMethodName()).append("(");
+            
+            if ( v_Cmd.getParams() != null && v_Cmd.getParams().length > 0 )
+            {
+                v_Buffer.append(v_Cmd.getParams().length);
+            }
+            
+            v_Buffer.append(")");
+        }
+        
+        return v_Buffer.toString();
     }
     
 }
