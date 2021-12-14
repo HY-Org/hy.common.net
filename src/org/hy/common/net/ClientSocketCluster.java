@@ -59,7 +59,7 @@ public class ClientSocketCluster
      * @param i_Cluster   集群信息
      * @return            返回连接失败的客户端对象。只有为 null 时返回集群登录全部成功。
      */
-    public static synchronized List<ClientCluster> startServer(List<ClientCluster> i_Cluster)
+    public static List<ClientCluster> startServer(List<ClientCluster> i_Cluster)
     {
         List<ClientCluster> v_Errors = new ArrayList<ClientCluster>();
         
