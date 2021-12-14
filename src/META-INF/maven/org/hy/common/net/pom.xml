@@ -44,6 +44,12 @@
         <version>3.17.3</version>
     </dependency>
     
+    <dependency>
+        <groupId>net.minidev</groupId>
+        <artifactId>json-smart</artifactId>
+        <version>2.4.7</version>
+    </dependency>
+    
     <!-- https://github.com/HY-ZhengWei/hy.common.file -->
     <!-- https://gitee.com/HY-ZhengWei/hy.common.file -->
     <dependency>

@@ -59,7 +59,7 @@ public class ClientSocketCluster
      * @param i_Cluster   集群信息
      * @return            返回连接失败的客户端对象。只有为 null 时返回集群登录全部成功。
      */
-    public static List<ClientCluster> startServer(List<ClientCluster> i_Cluster)
+    public static synchronized List<ClientCluster> startServer(List<ClientCluster> i_Cluster)
     {
         List<ClientCluster> v_Errors = new ArrayList<ClientCluster>();
         
@@ -70,6 +70,12 @@ public class ClientSocketCluster
         
         for (ClientCluster v_Client : i_Cluster)
         {
+            // 已启动服务的，不再重复启动
+            if ( v_Client.operation().isStartServer() )
+            {
+                continue;
+            }
+            
             if ( !v_Client.operation().startServer() )
             {
                 v_Errors.add(v_Client);
@@ -149,6 +155,7 @@ public class ClientSocketCluster
         
         for (ClientCluster v_Client : i_Cluster)
         {
+            // 已登录的，不重复登录
             if ( v_Client.operation().isLogin() )
             {
                 continue;
