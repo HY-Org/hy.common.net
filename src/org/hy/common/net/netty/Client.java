@@ -1,5 +1,6 @@
 package org.hy.common.net.netty;
 
+import org.hy.common.Help;
 import org.hy.common.net.common.App;
 import org.hy.common.xml.log.Logger;
 
@@ -146,7 +147,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
             ChannelFuture v_ChannelFuture = this.bootstrap.connect(this.host ,this.port).sync();
             this.channel                  = v_ChannelFuture.channel();
             
-            $Logger.info("客户端准备完成");
+            $Logger.info("通讯准备完成：" + this.host + ":" + this.port + (Help.isNull(this.comment) ? "" : " -> " + this.comment));
         }
         catch (Exception e)
         {

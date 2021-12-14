@@ -23,6 +23,9 @@ public class App<T extends App<T>>
     /** 服务的端口 */
     protected int     port;
     
+    /** 注释说明 */
+    protected String  comment;
+    
     
     
     /**
@@ -88,7 +91,7 @@ public class App<T extends App<T>>
 
     
     /**
-     * 获取：服务的端口
+     * 设置：服务的端口
      * 
      * @param port
      */
@@ -122,6 +125,32 @@ public class App<T extends App<T>>
     public T setHost(String host)
     {
         this.host = host;
+        return (T) this;
+    }
+    
+    
+    
+    /**
+     * 获取：注释说明
+     * 
+     * @return
+     */
+    public String getComment()
+    {
+        return comment;
+    }
+    
+    
+    
+    /**
+     * 设置：注释说明
+     * 
+     * @param comment
+     */
+    @SuppressWarnings("unchecked")
+    public T setComment(String comment)
+    {
+        this.comment = comment;
         return (T) this;
     }
     
