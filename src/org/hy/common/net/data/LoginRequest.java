@@ -1,11 +1,5 @@
 package org.hy.common.net.data;
 
-import org.hy.common.xml.SerializableDef;
-
-
-
-
-
 /**
  * 传输对象：用于登陆验证的请求
  *
@@ -19,7 +13,7 @@ import org.hy.common.xml.SerializableDef;
  *                                添加：客户端的系统名称
  *              v3.0  2021-09-29  添加：链式编程
  */
-public class LoginRequest extends SerializableDef
+public class LoginRequest extends Timeout<LoginRequest>
 {
     
     private static final long serialVersionUID = 5568766404534113410L;

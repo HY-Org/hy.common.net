@@ -421,6 +421,7 @@ public class ClientSocketCluster
         v_RequestData.setData(         v_Command);
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_Command);
         v_RequestData.setRetunData(    i_ServerIsReturn);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return ClientSocketCluster.sends(i_Cluster ,i_Timeout ,v_RequestData ,i_IsWaitReturn ,i_Log);
     }
@@ -883,7 +884,7 @@ public class ClientSocketCluster
             }
             else if ( v_Client instanceof ClientRPC )
             {
-                CommunicationResponse v_CResp = v_Client.operation().send(i_RequestData);
+                CommunicationResponse v_CResp = v_Client.operation().send(i_RequestData.setWaitRequestTimeout(i_Timeout));
                 v_Listener.result(new ExecuteEvent(v_Client.operation() ,0L ,v_CResp.getResult() != Communication.$Succeed ,v_CResp));
             }
             else

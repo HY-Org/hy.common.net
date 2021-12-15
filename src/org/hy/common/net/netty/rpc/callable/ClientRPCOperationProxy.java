@@ -95,8 +95,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
     {
         if ( "startServer".equals(i_Method.getName()) )
         {
-            this.clientRPC.start();
-            return true;
+            return this.clientRPC.start() != null;
         }
         else if ( "shutdownServer".equals(i_Method.getName()) )
         {

@@ -1,7 +1,6 @@
 package org.hy.common.net.data;
 
 import org.hy.common.Date;
-import org.hy.common.xml.SerializableDef;
 
 
 
@@ -16,7 +15,7 @@ import org.hy.common.xml.SerializableDef;
  *              v2.0  2021-09-25  添加：通讯的接口版本
  *              v3.0  2021-09-29  添加：链式编程
  */
-public class Communication<T extends Communication<T>> extends SerializableDef
+public class Communication<T extends Communication<T>> extends Timeout<T>
 {
     
     private static final long serialVersionUID = 7513185667760947675L;

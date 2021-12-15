@@ -95,6 +95,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
         
         v_Bootstrap.channel(NioSocketChannel.class);
         v_Bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+        v_Bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
         
         return v_Bootstrap;
     }
@@ -148,6 +149,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
             this.channel                  = v_ChannelFuture.channel();
             
             $Logger.info("通讯准备完成：" + this.host + ":" + this.port + (Help.isNull(this.comment) ? "" : " -> " + this.comment));
+            return (T) this;
         }
         catch (Exception e)
         {
@@ -155,7 +157,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
             this.shutdown();
         }
         
-        return (T) this;
+        return null;
     }
     
     

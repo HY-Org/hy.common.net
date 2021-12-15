@@ -1,5 +1,7 @@
 package org.hy.common.net.netty.rpc;
 
+import org.hy.common.Help;
+import org.hy.common.net.data.Timeout;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.xml.log.Logger;
@@ -85,11 +87,27 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     public synchronized Data send(Object i_Data) throws InterruptedException
     {
-        $Logger.debug("请求类型：" + i_Data.toString());
+        String v_Info = this.clientRPC.getHost() + ":" + this.clientRPC.getPort();
+        $Logger.debug(v_Info + " 请求类型：" + i_Data.toString());
         this.ctx.writeAndFlush(i_Data);
-        $Logger.debug("等待响应");
-        this.wait();
-        $Logger.debug("响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
+        
+        $Logger.debug(v_Info + " 等待响应");
+        long v_Timeout = Timeout.$Default_WaitRequestTimeout;
+        if ( i_Data instanceof Timeout )
+        {
+            v_Timeout = Help.NVL(((Timeout)i_Data).getWaitRequestTimeout() ,Timeout.$Default_WaitRequestTimeout);
+        }
+        this.wait(v_Timeout);
+        
+        if ( this.response != null )
+        {
+            $Logger.debug(v_Info + " 响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
+        }
+        else
+        {
+            $Logger.warn(v_Info + " 请求类型：" + i_Data.toString() + "，请求超时：" + v_Timeout);
+        }
+        
         return this.response;
     }
     
