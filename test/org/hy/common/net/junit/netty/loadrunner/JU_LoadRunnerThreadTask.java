@@ -87,7 +87,7 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
         {
             CommunicationResponse v_ResponseData = null;
             
-            v_ResponseData = this.father.getClient().operation().getObjects($USID + JU_LoadRunner.$ID);
+            v_ResponseData = this.father.getClient().operation().getObjects(0 ,$USID + JU_LoadRunner.$ID);
             
             if ( v_ResponseData != null && v_ResponseData.getResult() == 0 )
             {

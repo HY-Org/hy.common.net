@@ -181,27 +181,5 @@ public abstract class ObjectSocketResponse<T extends ObjectSocketResponse<T>> ex
     {
         super.setHost(hostName);
     }
-
-
-    
-    /**
-     * 获取：超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒
-     */
-    public int getTimeout()
-    {
-        return timeout;
-    }
-
-
-    
-    /**
-     * 设置：超时时长（单位：毫秒）。当为0时，表示最大超时时长。默认为：10秒
-     * 
-     * @param timeout
-     */
-    public void setTimeout(int timeout)
-    {
-        this.timeout = timeout;
-    }
     
 }

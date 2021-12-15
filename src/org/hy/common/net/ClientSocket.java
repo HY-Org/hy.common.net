@@ -244,15 +244,17 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-01-17
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
      * @return
      */
     @Override
-    public CommunicationResponse sendCommand(String i_XID ,String i_Command)
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command)
     {
-        return this.sendCommand(i_XID ,i_Command ,new Object[]{} ,true);
+        return this.sendCommand(i_Timeout ,i_XID ,i_Command ,new Object[]{} ,true);
     }
     
     
@@ -263,16 +265,18 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-01-17
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
     @Override
-    public CommunicationResponse sendCommand(String i_XID ,String i_Command ,boolean i_ServerIsReturn)
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,boolean i_ServerIsReturn)
     {
-        return this.sendCommand(i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn);
+        return this.sendCommand(i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn);
     }
     
     
@@ -283,16 +287,18 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
      * @param i_CommandParams  执行命令参数（即方法参数）
      * @return
      */
     @Override
-    public CommunicationResponse sendCommand(String i_XID ,String i_Command ,Object [] i_CommandParams)
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams)
     {
-        return this.sendCommand(i_XID ,i_Command ,i_CommandParams ,true);
+        return this.sendCommand(i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true);
     }
     
     
@@ -304,7 +310,9 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @createDate  2017-01-17
      * @version     v1.0
      *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *              v3.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Command        执行命令名称（即方法名称）
      * @param i_CommandParams  执行命令参数（即方法参数）
@@ -312,7 +320,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @return
      */
     @Override
-    public CommunicationResponse sendCommand(String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
@@ -320,10 +328,11 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
         v_Command.setMethodName(i_Command);
         v_Command.setParams(    i_CommandParams);
         
-        v_RequestData.setDataXID(      i_XID);
-        v_RequestData.setData(         v_Command);
-        v_RequestData.setDataOperation(CommunicationRequest.$Operation_Command);
-        v_RequestData.setRetunData(    i_ServerIsReturn);
+        v_RequestData.setDataXID(           i_XID);
+        v_RequestData.setData(              v_Command);
+        v_RequestData.setDataOperation(     CommunicationRequest.$Operation_Command);
+        v_RequestData.setRetunData(         i_ServerIsReturn);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return this.send(v_RequestData);
     }
@@ -336,14 +345,16 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @return
      */
     @Override
-    public CommunicationResponse removeObject(String i_XID )
+    public CommunicationResponse removeObject(long i_Timeout ,String i_XID )
     {
-        return removeObject(i_XID ,true);
+        return removeObject(i_Timeout ,i_XID ,true);
     }
 
     
@@ -355,13 +366,15 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @createDate  2017-01-23
      * @version     v1.0
      *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *              v3.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
     @Override
-    public CommunicationResponse removeObject(String i_XID ,boolean i_ServerIsReturn)
+    public CommunicationResponse removeObject(long i_Timeout ,String i_XID ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
@@ -380,17 +393,20 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-01-23
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @return
      */
     @Override
-    public CommunicationResponse getObject(String i_XID)
+    public CommunicationResponse getObject(long i_Timeout ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
-        v_RequestData.setDataXID(      i_XID);
-        v_RequestData.setDataOperation(CommunicationRequest.$Operation_Select);
+        v_RequestData.setDataXID(           i_XID);
+        v_RequestData.setDataOperation(     CommunicationRequest.$Operation_Select);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return this.send(v_RequestData);
     }
@@ -403,17 +419,20 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-02-07
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
-     * @param i_XID  XJava对象池的ID标识符的前缀(区分大小写)
-     * @return       CommunicationResponse.getData() 是一个List<CommunicationResponse>()结构的实例。
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @param i_XID            XJava对象池的ID标识符的前缀(区分大小写)
+     * @return                 CommunicationResponse.getData() 是一个List<CommunicationResponse>()结构的实例。
      */
     @Override
-    public CommunicationResponse getObjects(String i_XID)
+    public CommunicationResponse getObjects(long i_Timeout ,String i_XID)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
-        v_RequestData.setDataXID(      i_XID);
-        v_RequestData.setDataOperation(CommunicationRequest.$Operation_Selects);
+        v_RequestData.setDataXID(           i_XID);
+        v_RequestData.setDataOperation(     CommunicationRequest.$Operation_Selects);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return this.send(v_RequestData);
     }
@@ -426,15 +445,18 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-02-28
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
-     * @return       CommunicationResponse.getData() 是一个ExpireMap<String ,Object>()结构的实例。
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @return                 CommunicationResponse.getData() 是一个ExpireMap<String ,Object>()结构的实例。
      */
     @Override
-    public CommunicationResponse getSessionMap()
+    public CommunicationResponse getSessionMap(long i_Timeout)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
         v_RequestData.setDataOperation(CommunicationRequest.$Operation_SessionMap);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return this.send(v_RequestData);
     }
@@ -447,15 +469,17 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2017-01-23
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Data           XJava对象
      * @return
      */
     @Override
-    public CommunicationResponse sendObject(String i_XID ,Object i_Data)
+    public CommunicationResponse sendObject(long i_Timeout ,String i_XID ,Object i_Data)
     {
-        return this.sendObject(i_XID ,i_Data ,0 ,true);
+        return this.sendObject(i_Timeout ,i_XID ,i_Data ,0 ,true);
     }
     
     
@@ -466,16 +490,18 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Data           XJava对象
      * @param i_ServerIsReturn 服务端是否返回执行结果的数据
      * @return
      */
     @Override
-    public CommunicationResponse sendObject(String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
+    public CommunicationResponse sendObject(long i_Timeout ,String i_XID ,Object i_Data ,boolean i_ServerIsReturn)
     {
-        return this.sendObject(i_XID ,i_Data ,0 ,i_ServerIsReturn);
+        return this.sendObject(i_Timeout ,i_XID ,i_Data ,0 ,i_ServerIsReturn);
     }
     
     
@@ -486,16 +512,18 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
+     *              v2.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Data           XJava对象
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
      * @return
      */
     @Override
-    public CommunicationResponse sendObject(String i_XID ,Object i_Data ,long i_ExpireTimeLen)
+    public CommunicationResponse sendObject(long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen)
     {
-        return this.sendObject(i_XID ,i_Data ,i_ExpireTimeLen ,true);
+        return this.sendObject(i_Timeout ,i_XID ,i_Data ,i_ExpireTimeLen ,true);
     }
     
     
@@ -507,7 +535,9 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @createDate  2017-01-23
      * @version     v1.0
      *              v2.0  2019-02-27  添加：服务端是否返回执行结果的数据
+     *              v3.0  2021-12-15  添加：超时时长
      *
+     * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
      * @param i_XID            XJava对象池的ID
      * @param i_Data           XJava对象
      * @param i_ExpireTimeLen  数据的过期时长(单位：秒)
@@ -515,15 +545,16 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * @return
      */
     @Override
-    public CommunicationResponse sendObject(String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
+    public CommunicationResponse sendObject(long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn)
     {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         
-        v_RequestData.setDataXID(          i_XID);
-        v_RequestData.setData(             i_Data);
-        v_RequestData.setDataExpireTimeLen(i_ExpireTimeLen);
-        v_RequestData.setDataOperation(    CommunicationRequest.$Operation_Update);
-        v_RequestData.setRetunData(        i_ServerIsReturn);
+        v_RequestData.setDataXID(           i_XID);
+        v_RequestData.setData(              i_Data);
+        v_RequestData.setDataExpireTimeLen( i_ExpireTimeLen);
+        v_RequestData.setDataOperation(     CommunicationRequest.$Operation_Update);
+        v_RequestData.setRetunData(         i_ServerIsReturn);
+        v_RequestData.setWaitRequestTimeout(i_Timeout);
         
         return this.send(v_RequestData);
     }

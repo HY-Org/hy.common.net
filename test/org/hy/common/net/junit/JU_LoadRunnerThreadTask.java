@@ -30,6 +30,7 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
     
     public final  static String $USID = "USID";
     
+    @SuppressWarnings("unused")
     private JU_LoadRunner father;
     
     
@@ -90,7 +91,7 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
             CommunicationResponse v_ResponseData = null;
             
             v_Server.setTimeout(JU_LoadRunner.$Timeout);
-            v_ResponseData = v_Server.getObjects($USID + JU_LoadRunner.$ID);
+            v_ResponseData = v_Server.getObjects(0, $USID + JU_LoadRunner.$ID);
             
             if ( v_ResponseData != null && v_ResponseData.getResult() == 0 )
             {

@@ -22,7 +22,7 @@ public class JU_LoadRunner
     
     public static int    $ThreadCount = 100;
 
-    public static int    $Timeout     = 60 * 1000;
+    public static long   $Timeout     = 60 * 1000;
     
     
     

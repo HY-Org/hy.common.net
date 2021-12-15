@@ -159,80 +159,90 @@ public class ClientRPCOperationProxy implements InvocationHandler
         {
             Command v_Command = new Command();
             
-            v_Command.setMethodName((String)i_Args[1]);
+            v_Command.setMethodName((String)i_Args[2]);
             
-            if ( i_Args.length == 4 )
+            if ( i_Args.length == 5 )
             {
-                v_Command.setParams(   (Object [])i_Args[2]);
-                v_Request.setRetunData((boolean)  i_Args[3]);
-            }
-            else if ( i_Args.length == 2 )
-            {
-                v_Command.setParams(new Object[]{});
+                v_Command.setParams(   (Object [])i_Args[3]);
+                v_Request.setRetunData((boolean)  i_Args[4]);
             }
             else if ( i_Args.length == 3 )
             {
-                if ( i_Args[2].getClass() == boolean.class )
+                v_Command.setParams(new Object[]{});
+                v_Request.setRetunData(true);
+            }
+            else if ( i_Args.length == 4 )
+            {
+                if ( i_Args[3].getClass() == boolean.class )
                 {
                     v_Command.setParams(new Object[]{});
-                    v_Request.setRetunData((boolean)i_Args[2]);
+                    v_Request.setRetunData((boolean)i_Args[3]);
                 }
                 else
                 {
-                    v_Command.setParams((Object [])i_Args[2]);
+                    v_Command.setParams((Object [])i_Args[3]);
+                    v_Request.setRetunData(true);
                 }
             }
             
-            v_Request.setDataXID(      (String)i_Args[0]);
-            v_Request.setData(         v_Command);
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
+            v_Request.setDataXID(         (String)i_Args[1]);
+            v_Request.setData(                    v_Command);
             v_Request.setDataOperation(CommunicationRequest.$Operation_Command);
         }
         else if ( "sendObject".equals(i_Method.getName()) )
         {
-            if ( i_Args.length == 4 )
+            if ( i_Args.length == 5 )
             {
-                v_Request.setDataExpireTimeLen((long)   i_Args[2]);
-                v_Request.setRetunData(        (boolean)i_Args[3]);
-            }
-            else if ( i_Args.length == 2 )
-            {
-                v_Request.setDataExpireTimeLen(0);
+                v_Request.setDataExpireTimeLen((long)   i_Args[3]);
+                v_Request.setRetunData(        (boolean)i_Args[4]);
             }
             else if ( i_Args.length == 3 )
             {
-                if ( i_Args[2].getClass() == boolean.class )
+                v_Request.setDataExpireTimeLen(0);
+                v_Request.setRetunData(true);
+            }
+            else if ( i_Args.length == 4 )
+            {
+                if ( i_Args[3].getClass() == boolean.class )
                 {
                     v_Request.setDataExpireTimeLen(0);
-                    v_Request.setRetunData((boolean)i_Args[2]);
+                    v_Request.setRetunData((boolean)i_Args[3]);
                 }
                 else
                 {
-                    v_Request.setDataExpireTimeLen((long)i_Args[2]);
+                    v_Request.setDataExpireTimeLen((long)i_Args[3]);
+                    v_Request.setRetunData(true);
                 }
             }
             
-            v_Request.setDataXID(      (String)i_Args[0]);
-            v_Request.setData(         i_Args[1]);
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
+            v_Request.setDataXID(         (String)i_Args[1]);
+            v_Request.setData(                    i_Args[2]);
             v_Request.setDataOperation(CommunicationRequest.$Operation_Update);
         }
         else if ( "removeObject".equals(i_Method.getName()) )
         {
-            v_Request.setDataXID(      (String)i_Args[0]);
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
+            v_Request.setDataXID(         (String)i_Args[1]);
+            v_Request.setRetunData(i_Args.length == 3 ? (boolean)i_Args[2] : true);
             v_Request.setDataOperation(CommunicationRequest.$Operation_Delete);
-            v_Request.setRetunData(    i_Args.length == 2 ? (boolean)i_Args[1] : true);
         }
         else if ( "getObject".equals(i_Method.getName()) )
         {
-            v_Request.setDataXID((String)i_Args[0]);
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
+            v_Request.setDataXID(         (String)i_Args[1]);
             v_Request.setDataOperation(CommunicationRequest.$Operation_Select);
         }
         else if ( "getObjects".equals(i_Method.getName()) )
         {
-            v_Request.setDataXID((String)i_Args[0]);
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
+            v_Request.setDataXID(         (String)i_Args[1]);
             v_Request.setDataOperation(CommunicationRequest.$Operation_Selects);
         }
         else if ( "getSessionMap".equals(i_Method.getName()) )
         {
+            v_Request.setWaitRequestTimeout((long)i_Args[0]);
             v_Request.setDataOperation(CommunicationRequest.$Operation_SessionMap);
         }
         else if ( "send".equals(i_Method.getName()) )

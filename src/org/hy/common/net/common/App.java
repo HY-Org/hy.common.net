@@ -7,6 +7,20 @@ package org.hy.common.net.common;
 /**
  * Netty应用程序。顶级类
  * 
+ *   超时时长有三个级别，优先级从高到低依次为
+ * 
+ *     最高级（通讯级）：通讯数据的超时时长，取 Timeout 类的 xxxTimeout 属性
+ * 
+ *     中等级（应用级）：客户端上配置的超时时长，取 App 类的 timeout 属性
+ *                     当最高级为配置时，本级生效。
+ * 
+ *     最低级（默认级）：当上两级均为配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
+ * 
+ * 
+ *   超时时长的取值规则：
+ *     0表示永不超时，一直等待
+ *     负数或NULL：表示取默认超时时长
+ * 
  * @author      ZhengWei(HY)
  * @createDate  2021-09-16
  * @version     v1.0
@@ -25,6 +39,9 @@ public class App<T extends App<T>>
     
     /** 注释说明 */
     protected String  comment;
+    
+    /** 本应用的默认超时时长。每次通讯的数据超时时长级别高于本属性，只有当没有设置通讯数据超时时长时，本属性才生效 */
+    protected Long    timeout;
     
     
     
@@ -151,6 +168,32 @@ public class App<T extends App<T>>
     public T setComment(String comment)
     {
         this.comment = comment;
+        return (T) this;
+    }
+
+
+
+    /**
+     * 获取：本应用的默认超时时长。每次通讯的数据超时时长级别高于本属性，只有当没有设置通讯数据超时时长时，本属性才生效
+     * 
+     * @return
+     */
+    public Long getTimeout()
+    {
+        return timeout;
+    }
+
+    
+
+    /**
+     * 设置：本应用的默认超时时长。每次通讯的数据超时时长级别高于本属性，只有当没有设置通讯数据超时时长时，本属性才生效
+     * 
+     * @param i_Timeout
+     */
+    @SuppressWarnings("unchecked")
+    public T setTimeout(Long i_Timeout)
+    {
+        this.timeout = i_Timeout;
         return (T) this;
     }
     

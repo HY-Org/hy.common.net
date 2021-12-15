@@ -45,24 +45,24 @@ public class JU_XJavaCloudClient
         List<?>               v_Datas    = null;
         
         
-        v_Response = v_Client.operation().sendCommand("TEST-Date-1" ,"getFull");
+        v_Response = v_Client.operation().sendCommand(0, "TEST-Date-1" ,"getFull");
         
-        $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
-        $Logger.info("获取服务端的对象：时间2：" + v_Client.operation().getObject("TEST-Date-2"));
+        $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject(0, "TEST-Date-1"));
+        $Logger.info("获取服务端的对象：时间2：" + v_Client.operation().getObject(0, "TEST-Date-2"));
 
         $Logger.info("获取服务端的对象：多个对象：");
-        v_Response = v_Client.operation().getObjects("TEST-Date");
+        v_Response = v_Client.operation().getObjects(0, "TEST-Date");
         v_Datas = (List<?>)v_Response.getData();
         v_Datas.forEach((item) ->
         {
             $Logger.info("->" + item);
         });
 
-        $Logger.info("获取服务端的对象：自定义对象：" + v_Client.operation().getObject("TEST-DataInfo-1"));
+        $Logger.info("获取服务端的对象：自定义对象：" + v_Client.operation().getObject(0, "TEST-DataInfo-1"));
         $Logger.info("获取服务端的对象：多个自定义对象：");
         for (int i=1; i<=10; i++)
         {
-            v_Response = v_Client.operation().getObjects("TEST-DataInfo");
+            v_Response = v_Client.operation().getObjects(0, "TEST-DataInfo");
             v_Datas = (List<?>)v_Response.getData();
             v_Datas.forEach((item) ->
             {
@@ -84,7 +84,7 @@ public class JU_XJavaCloudClient
                 v_Client.operation().login(v_LoginRequest);
             }
             
-            $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject("TEST-Date-1"));
+            $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject(0, "TEST-Date-1"));
         }
         
         v_Client.shutdown();

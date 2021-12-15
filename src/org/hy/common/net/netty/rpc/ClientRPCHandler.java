@@ -79,6 +79,21 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      * 
      * 注意：channelRead0 和 send 方法是同步的
      * 
+     * 
+     *   超时时长有三个级别，优先级从高到低依次为
+     * 
+     *     最高级（通讯级）：通讯数据的超时时长，取 Timeout 类的 xxxTimeout 属性
+     * 
+     *     中等级（应用级）：客户端上配置的超时时长，取 App 类的 timeout 属性
+     *                     当最高级为配置时，本级生效。
+     * 
+     *     最低级（默认级）：当上两级均为配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
+     * 
+     * 
+     *   超时时长的取值规则：
+     *     0表示永不超时，一直等待
+     *     负数或NULL：表示取默认超时时长
+     * 
      * @author      ZhengWei(HY)
      * @createDate  2021-09-28
      * @version     v1.0
@@ -92,12 +107,24 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         this.ctx.writeAndFlush(i_Data);
         
         $Logger.debug(v_Info + " 等待响应");
-        long v_Timeout = Timeout.$Default_WaitRequestTimeout;
+        long v_Timeout = Help.NVL(this.clientRPC.getTimeout() ,Timeout.$Default_WaitRequestTimeout);
         if ( i_Data instanceof Timeout )
         {
-            v_Timeout = Help.NVL(((Timeout)i_Data).getWaitRequestTimeout() ,Timeout.$Default_WaitRequestTimeout);
+            v_Timeout = Help.NVL(((Timeout<?>)i_Data).getWaitRequestTimeout() ,v_Timeout);
+            if ( v_Timeout < 1000L && v_Timeout != 0L )
+            {
+                v_Timeout = Timeout.$Default_WaitRequestTimeout;
+            }
         }
-        this.wait(v_Timeout);
+        
+        if ( v_Timeout == 0L )
+        {
+            this.wait();  // 0表示永不超时，一直等待
+        }
+        else
+        {
+            this.wait(v_Timeout);
+        }
         
         if ( this.response != null )
         {

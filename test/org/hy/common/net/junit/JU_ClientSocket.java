@@ -27,7 +27,7 @@ public class JU_ClientSocket
         v_Client.setHostName("10.1.50.241");
         v_Client.setPort(9021);
         
-        CommunicationResponse v_Response = v_Client.sendCommand("JOBS" ,"disasterRecoveryChecks" ,false);
+        CommunicationResponse v_Response = v_Client.sendCommand(0, "JOBS" ,"disasterRecoveryChecks" ,false);
         if ( v_Response.getResult() != 0 )
         {
             Assert.fail("网络通讯异常");
@@ -44,7 +44,7 @@ public class JU_ClientSocket
         v_Client.setHostName("127.0.0.1");
         v_Client.setPort(2021);
         
-        CommunicationResponse v_Response = v_Client.sendCommand("AnalyseBase" ,"analyseCluster_Info");
+        CommunicationResponse v_Response = v_Client.sendCommand(0, "AnalyseBase" ,"analyseCluster_Info");
         if ( v_Response.getResult() != 0 )
         {
             Assert.fail("网络通讯异常");
@@ -65,7 +65,7 @@ public class JU_ClientSocket
         {
             System.out.println(i);
             
-            CommunicationResponse v_Response = v_Client.sendCommand("SyncDatasJob" ,"syncDatas");
+            CommunicationResponse v_Response = v_Client.sendCommand(0, "SyncDatasJob" ,"syncDatas");
             if ( v_Response.getResult() != 0 )
             {
                 Assert.fail("网络通讯异常");
