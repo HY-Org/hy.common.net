@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
-import org.hy.common.app.Param;
 import org.hy.common.net.ClientSocketCluster;
 import org.hy.common.net.common.ClientCluster;
 import org.hy.common.net.data.CommunicationResponse;
@@ -90,9 +89,9 @@ public class JU_Exception
             
             if ( v_ResponseData.getResult() == 0 )
             {
-                if ( v_ResponseData.getData() != null && v_ResponseData.getData() instanceof Param )
+                if ( v_ResponseData.getData() != null && v_ResponseData.getData() instanceof List )
                 {
-                    $Logger.info(v_ResponseData.getData().toString());
+                    $Logger.info(((List<?>)v_ResponseData.getData()).size());
                 }
             }
         }
