@@ -43,6 +43,9 @@ public class App<T extends App<T>>
     /** 本应用的默认超时时长。每次通讯的数据超时时长级别高于本属性，只有当没有设置通讯数据超时时长时，本属性才生效 */
     protected Long    timeout;
     
+    /** 服务IP及端口（主要是缓存起来，方便每次的日志显示，节约一点点性能） */
+    private   String  hostPort;
+    
     
     
     /**
@@ -115,7 +118,8 @@ public class App<T extends App<T>>
     @SuppressWarnings("unchecked")
     public T setPort(int port)
     {
-        this.port = port;
+        this.port     = port;
+        this.hostPort = this.host + ":" + this.port;
         return (T) this;
     }
     
@@ -141,7 +145,8 @@ public class App<T extends App<T>>
     @SuppressWarnings("unchecked")
     public T setHost(String host)
     {
-        this.host = host;
+        this.host     = host;
+        this.hostPort = this.host + ":" + this.port;
         return (T) this;
     }
     
@@ -195,6 +200,18 @@ public class App<T extends App<T>>
     {
         this.timeout = i_Timeout;
         return (T) this;
+    }
+
+    
+
+    /**
+     * 服务IP及端口（主要是缓存起来，方便每次的日志显示，节约一点点性能）
+     * 
+     * @return
+     */
+    public String getHostPort()
+    {
+        return hostPort;
     }
     
 }

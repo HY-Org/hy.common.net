@@ -74,7 +74,7 @@ public abstract class ObjectSocketResponse<T extends ObjectSocketResponse<T>> ex
             if ( v_Socket == null )
             {
                 // 这里在压力大时，报错极多，需要优化
-                $Logger.warn("无法与 " + this.host + ":" + this.port + " 建立网络通讯连接");
+                $Logger.warn("无法与 " + this.getHostPort() + " 建立网络通讯连接");
                 return null;
             }
             
@@ -106,7 +106,7 @@ public abstract class ObjectSocketResponse<T extends ObjectSocketResponse<T>> ex
         }
         catch (Throwable exce)
         {
-            $Logger.warn("无法与 " + this.host + ":" + this.port + " 建立网络通讯连接.");
+            $Logger.warn("无法与 " + this.getHostPort() + " 建立网络通讯连接.");
             $Logger.error(exce);
         }
         finally

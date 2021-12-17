@@ -103,11 +103,10 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     public synchronized Data send(Object i_Data) throws InterruptedException
     {
         this.response = null;
-        String v_Info = this.clientRPC.getHost() + ":" + this.clientRPC.getPort();
-        $Logger.debug(v_Info + " 请求类型：" + i_Data.toString());
+        $Logger.debug(this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString());
         this.ctx.writeAndFlush(i_Data);
         
-        $Logger.debug(v_Info + " 等待响应");
+        $Logger.debug(this.clientRPC.getHostPort() + " 等待响应");
         long v_Timeout = Help.NVL(this.clientRPC.getTimeout() ,Timeout.$Default_WaitRequestTimeout);
         if ( i_Data instanceof Timeout )
         {
@@ -129,11 +128,11 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         
         if ( this.response != null )
         {
-            $Logger.debug(v_Info + " 响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
+            $Logger.debug(this.clientRPC.getHostPort() + " 响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
         }
         else
         {
-            $Logger.warn(v_Info + " 请求类型：" + i_Data.toString() + "，请求超时：" + v_Timeout);
+            $Logger.warn(this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString() + "，请求超时：" + v_Timeout);
         }
         
         return this.response;
@@ -150,7 +149,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         i_Ctx.close();
         this.clientRPC.shutdown();
         
-        $Logger.error(i_Cause.getMessage());
+        $Logger.error(this.clientRPC.getHost() + ":" + this.clientRPC.getPort() + " " + i_Cause.getMessage());
     }
     
 }

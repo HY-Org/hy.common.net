@@ -148,7 +148,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
             ChannelFuture v_ChannelFuture = this.bootstrap.connect(this.host ,this.port).sync();
             this.channel                  = v_ChannelFuture.channel();
             
-            $Logger.info("通讯准备完成：" + this.host + ":" + this.port + (Help.isNull(this.comment) ? "" : " -> " + this.comment));
+            $Logger.info("通讯准备完成：" + this.getHostPort() + (Help.isNull(this.comment) ? "" : " -> " + this.comment));
             super.start();
             return (T) this;
         }
