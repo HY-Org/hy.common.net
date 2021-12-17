@@ -192,16 +192,22 @@ public class JU_Exception
     public void test_断开重新连接_客户端()
     {
         $Clients = new ArrayList<ClientCluster>();
-        $Clients.add(new ClientRPC().setHost("127.0.0.1").setPort(3021));
+        $Clients.add(new ClientRPC().setHost("42.63.227.65").setPort(9021));
         
         
         $Logger.info("正常情况下的客户端通讯");
         this.test_断开重新连接_客户端($Clients);
         
         $Logger.info("模拟服务端宕机");
-        // 因在不同的进程中，请手动关闭服务。
+        // 请手动关闭服务。
         
         $Logger.info("服务端宕机情况下的客户端通讯");
+        this.test_断开重新连接_客户端($Clients);
+        
+        $Logger.info("模拟服务端恢复正常");
+        // 请手动开启服务。
+        
+        $Logger.info("服务端恢复后的客户端通讯");
         this.test_断开重新连接_客户端($Clients);
     }
     

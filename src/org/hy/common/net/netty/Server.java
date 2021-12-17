@@ -217,12 +217,30 @@ public abstract class Server<T extends Server<T>> extends App<T>
     {
         if ( this.bossGroup != null )
         {
-            this.bossGroup.shutdownGracefully();
+            try
+            {
+                this.bossGroup.shutdownGracefully();
+            }
+            catch (Exception exce)
+            {
+                $Logger.error(exce);
+            }
+            
+            this.bootstrap = null;
         }
         
         if ( this.workerGroup != null )
         {
-            this.workerGroup.shutdownGracefully();
+            try
+            {
+                this.workerGroup.shutdownGracefully();
+            }
+            catch (Exception exce)
+            {
+                $Logger.error(exce);
+            }
+            
+            this.workerGroup = null;
         }
         
         super.shutdown();

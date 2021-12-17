@@ -84,7 +84,8 @@ public class JU_XJavaCloudClient
                 v_Client.operation().login(v_LoginRequest);
             }
             
-            $Logger.info("获取服务端的对象：时间1：" + v_Client.operation().getObject(0, "TEST-Date-1"));
+            CommunicationResponse v_Ret = v_Client.operation().getObject(0, "TEST-Date-1");
+            $Logger.info("获取服务端的对象：时间1：" + v_Ret.getData());
         }
         
         v_Client.shutdown();

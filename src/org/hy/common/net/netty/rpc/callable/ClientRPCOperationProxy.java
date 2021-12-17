@@ -84,7 +84,16 @@ public class ClientRPCOperationProxy implements InvocationHandler
     {
         if ( this.threadPool != null && !this.threadPool.isShutdown() )
         {
-            this.threadPool.shutdown();
+            try
+            {
+                this.threadPool.shutdown();
+            }
+            catch (Exception exce)
+            {
+                $Logger.error(exce);
+            }
+            
+            this.threadPool = null;
         }
     }
     

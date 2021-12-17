@@ -82,7 +82,6 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     @Override
     public synchronized ClientRPC start()
     {
-        this.operation().logout();
         return super.start();
     }
 
@@ -100,7 +99,6 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     @Override
     public synchronized ClientRPC start(Bootstrap io_Bootstrap)
     {
-        this.operation().logout();
         return super.start(io_Bootstrap);
     }
 
