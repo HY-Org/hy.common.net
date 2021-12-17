@@ -13,10 +13,16 @@ package org.hy.common.net.common;
  */
 public interface NetError
 {
+    /** 通讯超时 */
+    public static final int $TimeoutError                  = 70;
+    
+    
     /** 请启动服务后再通讯 */
     public static final int $StartNotError                 = 80;
     
     
+    /** 服务端未知异常 */
+    public static final int $ServerUnknownError            = 93;
     
     /** 请登录后再通讯 */
     public static final int $LoginNotError                 = 94;

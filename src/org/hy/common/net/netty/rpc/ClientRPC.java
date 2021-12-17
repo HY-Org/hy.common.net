@@ -114,7 +114,7 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
      * @version     v1.0
      */
     @Override
-    public synchronized void shutdown()
+    public void shutdown()
     {
         this.operation().logout();
         super.shutdown();

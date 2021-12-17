@@ -8,6 +8,7 @@ import org.hy.common.ExecuteListener;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.CommunicationResponse;
+import org.hy.common.net.netty.rpc.ClientRPC;
 import org.hy.common.xml.log.Logger;
 
 
@@ -67,14 +68,23 @@ public class ClientClusterListener implements ExecuteListener
     @Override
     public synchronized void result(ExecuteEvent i_Event)
     {
-        ClientCluster v_Client = ((ClientOperation)i_Event.getSource()).getClient();
-        this.clusterResult.put(v_Client ,(CommunicationResponse)i_Event.getResult());
+        ClientCluster v_Client = null;
+        if ( i_Event.getSource() instanceof ClientRPC )
+        {
+            v_Client = (ClientRPC)i_Event.getSource();
+        }
+        else
+        {
+            v_Client = ((ClientOperation)i_Event.getSource()).getClient();
+        }
+        
+        CommunicationResponse v_CRet = (CommunicationResponse)i_Event.getResult();
+        this.clusterResult.put(v_Client ,v_CRet);
         this.clusterCount++;
         
         if ( !Help.isNull(this.logInfo) )
         {
-            CommunicationResponse v_CRet   = (CommunicationResponse)i_Event.getResult();
-            StringBuilder         v_Buffer = new StringBuilder();
+            StringBuilder v_Buffer = new StringBuilder();
             
             v_Buffer.append("集群通讯已收到 ");
             v_Buffer.append(StringHelp.lpad(this.clusterCount ,4 ," "));

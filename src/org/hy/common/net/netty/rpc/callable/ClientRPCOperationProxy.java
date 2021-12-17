@@ -280,10 +280,28 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object proxyLogin(Object [] i_Args) throws InterruptedException, ExecutionException
     {
-        ClientRPCCallableLogin v_Handler = new ClientRPCCallableLogin(this.clientRPC.clientHandler() ,(LoginRequest)i_Args[0]);
-        LoginResponse          v_Ret     = this.getThreadPool().submit(v_Handler).get();
+        ClientRPCCallableLogin v_Handler   = new ClientRPCCallableLogin(this.clientRPC.clientHandler() ,(LoginRequest)i_Args[0]);
+        LoginResponse          v_Ret       = null;
+        boolean                v_Exception = false;
         
-        if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
+        try
+        {
+            v_Ret = this.getThreadPool().submit(v_Handler).get();
+        }
+        catch (Exception exce)
+        {
+            v_Exception = true;
+            $Logger.error(exce);
+        }
+        
+        if ( v_Ret == null )
+        {
+            // 一般超时后返回NULL，也可能是服务端宕机了
+            v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$ServerUnknownError : NetError.$TimeoutError);
+            $Logger.info("登录超时：" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
+            this.clientRPC.shutdown();
+        }
+        else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
         {
             this.isLogin = true;
             $Logger.info("登录成功：" + i_Args[0].toString() + " -> " + v_Ret.toString());
@@ -312,10 +330,28 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object send(CommunicationRequest i_Request) throws InterruptedException, ExecutionException
     {
-        ClientRPCCallableSend v_Handler = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
-        CommunicationResponse v_Ret     = this.getThreadPool().submit(v_Handler).get();
+        ClientRPCCallableSend v_Handler   = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
+        CommunicationResponse v_Ret       = null;
+        boolean               v_Exception = false;
         
-        if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
+        try
+        {
+            v_Ret = this.getThreadPool().submit(v_Handler).get();
+        }
+        catch (Exception exce)
+        {
+            v_Exception = true;
+            $Logger.error(exce);
+        }
+        
+        if ( v_Ret == null )
+        {
+            // 一般超时后返回NULL，也可能是服务端宕机了
+            v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$ServerUnknownError : NetError.$TimeoutError);
+            $Logger.info("通讯超时：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+            this.clientRPC.shutdown();
+        }
+        else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
         {
             $Logger.info("通讯成功：" + i_Request.toString() + " -> " + v_Ret.toString());
         }

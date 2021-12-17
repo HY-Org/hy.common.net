@@ -136,19 +136,19 @@ public abstract class Client<T extends Client<T>> extends App<T>
             return (T) this;
         }
         
-        super.start();
         this.clientGroup = new NioEventLoopGroup();
         
         try
         {
-            this.bootstrap = io_Bootstrap;
-            this.bootstrap.group(this.clientGroup);
+            this.bootstrap = io_Bootstrap.clone(this.clientGroup);
+            // this.bootstrap.group(this.clientGroup);
             this.bootstrap.handler(new ClientInitChannel<T>(this));
             
             ChannelFuture v_ChannelFuture = this.bootstrap.connect(this.host ,this.port).sync();
             this.channel                  = v_ChannelFuture.channel();
             
             $Logger.info("通讯准备完成：" + this.host + ":" + this.port + (Help.isNull(this.comment) ? "" : " -> " + this.comment));
+            super.start();
             return (T) this;
         }
         catch (Exception e)
@@ -170,13 +170,13 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * @version     v1.0
      */
     @Override
-    public synchronized void shutdown()
+    public synchronized  void shutdown()
     {
         if ( this.clientGroup != null )
         {
             try
             {
-                this.clientGroup.shutdownGracefully().sync();
+                this.clientGroup.shutdownGracefully();
             }
             catch (Exception exce)
             {

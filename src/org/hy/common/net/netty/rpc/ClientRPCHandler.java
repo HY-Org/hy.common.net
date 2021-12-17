@@ -102,6 +102,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     public synchronized Data send(Object i_Data) throws InterruptedException
     {
+        this.response = null;
         String v_Info = this.clientRPC.getHost() + ":" + this.clientRPC.getPort();
         $Logger.debug(v_Info + " 请求类型：" + i_Data.toString());
         this.ctx.writeAndFlush(i_Data);

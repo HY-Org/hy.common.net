@@ -64,7 +64,15 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
     {
         Data v_Data = this.clientHandler.send(this.paramObject);
         
-        return this.decoder(v_Data);
+        if ( v_Data != null )
+        {
+            return this.decoder(v_Data);
+        }
+        else
+        {
+            // 一般超时后会为NULL
+            return null;
+        }
     }
     
 }
