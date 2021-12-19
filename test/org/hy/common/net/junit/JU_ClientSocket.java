@@ -24,10 +24,10 @@ public class JU_ClientSocket
     {
         ClientSocket v_Client = new ClientSocket();
         
-        v_Client.setHostName("10.1.50.241");
-        v_Client.setPort(9021);
+        v_Client.setHostName("10.1.90.23");
+        v_Client.setPort(2021);
         
-        CommunicationResponse v_Response = v_Client.sendCommand(0, "JOBS" ,"disasterRecoveryChecks" ,false);
+        CommunicationResponse v_Response = v_Client.sendCommand(0, "QiTaoService" ,"calcQiTao2021" ,false);
         if ( v_Response.getResult() != 0 )
         {
             Assert.fail("网络通讯异常");

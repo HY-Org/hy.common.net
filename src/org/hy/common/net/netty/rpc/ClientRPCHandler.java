@@ -1,7 +1,7 @@
 package org.hy.common.net.netty.rpc;
 
 import org.hy.common.Help;
-import org.hy.common.net.data.Timeout;
+import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.xml.log.Logger;
@@ -107,13 +107,13 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         this.ctx.writeAndFlush(i_Data);
         
         $Logger.debug(this.clientRPC.getHostPort() + " 等待响应");
-        long v_Timeout = Help.NVL(this.clientRPC.getTimeout() ,Timeout.$Default_WaitRequestTimeout);
-        if ( i_Data instanceof Timeout )
+        long v_Timeout = Help.NVL(this.clientRPC.getTimeout() ,Communication.$Default_WaitRequestTimeout);
+        if ( i_Data instanceof Communication )
         {
-            v_Timeout = Help.NVL(((Timeout<?>)i_Data).getWaitRequestTimeout() ,v_Timeout);
+            v_Timeout = Help.NVL(((Communication<?>)i_Data).getWaitRequestTimeout() ,v_Timeout);
             if ( v_Timeout < 1000L && v_Timeout != 0L )
             {
-                v_Timeout = Timeout.$Default_WaitRequestTimeout;
+                v_Timeout = Communication.$Default_WaitRequestTimeout;
             }
         }
         

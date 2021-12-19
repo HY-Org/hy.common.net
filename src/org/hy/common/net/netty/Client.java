@@ -2,7 +2,7 @@ package org.hy.common.net.netty;
 
 import org.hy.common.Help;
 import org.hy.common.net.common.App;
-import org.hy.common.net.data.Timeout;
+import org.hy.common.net.data.Communication;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.bootstrap.Bootstrap;
@@ -96,7 +96,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
         
         v_Bootstrap.channel(NioSocketChannel.class);
         v_Bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-        v_Bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, Help.NVL(this.getTimeout() ,Timeout.$Default_WaitRequestTimeout).intValue());
+        v_Bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, Help.NVL(this.getTimeout() ,Communication.$Default_WaitRequestTimeout).intValue());
         
         return v_Bootstrap;
     }

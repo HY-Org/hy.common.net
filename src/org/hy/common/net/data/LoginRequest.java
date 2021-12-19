@@ -13,7 +13,7 @@ package org.hy.common.net.data;
  *                                添加：客户端的系统名称
  *              v3.0  2021-09-29  添加：链式编程
  */
-public class LoginRequest extends Timeout<LoginRequest>
+public class LoginRequest extends Communication<LoginRequest>
 {
     
     private static final long serialVersionUID = 5568766404534113410L;
@@ -105,6 +105,7 @@ public class LoginRequest extends Timeout<LoginRequest>
     /**
      * 获取：通讯的接口版本
      */
+    @Override
     public int getVersion()
     {
         return version;
@@ -116,6 +117,7 @@ public class LoginRequest extends Timeout<LoginRequest>
      * 
      * @param version
      */
+    @Override
     public LoginRequest setVersion(int version)
     {
         this.version = version;
