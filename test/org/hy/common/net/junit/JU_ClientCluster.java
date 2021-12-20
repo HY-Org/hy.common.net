@@ -25,7 +25,7 @@ public class JU_ClientCluster
     @Test
     public void test_V3新版本()
     {
-        ClientCluster v_Client = new ClientRPC().setHost("10.1.50.76").setPort(1721);
+        ClientCluster v_Client = new ClientRPC().setHost("10.1.90.23").setPort(3021);
         this.send(v_Client);
     }
     
@@ -37,7 +37,7 @@ public class JU_ClientCluster
         i_Client.operation().login(new LoginRequest().setUserName("测试").setSystemName("测试"));
         
         $Logger.info("开始执行");
-        i_Client.operation().sendCommand(-1 ,"SyncDatasJob" ,"syncDatas");
+        i_Client.operation().sendCommand(-1 ,"QiTaoService" ,"calcQiTao2021");
         $Logger.info("执行完成");
         
         try

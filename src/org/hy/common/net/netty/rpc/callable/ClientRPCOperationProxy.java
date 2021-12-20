@@ -182,7 +182,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             }
             else if ( i_Args.length == 4 )
             {
-                if ( i_Args[3].getClass() == boolean.class )
+                if ( i_Args[3].getClass() == boolean.class || i_Args[3].getClass() == Boolean.class )
                 {
                     v_Command.setParams(new Object[]{});
                     v_Request.setRetunData((boolean)i_Args[3]);
@@ -213,7 +213,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             }
             else if ( i_Args.length == 4 )
             {
-                if ( i_Args[3].getClass() == boolean.class )
+                if ( i_Args[3].getClass() == boolean.class || i_Args[3].getClass() == Boolean.class )
                 {
                     v_Request.setDataExpireTimeLen(0);
                     v_Request.setRetunData((boolean)i_Args[3]);
