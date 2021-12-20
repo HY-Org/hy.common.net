@@ -1144,7 +1144,7 @@ public class ClientSocketCluster
     {
         if ( i_Timeout != 0 && i_Timeout <= 1000 )
         {
-            throw new RuntimeException("Timeout is not <= 1000 millisecond.");
+            i_Timeout = Communication.$Default_WaitRequestTimeout;
         }
         
         if ( Help.isNull(i_Cluster) )
