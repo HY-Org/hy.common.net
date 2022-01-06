@@ -1,10 +1,12 @@
 package org.hy.common.net.netty.rpc;
 
-import java.util.Hashtable;
+import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.hy.common.Date;
+import org.hy.common.ExpireMap;
 import org.hy.common.Help;
 import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.ClientUserInfo;
@@ -40,10 +42,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
 {
     
-    private static final Logger                                     $Logger  = new Logger(ServerRPCHandler.class ,true);
+    private static final Logger                                           $Logger  = new Logger(ServerRPCHandler.class ,true);
     
     /** 登录成功的客户端Channel及客户信息 */
-    private static final Map<ChannelHandlerContext ,ClientUserInfo> $Clients = new Hashtable<ChannelHandlerContext ,ClientUserInfo>();
+    private static final ExpireMap<ChannelHandlerContext ,ClientUserInfo> $Clients = new ExpireMap<ChannelHandlerContext ,ClientUserInfo>();
     
     
     
@@ -56,6 +58,43 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         super();
         this.mainServer = i_ServerRPC;
+    }
+    
+    
+    
+    /**
+     * 获取：登录的客户信息
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-04
+     * @version     v1.0
+     * 
+     * @return
+     */
+    protected List<ClientUserInfo> getClientUsers()
+    {
+        return Help.toList($Clients);
+    }
+    
+    
+    
+    /**
+     * 重置统计数据
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-06
+     * @version     v1.0
+     *
+     */
+    public void reset()
+    {
+        for (ClientUserInfo v_ClientUser : $Clients.values())
+        {
+            v_ClientUser.setRequestCount(0);
+            v_ClientUser.setActiveCount(0);
+            v_ClientUser.setActiveTimeLen(0);
+            v_ClientUser.setActiveTime(null);
+        }
     }
     
     
@@ -81,6 +120,9 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         // 已登录
         else
         {
+            v_ClientUser.addRequestCount();
+            v_ClientUser.setActiveTime(new Date());
+            $Clients.put(i_Ctx ,v_ClientUser ,this.mainServer.getSessionTime());  // 保持会话的有效性
             sendResponse(i_Ctx ,this.mainActive(i_Ctx ,v_ClientUser ,i_Msg));
         }
     }
@@ -139,19 +181,19 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @createDate  2021-09-28
      * @version     v1.0
      * 
-     * @param i_ClientUser
+     * @param i_NewUser
      */
-    private void removeExpireSameClientUser(ClientUserInfo i_ClientUser)
+    private void removeExpireSameClientUser(ClientUserInfo i_NewUser)
     {
         if ( this.mainServer.getSameUserOnlineMaxCount() > 0 )
         {
             int v_OnlineCount = 0;
             for (Map.Entry<ChannelHandlerContext ,ClientUserInfo> v_Item : $Clients.entrySet())
             {
-                ClientUserInfo v_ClientUser = v_Item.getValue();
+                ClientUserInfo v_OldUser = v_Item.getValue();
                 
-                if ( v_ClientUser.getUserName()  .equals(i_ClientUser.getUserName())
-                  && v_ClientUser.getSystemName().equals(i_ClientUser.getSystemName()) )
+                if ( v_OldUser.getUserName()  .equals(i_NewUser.getUserName())
+                  && v_OldUser.getSystemName().equals(i_NewUser.getSystemName()) )
                 {
                     if ( v_OnlineCount < this.mainServer.getSameUserOnlineMaxCount() )
                     {
@@ -223,11 +265,14 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             
             if ( v_LoginRet )
             {
-                ClientUserInfo v_ClientUser = (ClientUserInfo)v_CLoginRequest;
+                InetSocketAddress v_ClientAddress = (InetSocketAddress)i_Ctx.channel().remoteAddress();
+                ClientUserInfo    v_ClientUser    = (ClientUserInfo)v_CLoginRequest;
+                v_ClientUser.setHost(v_ClientAddress.getAddress().getHostAddress());
+                v_ClientUser.setPort(v_ClientAddress.getPort());
                 v_ClientUser.setLoginTime(new Date());
                 v_ClientUser.setOnline(true);
                 this.removeExpireSameClientUser(v_ClientUser);
-                $Clients.put(i_Ctx ,v_ClientUser);
+                $Clients.put(i_Ctx ,v_ClientUser ,this.mainServer.getSessionTime());
                 
                 v_Ret.setPort(this.mainServer.getPort());
                 v_Ret.setResult(CommunicationResponse.$Succeed);
@@ -273,8 +318,6 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         v_Buf.append("; user=")     .append(i_ClientUser.getUserName());
         v_Buf.append("; system=")   .append(i_ClientUser.getSystemName());
         v_Buf.append("; loginTime=").append(i_ClientUser.getLoginTime().getFull());
-        
-        i_ClientUser.setActiveTime(v_BTime);
         
         if ( Help.isNull(i_Msg.getRequest().getEventType()) )
         {
@@ -354,8 +397,9 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             // 是否返回成功，应由终端监听事件决定。本方法不应干涉，所以注释下行代码
             // v_Reponse.setResult(CommunicationResponse.$Succeed);
             
+            i_ClientUser.setActiveTime(new Date());
             i_ClientUser.addActiveCount();
-            i_ClientUser.addActiveTimeLen(Date.getNowTime().getTime() - i_BTime);
+            i_ClientUser.addActiveTimeLen(i_ClientUser.getActiveTime().getTime() - i_BTime);
         }
         catch (Exception e)
         {
@@ -373,8 +417,6 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Reponse.setDataExpireTimeLen(i_Request.getDataExpireTimeLen());
             v_Reponse.setResult(           NetError.$ResponseDataError);
             v_Reponse.setEndTime(          new Date());
-            
-            i_ClientUser.addErrorCount();
         }
         
         return v_Reponse;

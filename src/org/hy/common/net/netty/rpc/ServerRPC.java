@@ -1,10 +1,14 @@
 package org.hy.common.net.netty.rpc;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.hy.common.Help;
+import org.hy.common.net.common.ServerOperation;
+import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Server;
 import org.hy.common.net.netty.rpc.decoder.ProtobufLengthHeadDecoder;
@@ -35,8 +39,9 @@ import io.netty.util.concurrent.EventExecutorGroup;
  * @author      ZhengWei(HY)
  * @createDate  2021-09-25
  * @version     v1.0
+ *              v1.1  2022-01-04  添加：会话时间（单位：秒）。空闲多少时间后，移除登录会话
  */
-public class ServerRPC extends Server<ServerRPC>
+public class ServerRPC extends Server<ServerRPC> implements ServerOperation
 {
     
     /** 全局共享型的线程池 */
@@ -45,14 +50,17 @@ public class ServerRPC extends Server<ServerRPC>
     /** 全局共享型的线程池的大小（默认：CPU核心数） */
     protected int                                executorPoolSize;
     
-    /** 多长时间没有读 */
+    /** 多长时间没有读（单位：秒） */
     protected long                               readerIdleTime;
     
-    /** 多长时间没有写 */
+    /** 多长时间没有写（单位：秒） */
     protected long                               writerIdleTime;
     
-    /** 多长时间没有读写 */
+    /** 多长时间没有读写（单位：秒） */
     protected long                               allIdleTime;
+    
+    /** 会话时间（单位：秒）。空闲多少时间后，移除登录会话 */
+    protected long                               sessionTime;
     
     /** 登陆验证接口。当为 null 时不验证，直接登陆成功 */
     protected ServerValidate                     validate;
@@ -62,10 +70,13 @@ public class ServerRPC extends Server<ServerRPC>
      * 
      * 同样的事件类型，只能有一个监听者。
      */
-    protected Map<String ,ServerEventListener> listeners;
+    protected Map<String ,ServerEventListener>   listeners;
     
     /** 默认的数据通讯监听者 */
-    protected ServerEventListener              defaultListener;
+    protected ServerEventListener                defaultListener;
+    
+    /** 业务的处理器：Handler */
+    protected ServerRPCHandler                   serverRPCHandler;
     
     
     
@@ -76,6 +87,7 @@ public class ServerRPC extends Server<ServerRPC>
         this.readerIdleTime   = 15;
         this.writerIdleTime   = 15;
         this.allIdleTime      = 30;
+        this.sessionTime      = 60 * 60;
         this.executorPoolSize = Runtime.getRuntime().availableProcessors();
         
         this.listeners        = new Hashtable<String ,ServerEventListener>();
@@ -99,7 +111,7 @@ public class ServerRPC extends Server<ServerRPC>
         // 将会触发一个IdleStateEvent的事件，并且事件会传递到下一个处理器来处理，
         // 通过触发下一个Handler的userEventTrigged方法
         i_Pipeline.addLast("心跳器"  ,new IdleStateHandler(this.readerIdleTime ,this.writerIdleTime ,this.allIdleTime ,TimeUnit.SECONDS));
-        i_Pipeline.addLast("业务器"  ,new ServerRPCHandler(this));
+        i_Pipeline.addLast("业务器"  ,this.serverRPCHandler = new ServerRPCHandler(this));
     }
     
     
@@ -265,7 +277,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 获取：多长时间没有读
+     * 获取：多长时间没有读（单位：秒）
      * 
      * @return
      */
@@ -276,7 +288,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 设置：多长时间没有读
+     * 设置：多长时间没有读（单位：秒）
      * 
      * @param readerIdleTime
      */
@@ -288,7 +300,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 获取：多长时间没有写
+     * 获取：多长时间没有写（单位：秒）
      * 
      * @return
      */
@@ -299,7 +311,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 设置：多长时间没有写
+     * 设置：多长时间没有写（单位：秒）
      * 
      * @param writerIdleTime
      */
@@ -311,7 +323,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 获取：多长时间没有读写
+     * 获取：多长时间没有读写（单位：秒）
      * 
      * @return
      */
@@ -322,7 +334,7 @@ public class ServerRPC extends Server<ServerRPC>
 
 
     /**
-     * 设置：多长时间没有读写
+     * 设置：多长时间没有读写（单位：秒）
      * 
      * @param allIdleTime
      */
@@ -376,6 +388,73 @@ public class ServerRPC extends Server<ServerRPC>
     {
         this.executorPoolSize = executorPoolSize;
         return this;
+    }
+
+
+
+    /**
+     * 获取：会话时间（单位：秒）。空闲多少时间后，移除登录会话
+     * 
+     * @return
+     */
+    @Override
+    public long getSessionTime()
+    {
+        return sessionTime;
+    }
+
+
+
+    /**
+     * 设置：会话时间（单位：秒）。空闲多少时间后，移除登录会话
+     * 
+     * @param readerIdleTime
+     */
+    public void setSessionTime(long sessionTime)
+    {
+        this.sessionTime = sessionTime;
+    }
+    
+    
+    
+    /**
+     * 获取：登录的客户信息
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-04
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public List<ClientUserInfo> getClientUsers()
+    {
+        if ( this.serverRPCHandler == null )
+        {
+            return new ArrayList<ClientUserInfo>();
+        }
+        
+        return this.serverRPCHandler.getClientUsers();
+    }
+    
+    
+    
+    /**
+     * 重置统计数据
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-06
+     * @version     v1.0
+     *
+     */
+    public void reset()
+    {
+        if ( this.serverRPCHandler == null )
+        {
+            return;
+        }
+        
+        this.serverRPCHandler.reset();
     }
     
 }

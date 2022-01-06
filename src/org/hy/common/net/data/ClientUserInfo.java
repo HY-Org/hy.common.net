@@ -17,7 +17,7 @@ public class ClientUserInfo extends LoginRequest
 {
     
     private static final long serialVersionUID = 9200380879322001538L;
-
+    
     /** 是否在线 */
     private boolean isOnline;
     
@@ -30,17 +30,17 @@ public class ClientUserInfo extends LoginRequest
     /** 最后一次空闲时间 */
     private Date    idleTime;
     
+    /** 通讯的累计次数 */
+    private long    requestCount;
+    
     /** 最后一次有效通讯时间 */
     private Date    activeTime;
     
     /** 有效通讯的累计次数 */
     private long    activeCount;
     
-    /** 有效通讯的累计时长 */
+    /** 有效通讯的累计时长（单位：毫秒） */
     private long    activeTimeLen;
-    
-    /** 通讯异常的累计次数 */
-    private long    errorCount;
     
     
     
@@ -167,18 +167,18 @@ public class ClientUserInfo extends LoginRequest
     
     
     /**
-     * 通讯异常的累计次数 ++
+     * 通讯的累计次数 ++
      * 
      * @return
      */
-    public synchronized long addErrorCount()
+    public synchronized long addRequestCount()
     {
-        return ++this.errorCount;
+        return ++this.requestCount;
     }
 
 
     /**
-     * 获取：有效通讯的累计时长
+     * 获取：有效通讯的累计时长（单位：毫秒）
      */
     public long getActiveTimeLen()
     {
@@ -187,7 +187,7 @@ public class ClientUserInfo extends LoginRequest
 
 
     /**
-     * 设置：有效通讯的累计时长
+     * 设置：有效通讯的累计时长（单位：毫秒）
      * 
      * @param activeTimeLen
      */
@@ -220,21 +220,21 @@ public class ClientUserInfo extends LoginRequest
     /**
      * 获取：通讯异常的累计次数
      */
-    public long getErrorCount()
+    public long getRequestCount()
     {
-        return errorCount;
+        return requestCount;
     }
 
 
     /**
      * 获取：通讯异常的累计次数
      */
-    public void setErrorCount(long errorCount)
+    public void setRequestCount(long requestCount)
     {
-        this.errorCount = errorCount;
+        this.requestCount = requestCount;
     }
-
-
+    
+    
     @Override
     public String toString()
     {
