@@ -7,13 +7,13 @@ import org.hy.common.Date;
 
 
 /**
- * RPC + Protobuf的客户端
+ * 会话信息
  * 
  * @author      ZhengWei(HY)
  * @createDate  2021-09-27
  * @version     v1.0
  */
-public class ClientUserInfo extends LoginRequest
+public class SessionInfo extends LoginRequest
 {
     
     private static final long serialVersionUID = 9200380879322001538L;

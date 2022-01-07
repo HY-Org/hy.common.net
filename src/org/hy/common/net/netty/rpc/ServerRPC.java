@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.hy.common.Help;
 import org.hy.common.net.common.ServerOperation;
-import org.hy.common.net.data.ClientUserInfo;
+import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.data.protobuf.CommunicationProto;
 import org.hy.common.net.netty.Server;
 import org.hy.common.net.netty.rpc.decoder.ProtobufLengthHeadDecoder;
@@ -418,7 +418,7 @@ public class ServerRPC extends Server<ServerRPC> implements ServerOperation
     
     
     /**
-     * 获取：登录的客户信息
+     * 获取：会话信息
      * 
      * @author      ZhengWei(HY)
      * @createDate  2022-01-04
@@ -427,14 +427,14 @@ public class ServerRPC extends Server<ServerRPC> implements ServerOperation
      * @return
      */
     @Override
-    public List<ClientUserInfo> getClientUsers()
+    public List<SessionInfo> getSessions()
     {
         if ( this.serverRPCHandler == null )
         {
-            return new ArrayList<ClientUserInfo>();
+            return new ArrayList<SessionInfo>();
         }
         
-        return this.serverRPCHandler.getClientUsers();
+        return this.serverRPCHandler.getSessions();
     }
     
     
@@ -447,6 +447,7 @@ public class ServerRPC extends Server<ServerRPC> implements ServerOperation
      * @version     v1.0
      *
      */
+    @Override
     public void reset()
     {
         if ( this.serverRPCHandler == null )

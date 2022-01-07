@@ -51,4 +51,19 @@ public interface ClientCluster
      */
     public int getPort();
     
+    
+    
+    /**
+     * 获取：会话时间（单位：秒）。空闲多少时间后，移除统计功能
+     * 
+     * 客户端在使用时，主要用于“统计”功能
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-07
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public long getSessionTime();
+    
 }

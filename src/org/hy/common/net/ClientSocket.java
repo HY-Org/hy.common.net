@@ -5,11 +5,14 @@ import org.hy.common.Help;
 import org.hy.common.net.common.ClientCluster;
 import org.hy.common.net.common.ClientOperation;
 import org.hy.common.net.common.NetError;
+import org.hy.common.net.data.ClientTotal;
 import org.hy.common.net.data.Command;
+import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.socket.ClientCommunication;
 import org.hy.common.net.socket.ClientSocketValidate;
 import org.hy.common.net.socket.ObjectSocketResponse;
@@ -46,6 +49,12 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     /** 登陆服务端的登陆信息接口。当服务端不要求登陆验证时，此属性可为null */
     private ClientSocketValidate validate;
     
+    /** 通讯连接的统计信息 */
+    private SessionInfo          session;
+    
+    /** 会话时间（单位：秒）。空闲多少时间后，移除统计 */
+    protected long               sessionTime;
+    
     
     
     public ClientSocket()
@@ -66,7 +75,9 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     {
         super(i_HostName ,i_Port);
         
-        this.validate = null;
+        this.validate    = null;
+        this.session     = new SessionInfo();
+        this.sessionTime = 60 * 60;
     }
     
     
@@ -199,6 +210,13 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     @Override
     public LoginResponse login(LoginRequest i_Request)
     {
+        this.session.setSystemName(i_Request.getSystemName());
+        this.session.setUserName(  i_Request.getUserName());
+        this.session.setHost(this.getHost());
+        this.session.setPort(this.getPort());
+        this.session.setLoginTime(new Date());
+        this.session.setOnline(true);
+        ClientTotal.put(this);
         return new LoginResponse();
     }
     
@@ -214,7 +232,42 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     @Override
     public boolean logout()
     {
+        this.session.setLogoutTime(new Date());
+        this.session.setOnline(false);
         return true;
+    }
+    
+    
+    
+    /**
+     * 获取：会话时间（单位：秒）。空闲多少时间后，移除统计
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-07
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public long getSessionTime()
+    {
+        return sessionTime;
+    }
+
+
+
+    /**
+     * 设置：会话时间（单位：秒）。空闲多少时间后，移除统计
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-07
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public void setSessionTime(long sessionTime)
+    {
+        this.sessionTime = sessionTime;
     }
     
     
@@ -615,8 +668,20 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
             v_Communication.setEndTime(  new Date());
             return v_Communication;
         }
+        else
+        {
+            this.session.setSystemName(Help.NVL(v_RequestData.getSystemName() ,"-"));
+            this.session.setUserName(  Help.NVL(v_RequestData.getUserName()   ,"-"));
+            this.session.setHost(this.getHost());
+            this.session.setPort(this.getPort());
+            this.session.setLoginTime(v_StartTime);
+            this.session.setOnline(true);
+        }
         
         $Logger.debug("数据通讯端口：" + v_ResponseData.getPort());
+        this.session.addRequestCount();
+        this.session.setActiveTime(v_StartTime);
+        ClientTotal.put(this);  // 保持会话的有效性
         
         // 登陆验证成功后，进行数据通讯
         i_RequestData.setTime(new Date());
@@ -629,6 +694,16 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
             v_Communication = new CommunicationResponse();
             v_Communication.setResult(NetError.$RequestDataError);
         }
+        
+        Date v_ETime = new Date();
+        if ( v_Communication.getResult() == Communication.$Succeed )
+        {
+            this.session.setActiveTime(v_ETime);
+            this.session.addActiveCount();
+            this.session.addActiveTimeLen(v_ETime.getTime() - v_StartTime.getTime());
+        }
+        this.session.setLogoutTime(v_ETime);
+        this.session.setOnline(false);
         
         v_Communication.setStartTime(v_StartTime);
         v_Communication.setEndTime(  new Date());
@@ -686,6 +761,22 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     {
         this.validate = validate;
         return this;
+    }
+    
+    
+    /**
+     * 获取：通讯连接的会话信息
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-07
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public SessionInfo getSession()
+    {
+        return this.session;
     }
     
 }

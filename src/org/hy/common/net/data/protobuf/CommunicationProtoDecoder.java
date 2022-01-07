@@ -2,12 +2,12 @@ package org.hy.common.net.data.protobuf;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
-import org.hy.common.net.data.ClientUserInfo;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.data.protobuf.CommunicationProto.DataProtocol;
 import org.hy.common.net.data.protobuf.CommunicationProto.XCommand;
 import org.hy.common.xml.XJSON;
@@ -54,7 +54,7 @@ public class CommunicationProtoDecoder
      */
     public static LoginRequest toLoginRequest(CommunicationProto.LoginRequest i_Request ,String i_Host)
     {
-        LoginRequest v_Ret = new ClientUserInfo();
+        LoginRequest v_Ret = new SessionInfo();
         
         v_Ret.setVersion(      i_Request.getVersion());
         v_Ret.setId(           i_Request.getId());

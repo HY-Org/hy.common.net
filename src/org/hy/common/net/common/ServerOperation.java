@@ -2,7 +2,7 @@ package org.hy.common.net.common;
 
 import java.util.List;
 
-import org.hy.common.net.data.ClientUserInfo;
+import org.hy.common.net.data.SessionInfo;
 
 
 
@@ -32,7 +32,7 @@ public interface ServerOperation
     
     
     /**
-     * 获取：登录的客户信息
+     * 获取：会话信息
      * 
      * @author      ZhengWei(HY)
      * @createDate  2022-01-04
@@ -40,7 +40,7 @@ public interface ServerOperation
      * 
      * @return
      */
-    public List<ClientUserInfo> getClientUsers();
+    public List<SessionInfo> getSessions();
     
     
     

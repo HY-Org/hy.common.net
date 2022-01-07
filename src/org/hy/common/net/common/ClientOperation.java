@@ -4,6 +4,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.SessionInfo;
 
 
 
@@ -345,5 +346,18 @@ public interface ClientOperation
      * @return
      */
     public CommunicationResponse sendObject(long i_Timeout ,String i_XID ,Object i_Data ,long i_ExpireTimeLen ,boolean i_ServerIsReturn);
+    
+    
+    
+    /**
+     * 获取：通讯连接的会话信息
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-07
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public SessionInfo getSession();
     
 }
