@@ -92,6 +92,11 @@ public class ClientTotal
             v_Session.setActiveCount(0);
             v_Session.setActiveTimeLen(0);
             v_Session.setActiveTime(null);
+            
+            if ( v_Session.getNetExceptions() != null )
+            {
+                v_Session.getNetExceptions().clear();
+            }
         }
     }
     

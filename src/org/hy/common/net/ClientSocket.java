@@ -12,6 +12,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.NetException;
 import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.socket.ClientCommunication;
 import org.hy.common.net.socket.ClientSocketValidate;
@@ -338,6 +339,28 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      * 向服务端发送执行命令
      * 
      * @author      ZhengWei(HY)
+     * @createDate  2022-01-10
+     * @version     v1.0
+     *
+     * @param i_Timeout          通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @param i_XID              XJava对象池的ID
+     * @param i_Command          执行命令名称（即方法名称）
+     * @param i_ServerIsReturn   服务端是否返回执行结果的数据
+     * @param i_ServerIsNonSync  服务端是否开启异步执行
+     * @return
+     */
+    @Override
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,boolean i_ServerIsReturn ,boolean i_ServerIsNonSync)
+    {
+        return this.sendCommand(i_Timeout ,i_XID ,i_Command ,new Object[]{} ,i_ServerIsReturn ,i_ServerIsNonSync);
+    }
+    
+    
+    
+    /**
+     * 向服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
      *              v2.0  2021-12-15  添加：超时时长
@@ -375,6 +398,28 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     @Override
     public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn)
     {
+        return this.sendCommand(i_Timeout ,i_XID ,i_Command ,i_CommandParams ,true ,false);
+    }
+    
+    
+    
+    /**
+     * 向服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-10
+     *
+     * @param i_Timeout          通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @param i_XID              XJava对象池的ID
+     * @param i_Command          执行命令名称（即方法名称）
+     * @param i_CommandParams    执行命令参数（即方法参数）
+     * @param i_ServerIsReturn   服务端是否返回执行结果的数据
+     * @param i_ServerIsNonSync  服务端是否开启异步执行
+     * @return
+     */
+    @Override
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn ,boolean i_ServerIsNonSync)
+    {
         CommunicationRequest v_RequestData = new CommunicationRequest();
         Command              v_Command     = new Command();
         
@@ -386,6 +431,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
         v_RequestData.setDataOperation(     CommunicationRequest.$Operation_Command);
         v_RequestData.setRetunData(         i_ServerIsReturn);
         v_RequestData.setWaitRequestTimeout(i_Timeout);
+        v_RequestData.setNonSync(           i_ServerIsNonSync);
         
         return this.send(v_RequestData);
     }
@@ -645,7 +691,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
               || v_RequestData.getPassword() == null )
             {
                 CommunicationResponse v_Communication = new CommunicationResponse();
-                v_Communication.setResult(   NetError.$LoginValidateError);
+                v_Communication.setResult(   NetError.$Server_LoginValidateError);
                 v_Communication.setStartTime(v_StartTime);
                 v_Communication.setEndTime(  new Date());
                 return v_Communication;
@@ -663,7 +709,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
         if ( v_ResponseData == null )
         {
             CommunicationResponse v_Communication = new CommunicationResponse();
-            v_Communication.setResult(   NetError.$LoginError);
+            v_Communication.setResult(   NetError.$Server_LoginError);
             v_Communication.setStartTime(v_StartTime);
             v_Communication.setEndTime(  new Date());
             return v_Communication;
@@ -692,7 +738,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
         if ( v_Communication == null )
         {
             v_Communication = new CommunicationResponse();
-            v_Communication.setResult(NetError.$RequestDataError);
+            v_Communication.setResult(NetError.$Client_RequestDataError);
         }
         
         Date v_ETime = new Date();
@@ -701,6 +747,10 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
             this.session.setActiveTime(v_ETime);
             this.session.addActiveCount();
             this.session.addActiveTimeLen(v_ETime.getTime() - v_StartTime.getTime());
+        }
+        else
+        {
+            this.session.addException(new NetException(i_RequestData ,v_Communication.getResult() ,"通讯失败" ,null));
         }
         this.session.setLogoutTime(v_ETime);
         this.session.setOnline(false);

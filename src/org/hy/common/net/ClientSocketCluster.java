@@ -1158,12 +1158,12 @@ public class ClientSocketCluster
             if ( !v_Client.operation().isStartServer() )
             {
                 // 将未开启连接服务的，直接放入结果池中，并设置异常结果为：未启动
-                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$StartNotError)));
+                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$Client_StartNotError)));
             }
             else if ( !v_Client.operation().isLogin() )
             {
                 // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
-                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$LoginNotError)));
+                v_Listener.result(new ExecuteEvent(v_Client ,0L ,true ,new CommunicationResponse().setResult(NetError.$Client_LoginNotError)));
             }
             else
             {
@@ -1228,12 +1228,12 @@ public class ClientSocketCluster
             if ( !v_Client.operation().isStartServer() )
             {
                 // 将未开启连接服务的，直接放入结果池中，并设置异常结果为：未启动
-                v_ResponseData = new CommunicationResponse().setResult(NetError.$StartNotError);
+                v_ResponseData = new CommunicationResponse().setResult(NetError.$Client_StartNotError);
             }
             else if ( !v_Client.operation().isLogin() )
             {
                 // 将未登录验证的，直接放入结果池中，并设置异常结果为：未登录验证
-                v_ResponseData = new CommunicationResponse().setResult(NetError.$LoginNotError);
+                v_ResponseData = new CommunicationResponse().setResult(NetError.$Client_LoginNotError);
             }
             else
             {

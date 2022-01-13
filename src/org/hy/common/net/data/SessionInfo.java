@@ -1,5 +1,6 @@
 package org.hy.common.net.data;
 
+import org.hy.common.Busway;
 import org.hy.common.Date;
 
 
@@ -19,28 +20,52 @@ public class SessionInfo extends LoginRequest
     private static final long serialVersionUID = 9200380879322001538L;
     
     /** 是否在线 */
-    private boolean isOnline;
+    private boolean              isOnline;
     
     /** 登录时间 */
-    private Date    loginTime;
+    private Date                 loginTime;
     
     /** 退出时间（异常时间） */
-    private Date    logoutTime;
+    private Date                 logoutTime;
     
     /** 最后一次空闲时间 */
-    private Date    idleTime;
+    private Date                 idleTime;
     
     /** 通讯的累计次数 */
-    private long    requestCount;
+    private long                 requestCount;
     
     /** 最后一次有效通讯时间 */
-    private Date    activeTime;
+    private Date                 activeTime;
     
     /** 有效通讯的累计次数 */
-    private long    activeCount;
+    private long                 activeCount;
     
     /** 有效通讯的累计时长（单位：毫秒） */
-    private long    activeTimeLen;
+    private long                 activeTimeLen;
+    
+    /** 异常日志。默认只保留1000条 */
+    private Busway<NetException> netExceptions;
+    
+    
+    
+    /**
+     * 添加通讯执行异常日志
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-08
+     * @version     v1.0
+     * 
+     * @param i_NetException
+     */
+    public synchronized void addException(NetException i_NetException)
+    {
+        if ( this.netExceptions == null )
+        {
+            this.netExceptions = new Busway<>(1000);
+        }
+        
+        this.netExceptions.put(i_NetException);
+    }
     
     
     
@@ -235,6 +260,26 @@ public class SessionInfo extends LoginRequest
     }
     
     
+    /**
+     * 获取：异常日志。默认只保留1000条
+     */
+    public Busway<NetException> getNetExceptions()
+    {
+        return netExceptions;
+    }
+
+
+    /**
+     * 设置：异常日志。默认只保留1000条
+     * 
+     * @param netExceptions
+     */
+    public void setNetExceptions(Busway<NetException> netExceptions)
+    {
+        this.netExceptions = netExceptions;
+    }
+
+
     @Override
     public String toString()
     {

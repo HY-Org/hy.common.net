@@ -3,6 +3,7 @@ package org.hy.common.net.junit.netty.xjavacloud;
 import org.hy.common.Date;
 import org.hy.common.net.netty.rpc.ServerRPC;
 import org.hy.common.xml.XJava;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -18,9 +19,14 @@ import org.hy.common.xml.XJava;
 public class JU_XJavaCloudServer
 {
     
+    private static Logger $Logger = new Logger(JU_XJavaCloudServer.class ,true);
+    
+    
+    
     public static void main(String [] args)
     {
         // 准备服务端的测试数据
+        XJava.putObject("TEST"        ,new JU_XJavaCloudServer());
         XJava.putObject("TEST-Date-0" ,new Date());
         XJava.putObject("TEST-Date-1" ,new Date());
         XJava.putObject("TEST-Date-2" ,new java.util.Date());
@@ -37,6 +43,15 @@ public class JU_XJavaCloudServer
         
         ServerRPC v_Server = new ServerRPC().setPort(3021);
         v_Server.start();
+    }
+    
+    
+    
+    public void wait10() throws InterruptedException
+    {
+        $Logger.info("excuate wait01 start...");
+        Thread.sleep(1000 * 60 * 10);
+        $Logger.info("excuate wait01 end.");
     }
     
 }

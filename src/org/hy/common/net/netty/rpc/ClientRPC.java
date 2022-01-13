@@ -46,22 +46,12 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     /** 会话时间（单位：秒）。空闲多少时间后，移除统计 */
     protected long                  sessionTime;
     
-    /**
-     * 是否允许超时：超时影响统计为异常。
-     * 
-     * 当允许超时时(true)，统计结果为正常，否则统计结果为异常
-     * 
-     * 当用于Job定时任务时，常被设置成允许true
-     */
-    protected boolean               timeoutAllow;
-    
     
     
     public ClientRPC()
     {
         super();
         this.sessionTime  = 60 * 60;
-        this.timeoutAllow = false;
         this.newOperation();
     }
     
@@ -247,42 +237,6 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     public void setSessionTime(long sessionTime)
     {
         this.sessionTime = sessionTime;
-    }
-
-
-
-    /**
-     * 是否允许超时：超时影响统计为异常。
-     * 
-     * 当允许超时时(true)，统计结果为正常，否则统计结果为异常
-     * 
-     * 当用于Job定时任务时，常被设置成允许true
-     * 
-     * @author      ZhengWei(HY)
-     * @createDate  2022-01-07
-     * @version     v1.0
-     */
-    public boolean isTimeoutAllow()
-    {
-        return timeoutAllow;
-    }
-
-
-
-    /**
-     * 是否允许超时：超时影响统计为异常。
-     * 
-     * 当允许超时时(true)，统计结果为正常，否则统计结果为异常
-     * 
-     * 当用于Job定时任务时，常被设置成允许true
-     * 
-     * @author      ZhengWei(HY)
-     * @createDate  2022-01-07
-     * @version     v1.0
-     */
-    public void setTimeoutAllow(boolean timeoutAllow)
-    {
-        this.timeoutAllow = timeoutAllow;
     }
     
 }

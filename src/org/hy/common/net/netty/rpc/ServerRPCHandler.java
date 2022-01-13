@@ -13,6 +13,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.NetException;
 import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProto.Request;
@@ -94,6 +95,11 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Session.setActiveCount(0);
             v_Session.setActiveTimeLen(0);
             v_Session.setActiveTime(null);
+            
+            if ( v_Session.getNetExceptions() != null )
+            {
+                v_Session.getNetExceptions().clear();
+            }
         }
     }
     
@@ -279,12 +285,12 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             }
             else
             {
-                v_Ret.setResult(NetError.$LoginValidateError);
+                v_Ret.setResult(NetError.$Server_LoginValidateError);
             }
         }
         else
         {
-            v_Ret.setResult(NetError.$LoginTypeError);
+            v_Ret.setResult(NetError.$Client_LoginTypeError);
         }
         
         v_Buf.append(" -> ").append(v_Ret.getResult());
@@ -402,9 +408,9 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             i_Session.addActiveCount();
             i_Session.addActiveTimeLen(v_ETime.getTime() - i_BTime);
         }
-        catch (Exception e)
+        catch (Exception exce)
         {
-            $Logger.error(e);
+            $Logger.error(exce);
             
             v_Reponse = new CommunicationResponse();
             
@@ -416,8 +422,10 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Reponse.setDataXID(          i_Request.getDataXID());
             v_Reponse.setDataXIsNew(       i_Request.getDataXIsNew());
             v_Reponse.setDataExpireTimeLen(i_Request.getDataExpireTimeLen());
-            v_Reponse.setResult(           NetError.$ResponseDataError);
+            v_Reponse.setResult(           NetError.$Server_ResponseDataError);
             v_Reponse.setEndTime(          new Date());
+            
+            i_Session.addException(new NetException(i_Request ,NetError.$Server_ResponseDataError ,"未知异常" ,exce));
         }
         
         return v_Reponse;

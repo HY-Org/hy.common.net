@@ -161,6 +161,24 @@ public interface ClientOperation
      * 向服务端发送执行命令
      * 
      * @author      ZhengWei(HY)
+     * @createDate  2022-01-10
+     * @version     v1.0
+     *
+     * @param i_Timeout          通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @param i_XID              XJava对象池的ID
+     * @param i_Command          执行命令名称（即方法名称）
+     * @param i_ServerIsReturn   服务端是否返回执行结果的数据
+     * @param i_ServerIsNonSync  服务端是否开启异步执行
+     * @return
+     */
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,boolean i_ServerIsReturn ,boolean i_ServerIsNonSync);
+    
+    
+    
+    /**
+     * 向服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
      * @createDate  2019-02-27
      * @version     v1.0
      *              v2.0  2021-12-15  添加：超时时长
@@ -192,6 +210,24 @@ public interface ClientOperation
      * @return
      */
     public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn);
+    
+    
+    
+    /**
+     * 向服务端发送执行命令
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-01-10
+     *
+     * @param i_Timeout          通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
+     * @param i_XID              XJava对象池的ID
+     * @param i_Command          执行命令名称（即方法名称）
+     * @param i_CommandParams    执行命令参数（即方法参数）
+     * @param i_ServerIsReturn   服务端是否返回执行结果的数据
+     * @param i_ServerIsNonSync  服务端是否开启异步执行
+     * @return
+     */
+    public CommunicationResponse sendCommand(long i_Timeout ,String i_XID ,String i_Command ,Object [] i_CommandParams ,boolean i_ServerIsReturn ,boolean i_ServerIsSync);
     
     
     

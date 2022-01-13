@@ -28,6 +28,7 @@ public class JU_XJavaCloudClient
     {
         // 步骤1：连接
         ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("127.0.0.1");
+        v_Client.setTimeout(5 * 1000L);
         v_Client.start();
         
         
@@ -43,6 +44,11 @@ public class JU_XJavaCloudClient
         // 步骤3：通讯
         CommunicationResponse v_Response = null;
         List<?>               v_Datas    = null;
+        
+        
+        
+        v_Response = v_Client.operation().sendCommand(-1, "TEST" ,"wait10");
+        
         
         
         v_Response = v_Client.operation().sendCommand(0, "TEST-Date-1" ,"getFull");

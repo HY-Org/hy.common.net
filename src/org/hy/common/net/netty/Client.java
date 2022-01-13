@@ -171,7 +171,7 @@ public abstract class Client<T extends Client<T>> extends App<T>
      * @version     v1.0
      */
     @Override
-    public synchronized  void shutdown()
+    public synchronized void shutdown()
     {
         if ( this.channel != null )
         {

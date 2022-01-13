@@ -10,11 +10,11 @@ import org.hy.common.Date;
 import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.ClientTotal;
 import org.hy.common.net.data.Command;
-import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
+import org.hy.common.net.data.NetException;
 import org.hy.common.net.data.SessionInfo;
 import org.hy.common.net.netty.rpc.ClientRPC;
 import org.hy.common.xml.log.Logger;
@@ -93,7 +93,9 @@ public class ClientRPCOperationProxy implements InvocationHandler
         {
             try
             {
+                $Logger.debug("准备关闭线程池");
                 this.threadPool.shutdown();
+                $Logger.debug("完成关闭线程池");
             }
             catch (Exception exce)
             {
@@ -139,7 +141,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             }
             else
             {
-                return new LoginResponse().setResult(NetError.$StartNotError);
+                return new LoginResponse().setResult(NetError.$Client_StartNotError);
             }
         }
         else if ( "isLogin".equals(i_Method.getName()) )
@@ -166,13 +168,13 @@ public class ClientRPCOperationProxy implements InvocationHandler
             if ( !this.clientRPC.isStart() )
             {
                 // 必须先启动后才能通讯
-                return new CommunicationResponse().setResult(NetError.$StartNotError).setEndTime(new Date());
+                return new CommunicationResponse().setResult(NetError.$Client_StartNotError).setEndTime(new Date());
             }
             
             if ( !this.isLogin )
             {
                 // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
-                return new CommunicationResponse().setResult(NetError.$LoginNotError).setEndTime(new Date());
+                return new CommunicationResponse().setResult(NetError.$Client_LoginNotError).setEndTime(new Date());
             }
         }
         
@@ -185,15 +187,24 @@ public class ClientRPCOperationProxy implements InvocationHandler
             
             v_Command.setMethodName((String)i_Args[2]);
             
-            if ( i_Args.length == 5 )
+            if ( i_Args.length == 6 )
             {
                 v_Command.setParams(   (Object [])i_Args[3]);
                 v_Request.setRetunData((boolean)  i_Args[4]);
+                v_Request.setNonSync(  (boolean)  i_Args[5]);
             }
-            else if ( i_Args.length == 3 )
+            else if ( i_Args.length == 5 )
             {
-                v_Command.setParams(new Object[]{});
-                v_Request.setRetunData(true);
+                if ( i_Args[3].getClass() == boolean.class || i_Args[3].getClass() == Boolean.class )
+                {
+                    v_Request.setRetunData((boolean)  i_Args[3]);
+                    v_Request.setNonSync(  (boolean)  i_Args[4]);
+                }
+                else
+                {
+                    v_Command.setParams(   (Object [])i_Args[3]);
+                    v_Request.setRetunData((boolean)  i_Args[4]);
+                }
             }
             else if ( i_Args.length == 4 )
             {
@@ -208,6 +219,11 @@ public class ClientRPCOperationProxy implements InvocationHandler
                     v_Request.setRetunData(true);
                 }
             }
+            else if ( i_Args.length == 3 )
+            {
+                v_Command.setParams(new Object[]{});
+                v_Request.setRetunData(true);
+            }
             
             v_Request.setWaitRequestTimeout((long)i_Args[0]);
             v_Request.setDataXID(         (String)i_Args[1]);
@@ -221,11 +237,6 @@ public class ClientRPCOperationProxy implements InvocationHandler
                 v_Request.setDataExpireTimeLen((long)   i_Args[3]);
                 v_Request.setRetunData(        (boolean)i_Args[4]);
             }
-            else if ( i_Args.length == 3 )
-            {
-                v_Request.setDataExpireTimeLen(0);
-                v_Request.setRetunData(true);
-            }
             else if ( i_Args.length == 4 )
             {
                 if ( i_Args[3].getClass() == boolean.class || i_Args[3].getClass() == Boolean.class )
@@ -238,6 +249,11 @@ public class ClientRPCOperationProxy implements InvocationHandler
                     v_Request.setDataExpireTimeLen((long)i_Args[3]);
                     v_Request.setRetunData(true);
                 }
+            }
+            else if ( i_Args.length == 3 )
+            {
+                v_Request.setDataExpireTimeLen(0);
+                v_Request.setRetunData(true);
             }
             
             v_Request.setWaitRequestTimeout((long)i_Args[0]);
@@ -322,7 +338,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
         if ( v_Ret == null )
         {
             // 一般超时后返回NULL，也可能是服务端宕机了
-            v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$ServerUnknownError : NetError.$TimeoutError);
+            v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$Server_UnknownError : NetError.$Server_TimeoutError);
             $Logger.info(this.clientRPC.getHostPort() + " 登录超时：" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
             this.clientRPC.shutdown();
         }
@@ -362,10 +378,11 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object send(CommunicationRequest i_Request) throws InterruptedException, ExecutionException
     {
-        ClientRPCCallableSend v_Handler   = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
-        CommunicationResponse v_Ret       = null;
-        boolean               v_Exception = false;
-        Date                  v_BTime     = new Date();
+        ClientRPCCallableSend v_Handler     = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
+        CommunicationResponse v_Ret         = null;
+        Exception             v_Exception   = null;
+        boolean               v_IsException = false;
+        Date                  v_BTime       = new Date();
      
         this.session.addRequestCount();
         this.session.setActiveTime(v_BTime);
@@ -377,7 +394,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
         }
         catch (Exception exce)
         {
-            v_Exception = true;
+            v_IsException = true;
+            v_Exception   = exce;
             $Logger.error(exce);
         }
         
@@ -386,35 +404,25 @@ public class ClientRPCOperationProxy implements InvocationHandler
         if ( v_Ret == null )
         {
             // 一般超时后返回NULL，也可能是服务端宕机了
-            if ( v_Exception )
+            if ( v_IsException )
             {
-                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$ServerUnknownError);
+                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError);
                 $Logger.info("通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
                 this.session.setOnline(false);
+                this.session.addException(new NetException(i_Request ,NetError.$Server_UnknownError ,"通讯未知异常" ,v_Exception));
             }
             else
             {
-                if ( this.clientRPC.isTimeoutAllow() )
-                {
-                    v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(Communication.$Succeed);
-                    $Logger.info("通讯成功：" + i_Request.toString() + " -> " + v_Ret.toString());
-                    
-                    this.session.setActiveTime(v_ETime);
-                    this.session.addActiveCount();
-                    this.session.addActiveTimeLen(v_ETime.getTime() - v_BTime.getTime());
-                }
-                else
-                {
-                    v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$TimeoutError);
-                    $Logger.info("通讯超时：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
-                    
-                    this.clientRPC.shutdown();
-                    this.session.setLogoutTime(v_ETime);
-                    this.session.setOnline(false);
-                }
+                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
+                $Logger.info("通讯超时：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                
+                this.clientRPC.shutdown();
+                this.session.setLogoutTime(v_ETime);
+                this.session.setOnline(false);
+                this.session.addException(new NetException(i_Request ,NetError.$Server_TimeoutError ,"通讯超时" ,v_Exception));
             }
         }
         else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
@@ -427,6 +435,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
         else
         {
             $Logger.info("通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+            this.session.addException(new NetException(i_Request ,v_Ret.getResult() ,"通讯失败" ,v_Exception));
         }
         
         return v_Ret;
