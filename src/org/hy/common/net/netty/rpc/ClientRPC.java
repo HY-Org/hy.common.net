@@ -51,7 +51,7 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     public ClientRPC()
     {
         super();
-        this.sessionTime  = 60 * 60;
+        this.sessionTime  = 60L * 60L;
         this.newOperation();
     }
     

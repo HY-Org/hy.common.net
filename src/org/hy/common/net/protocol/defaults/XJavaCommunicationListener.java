@@ -14,6 +14,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.protocol.ServerEventListener;
 import org.hy.common.xml.XJava;
+import org.hy.common.xml.log.Logger;
 
 
 
@@ -30,6 +31,9 @@ import org.hy.common.xml.XJava;
  */
 public class XJavaCommunicationListener implements ServerEventListener
 {
+    
+    private static final Logger $Logger = new Logger(XJavaCommunicationListener.class);
+    
     
     /**
      *  数据通讯的事件类型。即通知哪一个事件监听者来处理数据通讯（对应 ServerSocket.listeners 的分区标识）
@@ -156,7 +160,7 @@ public class XJavaCommunicationListener implements ServerEventListener
         // 执行命令
         else if ( CommunicationRequest.$Operation_Command.equals(i_RequestData.getDataOperation()) )
         {
-            if ( i_RequestData.getData() == null || !(i_RequestData.getData() instanceof Command) )
+            if ( !(i_RequestData.getData() instanceof Command) )
             {
                 v_ResponseData.setResult(NetError.$XJava_CommandValidateError);
             }
@@ -195,7 +199,7 @@ public class XJavaCommunicationListener implements ServerEventListener
                     catch (Throwable exce)
                     {
                         v_ResponseData.setResult(NetError.$XJava_CommandError);
-                        exce.printStackTrace();
+                        $Logger.error(exce);
                     }
                 }
             }

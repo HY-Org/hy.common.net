@@ -91,7 +91,7 @@ public class JU_Exception
             
             if ( v_ResponseData.getResult() == 0 )
             {
-                if ( v_ResponseData.getData() != null && v_ResponseData.getData() instanceof List )
+                if ( v_ResponseData.getData() instanceof List )
                 {
                     $Logger.info(((List<?>)v_ResponseData.getData()).size());
                 }
@@ -233,7 +233,7 @@ public class JU_Exception
             
             if ( v_ResponseData.getResult() == 0 )
             {
-                if ( v_ResponseData.getData() != null && v_ResponseData.getData() instanceof Date )
+                if ( v_ResponseData.getData() instanceof Date )
                 {
                     $Logger.info(v_ResponseData.getData().toString());
                 }

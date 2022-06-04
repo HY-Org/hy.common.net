@@ -38,7 +38,7 @@ public class ClientCommunication extends ObjectSocketResponse<ClientCommunicatio
     @Override
     public Object response(Object i_RequestData ,Object i_ResponseData)
     {
-        if ( i_ResponseData == null || !(i_ResponseData instanceof CommunicationResponse) )
+        if ( !(i_ResponseData instanceof CommunicationResponse) )
         {
             CommunicationResponse v_Communication = new CommunicationResponse();
             v_Communication.setResult(NetError.$Server_ResponseDataError);

@@ -204,7 +204,7 @@ public class ServerSocket extends ServerBase
         }
         
         this.isStartCheckCloseTimeout = true;
-        new Execute(this ,"checkCloseTimeout").startDelayed((this.closeTimeout / 10) * 1000);
+        new Execute(this ,"checkCloseTimeout").startDelayed((this.closeTimeout / 10L) * 1000L);
     }
     
     
@@ -250,7 +250,7 @@ public class ServerSocket extends ServerBase
             
             try
             {
-                Thread.sleep((this.closeTimeout / 10) * 1000);
+                Thread.sleep((this.closeTimeout / 10L) * 1000L);
             }
             catch (Exception exce)
             {

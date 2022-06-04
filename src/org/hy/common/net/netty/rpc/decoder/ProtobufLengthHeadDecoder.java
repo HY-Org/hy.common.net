@@ -60,7 +60,7 @@ public class ProtobufLengthHeadDecoder extends ByteToMessageDecoder
                 if ( v_DataLength < 0 )
                 {
                     $Logger.debug("Invalid data length: " + v_DataLength);
-                    return;
+                    // 是要返回，但则此没有必要 return;
                 }
                 else
                 {

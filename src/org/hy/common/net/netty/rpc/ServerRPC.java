@@ -84,10 +84,10 @@ public class ServerRPC extends Server<ServerRPC> implements ServerOperation
     {
         super();
         
-        this.readerIdleTime   = 15;
-        this.writerIdleTime   = 15;
-        this.allIdleTime      = 30;
-        this.sessionTime      = 60 * 60;
+        this.readerIdleTime   = 15L;
+        this.writerIdleTime   = 15L;
+        this.allIdleTime      = 30L;
+        this.sessionTime      = 60L * 60L;
         this.executorPoolSize = Runtime.getRuntime().availableProcessors();
         
         this.listeners        = new Hashtable<String ,ServerEventListener>();

@@ -204,7 +204,6 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                     if ( v_OnlineCount < this.mainServer.getSameUserOnlineMaxCount() )
                     {
                         v_OnlineCount++;
-                        continue;
                     }
                     else
                     {
@@ -239,7 +238,6 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         LoginResponse v_Ret = new LoginResponse();
         
         v_Ret.setVersion(1);
-        v_Buf.append("接受类型：").append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         
         if ( Data.DataType.LoginRequest == i_Msg.getDataType() )
         {
@@ -247,6 +245,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             LoginRequest v_CLoginRequest = CommunicationProtoDecoder.toLoginRequest(i_Msg.getLoginRequest() ,i_Ctx.channel().remoteAddress().toString());
             
             v_Ret.setSerialNo(v_CLoginRequest.getSerialNo());
+            v_Buf.append(v_Ret.getSerialNo()).append("：接受类型：").append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
             
             // 要求登录验证
             if ( this.mainServer.getValidate() != null )
@@ -292,6 +291,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         }
         else
         {
+            v_Buf.append("-：接受类型：").append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
             v_Ret.setSerialNo("-");  // 因无法确定消息流水号是什么，又不能为空，所以取横杠
             v_Ret.setResult(NetError.$Client_LoginTypeError);
         }

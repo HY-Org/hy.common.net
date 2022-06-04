@@ -55,7 +55,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
     {
         try
         {
-            if ( i_RequestData == null || !(i_RequestData instanceof CommunicationRequest) )
+            if ( !(i_RequestData instanceof CommunicationRequest) )
             {
                 return null;
             }
@@ -110,7 +110,7 @@ public class ServerSocketCommunication extends ObjectSocketRequest
             }
             catch (Throwable exce)
             {
-                exce.printStackTrace();
+                $Logger.error(exce);
             }
             
             $Logger.debug("ServerCommunication：Port " + i_ServerBase.getPort() + " Event action is " + v_Listener.getEventType() + " finish.");

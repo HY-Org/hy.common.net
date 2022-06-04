@@ -123,12 +123,12 @@ public class ServerSocketListener extends ObjectSocketRequest
     @Override
     public Object request(Object i_RequestData ,ServerBase i_ServerBase)
     {
-        if ( i_RequestData == null || !(i_RequestData instanceof LoginRequest) )
+        if ( !(i_RequestData instanceof LoginRequest) )
         {
             return null;
         }
         
-        if ( i_ServerBase == null || !(i_ServerBase instanceof ServerSocket) )
+        if ( !(i_ServerBase instanceof ServerSocket) )
         {
             return null;
         }

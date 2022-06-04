@@ -78,7 +78,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
         
         this.validate    = null;
         this.session     = new SessionInfo();
-        this.sessionTime = 60 * 60;
+        this.sessionTime = 60L * 60L;
     }
     
     
@@ -776,7 +776,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
     @Override
     public Object response(Object i_RequestData ,Object i_ResponseData)
     {
-        if ( i_ResponseData == null || !(i_ResponseData instanceof LoginResponse) )
+        if ( !(i_ResponseData instanceof LoginResponse) )
         {
             return null;
         }

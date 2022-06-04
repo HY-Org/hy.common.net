@@ -32,7 +32,8 @@ public class Timeout<T extends Timeout<T>> extends SerializableDef
 
     private static final long serialVersionUID            = 7855918278175306829L;
     
-    public  static       long $Default_WaitRequestTimeout = 30 * 1000;
+    /** 可变常量值，不设置 final */
+    public  static       long $Default_WaitRequestTimeout = 30L * 1000L;
     
     
     
