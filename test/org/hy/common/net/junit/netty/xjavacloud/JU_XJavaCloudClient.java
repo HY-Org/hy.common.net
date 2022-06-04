@@ -28,7 +28,7 @@ public class JU_XJavaCloudClient
     {
         // 步骤1：连接
         ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("127.0.0.1");
-        v_Client.setTimeout(5 * 1000L);
+        v_Client.setTimeout(30 * 1000L);
         v_Client.start();
         
         

@@ -26,7 +26,7 @@ public class JU_LoadRunner
     
     public static String $ID          = "7B04093A5BD5F7918DBC7E35BB6FF588";
     
-    public static int    $ForCount    = 1000000;
+    public static int    $ForCount    = 100 * 100 * 100;
     
     public static int    $ThreadCount = 100;
 
@@ -55,7 +55,7 @@ public class JU_LoadRunner
         
         
         // 步骤1：连接
-        this.client = new ClientRPC().setHost("10.1.50.242").setPort(3021).start();
+        this.client = new ClientRPC().setHost("127.0.0.1").setPort(3021).start();
         
         // 步骤2：登录
         LoginRequest v_LoginRequest = new LoginRequest();
@@ -68,6 +68,7 @@ public class JU_LoadRunner
         for (int v_Index=0; v_Index<$ForCount; v_Index++)
         {
             v_TaskGroup.addTask(new JU_LoadRunnerThreadTask(this));
+            //(new JU_LoadRunnerThreadTask(this)).execute();
         }
         
         Date v_BTime = Date.getNowTime();
@@ -75,7 +76,9 @@ public class JU_LoadRunner
         v_TaskGroup.startupAllTask();
         
         
-        while ( TaskPool.size() >= 1 || ThreadPool.getActiveThreadCount() >= 2 )
+        while ( TaskPool.size() >= 1 || ThreadPool.getActiveThreadCount() >= 2
+             || JU_LoadRunnerThreadTask.$RequestCount <= 0
+             || JU_LoadRunnerThreadTask.$RequestCount > JU_LoadRunnerThreadTask.$ErrorCount + JU_LoadRunnerThreadTask.$FinishCount )
         {
             ThreadPool.sleep(1000);
         }

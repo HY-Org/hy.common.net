@@ -1,7 +1,6 @@
 package org.hy.common.net.data;
 
 import org.hy.common.Date;
-import org.hy.common.xml.SerializableDef;
 
 
 
@@ -15,9 +14,9 @@ import org.hy.common.xml.SerializableDef;
  *     最高级（通讯级）：通讯数据的超时时长，取 Timeout 类的 xxxTimeout 属性
  * 
  *     中等级（应用级）：客户端上配置的超时时长，取 App 类的 timeout 属性
- *                     当最高级为配置时，本级生效。
+ *                     当最高级未配置时，本级生效。
  * 
- *     最低级（默认级）：当上两级均为配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
+ *     最低级（默认级）：当上两级均未配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
  * 
  *   超时时长的取值规则：
  *     0表示永不超时，一直等待
@@ -30,15 +29,16 @@ import org.hy.common.xml.SerializableDef;
  *              v3.0  2021-09-29  添加：链式编程
  *              v4.0  2021-12-18  添加：超时时长
  */
-public class Communication<T extends Communication<T>> extends SerializableDef
+public class Communication<T extends Communication<T>> extends Timeout<T>
 {
     
     private static final long serialVersionUID            = 7513185667760947675L;
     
     public  static final int  $Succeed                    = 0;
     
-    public  static       long $Default_WaitRequestTimeout = 30 * 1000;
     
+    /** 消息流水号。每次访问消息唯一的标识。方便后期问题回溯（内部机制自动生成） */
+    protected String  serialNo;
     
     /** 通讯的接口版本 */
     protected int     version;
@@ -67,9 +67,6 @@ public class Communication<T extends Communication<T>> extends SerializableDef
     /** 通讯处理时是否为异步的。当为 true 时，表示服务端\客户端开启线程处理 */
     protected boolean isNonSync;
     
-    /** 请求等待超时（单位：毫秒）。0表示永不超时，一直等待； 负数或NULL：表示取默认超时时长 */
-    protected Long    waitRequestTimeout;
-    
     
     
     public Communication()
@@ -81,6 +78,31 @@ public class Communication<T extends Communication<T>> extends SerializableDef
     }
     
     
+    
+    /**
+     * 获取：消息流水号。每次访问消息唯一的标识。方便后期问题回溯（内部机制自动生成）
+     */
+    public String getSerialNo()
+    {
+        return serialNo;
+    }
+
+
+    
+    /**
+     * 设置：消息流水号。每次访问消息唯一的标识。方便后期问题回溯（内部机制自动生成）
+     * 
+     * @param data
+     */
+    @SuppressWarnings("unchecked")
+    public T setSerialNo(String serialNo)
+    {
+        this.serialNo = serialNo;
+        return (T) this;
+    }
+
+    
+
     /**
      * 获取：通讯的数据
      */
@@ -296,45 +318,6 @@ public class Communication<T extends Communication<T>> extends SerializableDef
     }
     
     
-    
-    /**
-     * 获取：请求等待超时。。0表示永不超时，一直等待； 负数或NULL：表示取默认超时时长
-     */
-    public Long getWaitRequestTimeout()
-    {
-        return waitRequestTimeout;
-    }
-
-    
-    
-    /**
-     * 设置：请求等待超时。。0表示永不超时，一直等待； 负数或NULL：表示取默认超时时长
-     * 
-     * @param i_WaitRequestTimeout
-     */
-    @SuppressWarnings("unchecked")
-    public T setWaitRequestTimeout(Long i_WaitRequestTimeout)
-    {
-        if ( i_WaitRequestTimeout != null )
-        {
-            if ( i_WaitRequestTimeout >= 0 )
-            {
-                this.waitRequestTimeout = i_WaitRequestTimeout;
-            }
-            else
-            {
-                this.waitRequestTimeout = null;
-            }
-        }
-        else
-        {
-            this.waitRequestTimeout = null;
-        }
-        
-        return (T) this;
-    }
-
-
     
     @Override
     public String toString()

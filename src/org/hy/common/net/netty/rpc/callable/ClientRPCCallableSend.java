@@ -4,7 +4,7 @@ import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
-import org.hy.common.net.netty.rpc.ClientRPCHandler;
+import org.hy.common.net.netty.rpc.ClientRPC;
 
 
 
@@ -20,9 +20,9 @@ import org.hy.common.net.netty.rpc.ClientRPCHandler;
 public class ClientRPCCallableSend extends ClientRPCCallable<CommunicationRequest ,CommunicationResponse>
 {
     
-    public ClientRPCCallableSend(ClientRPCHandler i_ClientRPCHandler ,CommunicationRequest i_Request)
+    public ClientRPCCallableSend(ClientRPC i_ClientRPC ,CommunicationRequest i_Request)
     {
-        super(i_ClientRPCHandler ,i_Request);
+        super(i_ClientRPC ,i_Request);
     }
 
     

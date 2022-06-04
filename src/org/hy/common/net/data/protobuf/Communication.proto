@@ -30,13 +30,14 @@ message Data                                                       // 生成Data
 // 登陆验证的请求
 message LoginRequest
 {
-             int32        version                  = 1;            // 通讯的接口版本
-             string       id                       = 2;            // 用户编号
-             string       systemName               = 3;            // 客户端的系统名称
-             string       host                     = 4;            // 客户端的IP
-             int32        port                     = 5;            // 客户端的通讯主端口
-             string       userName                 = 6;            // 用户名
-             string       password                 = 7;            // 密码
+             string       serialNo                 = 1;            // 消息流水号
+             int32        version                  = 2;            // 通讯的接口版本
+             string       id                       = 3;            // 用户编号
+             string       systemName               = 4;            // 客户端的系统名称
+             string       host                     = 5;            // 客户端的IP
+             int32        port                     = 6;            // 客户端的通讯主端口
+             string       userName                 = 7;            // 用户名
+             string       password                 = 8;            // 密码
 }
 
 
@@ -44,12 +45,13 @@ message LoginRequest
 // 登陆验证的响应
 message LoginResponse
 {
-             int32        version                  = 1;            // 通讯的接口版本
-             int32        result                   = 2;            // 通讯的结果类型
-             int64        endTime                  = 3;            // 通讯结束时间
-             string       token                    = 4;            // 通讯票据
-             string       host                     = 5;            // 通讯主机
-             int32        port                     = 6;            // 通讯端口号
+             string       serialNo                 = 1;            // 消息流水号
+             int32        version                  = 2;            // 通讯的接口版本
+             int32        result                   = 3;            // 通讯的结果类型
+             int64        endTime                  = 4;            // 通讯结束时间
+             string       token                    = 5;            // 通讯票据
+             string       host                     = 6;            // 通讯主机
+             int32        port                     = 7;            // 通讯端口号
 }
 
 
@@ -78,20 +80,21 @@ message XCommand
 // 通讯数据的请求
 message Request
 {
-             int32        version                  = 1;            // 通讯的接口版本
-             int64        sessionTime              = 2;            // 会话时间
-             int64        time                     = 3;            // 通讯的时间
-             string       token                    = 4;            // 通讯票据
-             string       dataClass                = 5;            // 通讯数据的类型
-             DataProtocol dataProtocol             = 6;            // 通讯数据的协议（0:JSON   1:Protobuf）
-             bytes        data                     = 7;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
-             string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
-             bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
-             int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-             bool         isNonSync                = 11;           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
-             string       eventType                = 12;           // 数据通讯的事件类型
-             string       dataOperation            = 13;           // 数据的操作类型
-             bool         isRetunData              = 14;           // 是否返回数据，即通讯CommunicationResponse.data是否返回。
+             string       serialNo                 = 1;            // 消息流水号
+             int32        version                  = 2;            // 通讯的接口版本
+             int64        sessionTime              = 3;            // 会话时间
+             int64        time                     = 4;            // 通讯的时间
+             string       token                    = 5;            // 通讯票据
+             string       dataClass                = 6;            // 通讯数据的类型
+             DataProtocol dataProtocol             = 7;            // 通讯数据的协议（0:JSON   1:Protobuf）
+             bytes        data                     = 8;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
+             string       dataXID                  = 9;            // 数据的XID，即XJava的对象ID
+             bool         dataXIsNew               = 10;           // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+             int64        dataExpireTimeLen        = 11;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+             bool         isNonSync                = 12;           // 通讯处理时是否为异步的。当为 true 时，表示服务端开启线程处理
+             string       eventType                = 13;           // 数据通讯的事件类型
+             string       dataOperation            = 14;           // 数据的操作类型
+             bool         isRetunData              = 15;           // 是否返回数据，即通讯CommunicationResponse.data是否返回。
 }
 
 
@@ -99,18 +102,19 @@ message Request
 // 通讯数据的请求
 message Response
 {
-             int32        version                  = 1;            // 通讯的接口版本
-             int64        sessionTime              = 2;            // 会话时间
-             int64        time                     = 3;            // 通讯的时间
-             string       token                    = 4;            // 通讯票据
-             string       dataClass                = 5;            // 通讯数据的类型
-             DataProtocol dataProtocol             = 6;            // 通讯数据的协议（0:JSON   1:Protobuf）
-             bytes        data                     = 7;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
-             string       dataXID                  = 8;            // 数据的XID，即XJava的对象ID
-             bool         dataXIsNew               = 9;            // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
-             int64        dataExpireTimeLen        = 10;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-             bool         isNonSync                = 11;           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
-             int32        result                   = 12;           // 通讯的结果类型
-             int64        endTime                  = 13;           // 通讯结束时间
+             string       serialNo                 = 1;            // 消息流水号
+             int32        version                  = 2;            // 通讯的接口版本
+             int64        sessionTime              = 3;            // 会话时间
+             int64        time                     = 4;            // 通讯的时间
+             string       token                    = 5;            // 通讯票据
+             string       dataClass                = 6;            // 通讯数据的类型
+             DataProtocol dataProtocol             = 7;            // 通讯数据的协议（0:JSON   1:Protobuf）
+             bytes        data                     = 8;            // 通讯数据的二进制数据（也可以是Protobuf规范的、可反序列的数据）
+             string       dataXID                  = 9;            // 数据的XID，即XJava的对象ID
+             bool         dataXIsNew               = 10;           // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+             int64        dataExpireTimeLen        = 11;           // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+             bool         isNonSync                = 12;           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+             int32        result                   = 13;           // 通讯的结果类型
+             int64        endTime                  = 14;           // 通讯结束时间
 }
                                                                    // 生成*.java文件的命令：protoc.exe --java_out=. *.proto

@@ -1,7 +1,6 @@
 package org.hy.common.net.data;
 
 import org.hy.common.Date;
-import org.hy.common.xml.SerializableDef;
 
 
 
@@ -17,29 +16,23 @@ import org.hy.common.xml.SerializableDef;
  *                                添加：通讯主机
  *              v3.0  2021-09-29  添加：链式编程
  */
-public class LoginResponse extends SerializableDef
+public class LoginResponse extends Communication<LoginResponse>
 {
     
     private static final long serialVersionUID = -3420435311941320659L;
     
     
-    /** 通讯的接口版本 */
-    protected int  version;
-    
-    /** 通讯票据 */
-    private String token;
-    
     /** 通讯主机 */
-    private String host;
+    private String    host;
     
     /** 通讯端口号 */
-    private int    port;
+    private int       port;
     
     /** 通讯的结果类型(0：为成功； 其它为失败编码) */
-    private int    result;
+    private int       result;
     
     /** 通讯结束时间 */
-    private Date   endTime;
+    private Date      endTime;
     
     
     
@@ -61,52 +54,6 @@ public class LoginResponse extends SerializableDef
     public LoginResponse setPort(int port)
     {
         this.port = port;
-        return this;
-    }
-
-
-
-    /**
-     * 设置：通讯票据
-     * 
-     * @param port
-     */
-    public String getToken()
-    {
-        return token;
-    }
-
-
-
-    /**
-     * 获取：通讯票据
-     */
-    public LoginResponse setToken(String token)
-    {
-        this.token = token;
-        return this;
-    }
-
-
-
-    /**
-     * 获取：通讯的接口版本
-     */
-    public int getVersion()
-    {
-        return version;
-    }
-
-
-
-    /**
-     * 设置：通讯的接口版本
-     * 
-     * @param version
-     */
-    public LoginResponse setVersion(int version)
-    {
-        this.version = version;
         return this;
     }
 

@@ -25,7 +25,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 public class ProtobufLengthHeadDecoder extends ByteToMessageDecoder
 {
     
-    private static final Logger $Logger = new Logger(ProtobufLengthHeadDecoder.class);
+    private static final Logger $Logger = new Logger(ProtobufLengthHeadDecoder.class ,true);
     
     
 
@@ -39,38 +39,46 @@ public class ProtobufLengthHeadDecoder extends ByteToMessageDecoder
     @Override
     protected void decode(ChannelHandlerContext i_Ctx ,ByteBuf i_In ,List<Object> io_Out) throws Exception
     {
-        i_In.markReaderIndex();
-        int v_ReaderIndex = i_In.readerIndex();
-        i_In.markReaderIndex();
-        
-        byte [] v_DataLengthBytes = new byte[ProtobufLengthHeadEncoder.$HeadLength];
-        if ( i_In.readableBytes() < ProtobufLengthHeadEncoder.$HeadLength )
+        try
         {
-            // 有可能是端口探测工具发出的消息
-            $Logger.debug("Data length less min length[" + ProtobufLengthHeadEncoder.$HeadLength + "]: " + i_In.readableBytes());
-            return;
-        }
-        
-        i_In.readBytes(v_DataLengthBytes);                             // 读取前4个字节
-        int v_DataLength = bytesToInt(v_DataLengthBytes);              // 自定义字节序获取前四个字节表示的长度
-        if ( v_ReaderIndex != i_In.readerIndex() )
-        {
-            if ( v_DataLength < 0 )
+            i_In.markReaderIndex();
+            int v_ReaderIndex = i_In.readerIndex();
+            i_In.markReaderIndex();
+            
+            byte [] v_DataLengthBytes = new byte[ProtobufLengthHeadEncoder.$HeadLength];
+            if ( i_In.readableBytes() < ProtobufLengthHeadEncoder.$HeadLength )
             {
-                $Logger.debug("Invalid data length: " + v_DataLength);
+                // 有可能是端口探测工具发出的消息
+                $Logger.debug("Data length less min length[" + ProtobufLengthHeadEncoder.$HeadLength + "]: " + i_In.readableBytes());
                 return;
             }
-            else
+            
+            i_In.readBytes(v_DataLengthBytes);                             // 读取前4个字节
+            int v_DataLength = bytesToInt(v_DataLengthBytes);              // 自定义字节序获取前四个字节表示的长度
+            if ( v_ReaderIndex != i_In.readerIndex() )
             {
-                if ( i_In.readableBytes() < v_DataLength )
+                if ( v_DataLength < 0 )
                 {
-                    i_In.resetReaderIndex();
+                    $Logger.debug("Invalid data length: " + v_DataLength);
+                    return;
                 }
                 else
                 {
-                    io_Out.add(i_In.readRetainedSlice(v_DataLength));  // 读取相应长度的数据
+                    if ( i_In.readableBytes() < v_DataLength )
+                    {
+                        i_In.resetReaderIndex();
+                    }
+                    else
+                    {
+                        io_Out.add(i_In.readRetainedSlice(v_DataLength));  // 读取相应长度的数据
+                    }
                 }
             }
+        }
+        catch (Exception exce)
+        {
+            $Logger.error(exce);
+            throw exce;
         }
     }
     

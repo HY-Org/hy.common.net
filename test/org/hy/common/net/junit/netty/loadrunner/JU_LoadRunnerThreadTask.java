@@ -25,6 +25,8 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
     
     public  static int          $RequestCount = 0;
     
+    public  static int          $ErrorCount   = 0;
+    
     public  static int          $FinishCount  = 0;
     
     public final  static String $USID = "USID";
@@ -62,6 +64,18 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
      * 
      * @return
      */
+    public static synchronized int GetErrorCount()
+    {
+        return ++$ErrorCount;
+    }
+    
+    
+    
+    /**
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
+     * @return
+     */
     public static synchronized int GetFinishCount()
     {
         return ++$FinishCount;
@@ -87,7 +101,7 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
         {
             CommunicationResponse v_ResponseData = null;
             
-            v_ResponseData = this.father.getClient().operation().getObjects(0 ,$USID + JU_LoadRunner.$ID);
+            v_ResponseData = this.father.getClient().operation().getObjects(0 ,JU_LoadRunner.$ID); // $USID +
             
             if ( v_ResponseData != null && v_ResponseData.getResult() == 0 )
             {
@@ -96,20 +110,23 @@ public class JU_LoadRunnerThreadTask extends Task<Object>
                 if ( !Help.isNull(v_Datas) )
                 {
                     GetFinishCount();
-                    $Logger.info("共同步 " + v_Datas.size() + " 份。" + v_RCount);
+                    $Logger.info("共同步 " + v_Datas.size() + " 份。第 " + v_RCount + " 个任务");
                 }
                 else
                 {
+                    GetErrorCount();
                     $Logger.info("未获取到数据");
                 }
             }
             else
             {
+                GetErrorCount();
                 $Logger.info("异常：" + v_ResponseData.getResult());
             }
         }
         catch (Throwable exce)
         {
+            GetErrorCount();
             exce.printStackTrace();
         }
         

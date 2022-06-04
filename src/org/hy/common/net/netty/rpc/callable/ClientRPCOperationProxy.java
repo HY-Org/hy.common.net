@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.hy.common.Date;
+import org.hy.common.Help;
 import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.ClientTotal;
 import org.hy.common.net.data.Command;
@@ -321,7 +322,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
     private Object proxyLogin(Object [] i_Args) throws InterruptedException, ExecutionException
     {
         LoginRequest           v_LoginReq   = (LoginRequest)i_Args[0];
-        ClientRPCCallableLogin v_Handler    = new ClientRPCCallableLogin(this.clientRPC.clientHandler() ,v_LoginReq);
+        ClientRPCCallableLogin v_Handler    = new ClientRPCCallableLogin(this.clientRPC ,v_LoginReq);
         LoginResponse          v_Ret        = null;
         boolean                v_Exception  = false;
         
@@ -378,7 +379,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object send(CommunicationRequest i_Request) throws InterruptedException, ExecutionException
     {
-        ClientRPCCallableSend v_Handler     = new ClientRPCCallableSend(this.clientRPC.clientHandler() ,i_Request);
+        ClientRPCCallableSend v_Handler     = new ClientRPCCallableSend(this.clientRPC ,i_Request);
         CommunicationResponse v_Ret         = null;
         Exception             v_Exception   = null;
         boolean               v_IsException = false;
@@ -417,7 +418,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             else
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
-                $Logger.info("通讯超时：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info("通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);

@@ -50,7 +50,7 @@ public class JU_XJavaCloudServer
     public void wait10() throws InterruptedException
     {
         $Logger.info("excuate wait01 start...");
-        Thread.sleep(1000 * 60 * 10);
+        Thread.sleep(1000 * 20);
         $Logger.info("excuate wait01 end.");
     }
     

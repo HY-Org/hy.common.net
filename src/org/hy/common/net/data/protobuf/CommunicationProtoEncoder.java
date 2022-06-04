@@ -61,6 +61,7 @@ public class CommunicationProtoEncoder
     {
         CommunicationProto.LoginRequest.Builder v_Ret = CommunicationProto.LoginRequest.newBuilder();
         
+        v_Ret.setSerialNo(           i_LoginRequest.getSerialNo());
         v_Ret.setVersion(            i_LoginRequest.getVersion());
         v_Ret.setId(        Help.NVL(i_LoginRequest.getId()));
         v_Ret.setSystemName(Help.NVL(i_LoginRequest.getSystemName()));
@@ -94,6 +95,7 @@ public class CommunicationProtoEncoder
             v_Ret.setEndTime(i_LoginResponse.getEndTime().getTime());
         }
         
+        v_Ret.setSerialNo(        i_LoginResponse.getSerialNo());
         v_Ret.setVersion(         i_LoginResponse.getVersion());
         v_Ret.setResult(          i_LoginResponse.getResult());
         v_Ret.setToken(  Help.NVL(i_LoginResponse.getToken()));
@@ -133,6 +135,7 @@ public class CommunicationProtoEncoder
             v_Ret.setTime(i_Request.getTime().getTime());
         }
         
+        v_Ret.setSerialNo(                  i_Request.getSerialNo());           // 消息流水号
         v_Ret.setVersion(                   i_Request.getVersion());            // 通讯的接口版本
         v_Ret.setToken(            Help.NVL(i_Request.getToken()));             // 通讯的接口版本
         v_Ret.setDataXID(          Help.NVL(i_Request.getDataXID()));           // 数据的XID，即XJava的对象ID
@@ -222,6 +225,7 @@ public class CommunicationProtoEncoder
             v_Ret.setEndTime(i_Response.getEndTime().getTime());
         }
         
+        v_Ret.setSerialNo(                  i_Response.getSerialNo());           // 消息流水号
         v_Ret.setVersion(                   i_Response.getVersion());            // 通讯的接口版本
         v_Ret.setToken(            Help.NVL(i_Response.getToken()));             // 通讯的接口版本
         v_Ret.setDataXID(          Help.NVL(i_Response.getDataXID()));           // 数据的XID，即XJava的对象ID

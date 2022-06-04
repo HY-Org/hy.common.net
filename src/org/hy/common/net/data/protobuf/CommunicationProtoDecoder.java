@@ -56,6 +56,7 @@ public class CommunicationProtoDecoder
     {
         LoginRequest v_Ret = new SessionInfo();
         
+        v_Ret.setSerialNo(     i_Request.getSerialNo());
         v_Ret.setVersion(      i_Request.getVersion());
         v_Ret.setId(           i_Request.getId());
         v_Ret.setSystemName(   i_Request.getSystemName());
@@ -86,6 +87,7 @@ public class CommunicationProtoDecoder
     {
         LoginResponse v_Ret = new LoginResponse();
         
+        v_Ret.setSerialNo(        i_Response.getSerialNo());
         v_Ret.setVersion(         i_Response.getVersion());
         v_Ret.setResult(          i_Response.getResult());
         v_Ret.setEndTime(new Date(i_Response.getEndTime()));
@@ -125,6 +127,7 @@ public class CommunicationProtoDecoder
             v_Ret.setTime(new Date(i_Request.getTime()));
         }
         
+        v_Ret.setSerialNo(         i_Request.getSerialNo());            // 消息流水号
         v_Ret.setVersion(          i_Request.getVersion());             // 通讯的接口版本
         v_Ret.setToken(            i_Request.getToken());               // 通讯票据
         v_Ret.setDataXID(          i_Request.getDataXID());             // 数据的XID，即XJava的对象ID
@@ -193,70 +196,79 @@ public class CommunicationProtoDecoder
     {
         CommunicationResponse v_Ret = new CommunicationResponse();
         
-        // 会话时间
-        if ( i_Response.getSessionTime() > 0 )
+        try
         {
-            v_Ret.setSessionTime(new Date(i_Response.getSessionTime()));
-        }
-        
-        // 通讯的时间
-        if ( i_Response.getTime() > 0 )
-        {
-            v_Ret.setTime(new Date(i_Response.getTime()));
-        }
-        
-        // 通讯结束时间
-        if ( i_Response.getEndTime() > 0 )
-        {
-            v_Ret.setEndTime(new Date(i_Response.getEndTime()));
-        }
-        
-        v_Ret.setVersion(          i_Response.getVersion());             // 通讯的接口版本
-        v_Ret.setToken(            i_Response.getToken());               // 通讯票据
-        v_Ret.setDataXID(          i_Response.getDataXID());             // 数据的XID，即XJava的对象ID
-        v_Ret.setDataXIsNew(       i_Response.getDataXIsNew());          // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
-        v_Ret.setDataExpireTimeLen(i_Response.getDataExpireTimeLen());   // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
-        v_Ret.setNonSync(          i_Response.getIsNonSync());           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
-        v_Ret.setResult(           i_Response.getResult());              // 通讯的结果类型
-        
-        String     v_DataClass = i_Response.getDataClass();
-        ByteString v_DataBytes = i_Response.getData();
-        if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
-        {
-            DataProtocol v_DataProtocol = i_Response.getDataProtocol();
-            
-            // 转换通用数据
-            v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
-            
-            // 转换执行命令的数据
-            if ( v_Ret.getData() != null && XCommand.class == v_Ret.getData().getClass() )
+            // 会话时间
+            if ( i_Response.getSessionTime() > 0 )
             {
-                Command  v_NCmd = new Command();
-                XCommand v_XCmd = (XCommand)v_Ret.getData();
-                if ( !Help.isNull(v_XCmd.getParamsClassList()) )
+                v_Ret.setSessionTime(new Date(i_Response.getSessionTime()));
+            }
+            
+            // 通讯的时间
+            if ( i_Response.getTime() > 0 )
+            {
+                v_Ret.setTime(new Date(i_Response.getTime()));
+            }
+            
+            // 通讯结束时间
+            if ( i_Response.getEndTime() > 0 )
+            {
+                v_Ret.setEndTime(new Date(i_Response.getEndTime()));
+            }
+            
+            v_Ret.setSerialNo(         i_Response.getSerialNo());            // 消息流水号
+            v_Ret.setVersion(          i_Response.getVersion());             // 通讯的接口版本
+            v_Ret.setToken(            i_Response.getToken());               // 通讯票据
+            v_Ret.setDataXID(          i_Response.getDataXID());             // 数据的XID，即XJava的对象ID
+            v_Ret.setDataXIsNew(       i_Response.getDataXIsNew());          // 是否每次通过 XJava.getObject(id) 获取一个全新的对象实例。默认构造出的对象为"单例"
+            v_Ret.setDataExpireTimeLen(i_Response.getDataExpireTimeLen());   // 数据的过期时长(单位：秒)。小于等于0或为空，表示永远有效
+            v_Ret.setNonSync(          i_Response.getIsNonSync());           // 通讯处理时是否为异步的。当为 true 时，表示客户端开启线程处理
+            v_Ret.setResult(           i_Response.getResult());              // 通讯的结果类型
+            
+            String     v_DataClass = i_Response.getDataClass();
+            ByteString v_DataBytes = i_Response.getData();
+            if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+            {
+                DataProtocol v_DataProtocol = i_Response.getDataProtocol();
+                
+                // 转换通用数据
+                v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
+                
+                // 转换执行命令的数据
+                if ( v_Ret.getData() != null && XCommand.class == v_Ret.getData().getClass() )
                 {
-                    v_NCmd.setParams(new Object[v_XCmd.getParamsClassCount()]);
-                    for (int i=0; i<v_XCmd.getParamsClassCount(); i++)
+                    Command  v_NCmd = new Command();
+                    XCommand v_XCmd = (XCommand)v_Ret.getData();
+                    if ( !Help.isNull(v_XCmd.getParamsClassList()) )
                     {
-                        v_DataClass = v_XCmd.getParamsClass(i);
-                        v_DataBytes = v_XCmd.getParamsValue(i);
-                        
-                        if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+                        v_NCmd.setParams(new Object[v_XCmd.getParamsClassCount()]);
+                        for (int i=0; i<v_XCmd.getParamsClassCount(); i++)
                         {
-                            v_NCmd.getParams()[i] = dataProtocolToObject(v_DataClass ,v_XCmd.getParamsProtocol(i) ,v_DataBytes.toByteArray());
-                        }
-                        else
-                        {
-                            v_NCmd.getParams()[i] = null;
+                            v_DataClass = v_XCmd.getParamsClass(i);
+                            v_DataBytes = v_XCmd.getParamsValue(i);
+                            
+                            if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+                            {
+                                v_NCmd.getParams()[i] = dataProtocolToObject(v_DataClass ,v_XCmd.getParamsProtocol(i) ,v_DataBytes.toByteArray());
+                            }
+                            else
+                            {
+                                v_NCmd.getParams()[i] = null;
+                            }
                         }
                     }
+                    
+                    v_NCmd.setMethodName(v_XCmd.getMethodName());
+                    v_Ret.setData(v_NCmd);
                 }
-                
-                v_NCmd.setMethodName(v_XCmd.getMethodName());
-                v_Ret.setData(v_NCmd);
             }
         }
+        catch (Exception exce)
+        {
+            $Logger.error(exce);
+        }
         
+        $Logger.debug("转义数据，并返回");
         return v_Ret;
     }
     

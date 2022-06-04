@@ -3,7 +3,7 @@ package org.hy.common.net.netty.rpc.callable;
 import java.util.concurrent.Callable;
 
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
-import org.hy.common.net.netty.rpc.ClientRPCHandler;
+import org.hy.common.net.netty.rpc.ClientRPC;
 
 
 
@@ -23,10 +23,10 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
 {
     
     /** 所属的业务处理 */
-    private ClientRPCHandler clientHandler;
+    private ClientRPC clientRPC;
     
     /** 请求参数 */
-    private R1               paramObject;
+    private R1        paramObject;
     
     
     
@@ -44,10 +44,10 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
     
     
     
-    public ClientRPCCallable(ClientRPCHandler i_ClientRPCHandler ,R1 i_Request)
+    public ClientRPCCallable(ClientRPC i_ClientRPC ,R1 i_Request)
     {
-        this.clientHandler = i_ClientRPCHandler;
-        this.paramObject   = i_Request;
+        this.clientRPC   = i_ClientRPC;
+        this.paramObject = i_Request;
     }
     
     
@@ -60,9 +60,9 @@ public abstract class ClientRPCCallable<R1 ,R2> implements Callable<R2>
      * @version     v1.0
      */
     @Override
-    public R2 call() throws Exception
+    public synchronized R2 call() throws Exception
     {
-        Data v_Data = this.clientHandler.send(this.paramObject);
+        Data v_Data = this.clientRPC.clientHandler().send(this.paramObject);
         
         if ( v_Data != null )
         {

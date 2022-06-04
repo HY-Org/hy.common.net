@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/json/accessors-smart-2.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/json/asm-9.1.jar"/>
 	<classpathentry kind="lib" path="lib/netty/netty-all-4.1.68.Final.jar" sourcepath="C:/Users/hyzhe/.m2/io/netty/netty-all/4.1.68.Final/netty-all-4.1.68.Final-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/hy.common.db"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

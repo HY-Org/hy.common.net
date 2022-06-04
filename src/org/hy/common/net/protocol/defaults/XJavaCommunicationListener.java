@@ -63,7 +63,7 @@ public class XJavaCommunicationListener implements ServerEventListener
     @Override
     public CommunicationResponse communication(CommunicationRequest i_RequestData)
     {
-        CommunicationResponse v_ResponseData = new CommunicationResponse();
+        CommunicationResponse v_ResponseData = new CommunicationResponse().setSerialNo(i_RequestData.getSerialNo());
         
         if ( Help.isNull(i_RequestData.getDataXID()) )
         {

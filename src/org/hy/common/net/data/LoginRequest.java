@@ -19,29 +19,26 @@ public class LoginRequest extends Communication<LoginRequest>
     private static final long serialVersionUID = 5568766404534113410L;
     
     
-    /** 通讯的接口版本 */
-    protected int   version;
-    
     /** 用户编号 */
-    private String  id;
+    private String    id;
     
     /** 用户名 */
-    private String  userName;
+    private String    userName;
     
     /** 密码 */
-    private String  password;
+    private String    password;
     
     /** 客户端的系统名称 */
-    private String  systemName;
+    private String    systemName;
     
     /** 远程地址 */
-    private String  remoteAddress;
+    private String    remoteAddress;
     
     /** IP */
-    private String  host;
+    private String    host;
     
     /** 端口 */
-    private int     port;
+    private int       port;
     
     
     
@@ -57,7 +54,7 @@ public class LoginRequest extends Communication<LoginRequest>
         this.userName = i_UserName;
         this.password = i_Password;
     }
-
+    
     
     
     /**
@@ -102,29 +99,6 @@ public class LoginRequest extends Communication<LoginRequest>
     }
     
     
-    /**
-     * 获取：通讯的接口版本
-     */
-    @Override
-    public int getVersion()
-    {
-        return version;
-    }
-
-
-    /**
-     * 设置：通讯的接口版本
-     * 
-     * @param version
-     */
-    @Override
-    public LoginRequest setVersion(int version)
-    {
-        this.version = version;
-        return this;
-    }
-
-
     /**
      * 获取：IP
      */

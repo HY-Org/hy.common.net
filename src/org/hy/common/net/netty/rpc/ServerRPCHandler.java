@@ -246,6 +246,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             boolean      v_LoginRet      = true;
             LoginRequest v_CLoginRequest = CommunicationProtoDecoder.toLoginRequest(i_Msg.getLoginRequest() ,i_Ctx.channel().remoteAddress().toString());
             
+            v_Ret.setSerialNo(v_CLoginRequest.getSerialNo());
+            
             // 要求登录验证
             if ( this.mainServer.getValidate() != null )
             {
@@ -290,6 +292,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         }
         else
         {
+            v_Ret.setSerialNo("-");  // 因无法确定消息流水号是什么，又不能为空，所以取横杠
             v_Ret.setResult(NetError.$Client_LoginTypeError);
         }
         
@@ -392,7 +395,9 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         
         try
         {
-            v_Reponse = i_Listener.communication(i_Request).setEndTime(new Date());;
+            $Logger.debug(i_Request.getSerialNo() + "：" + i_Listener.getEventType() + " start...");
+            v_Reponse = i_Listener.communication(i_Request).setEndTime(new Date());
+            $Logger.debug(i_Request.getSerialNo() + "：" + i_Listener.getEventType() + " finish.");
             
             if ( !i_Request.isRetunData() )
             {
@@ -414,6 +419,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             
             v_Reponse = new CommunicationResponse();
             
+            v_Reponse.setSerialNo(         i_Request.getSerialNo());
             v_Reponse.setVersion(          i_Request.getVersion());
             v_Reponse.setSessionTime(      i_Request.getSessionTime());
             v_Reponse.setTime(             i_Request.getTime());

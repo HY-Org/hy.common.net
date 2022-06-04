@@ -1,6 +1,10 @@
 package org.hy.common.net.netty.rpc;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import org.hy.common.Help;
+import org.hy.common.StringHelp;
 import org.hy.common.net.data.Communication;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.DataType;
@@ -31,15 +35,20 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     /** 通讯通道 */
     private ChannelHandlerContext ctx;
     
-    /** 服务端的返回结果 */
-    private Data                  response;
+    /**
+     * 服务端的返回结果
+     * Map.key   消息流水号 Communication.serialNo
+     * Map.value 返回结果
+     */
+    private Map<String ,Data>     responseMap;
     
     
     
     public ClientRPCHandler(ClientRPC i_ClientRPC)
     {
         super();
-        this.clientRPC = i_ClientRPC;
+        this.clientRPC   = i_ClientRPC;
+        this.responseMap = new Hashtable<String ,Data>();
     }
     
 
@@ -51,6 +60,13 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         super.channelActive(i_Ctx);
         this.ctx = i_Ctx;
+    }
+    
+    
+    
+    public ChannelHandlerContext gatChannelHandlerContext()
+    {
+        return this.ctx;
     }
     
     
@@ -67,8 +83,18 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     @Override
     protected synchronized void channelRead0(ChannelHandlerContext i_Ctx ,Data i_Msg) throws Exception
     {
-        $Logger.debug("响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
-        this.response = i_Msg;
+        String v_ResponseSerialNo = "";
+        if ( i_Msg.getDataTypeValue() == DataType.$Response )
+        {
+            v_ResponseSerialNo = i_Msg.getResponse().getSerialNo();
+        }
+        else
+        {
+            v_ResponseSerialNo = i_Msg.getLoginResponse().getSerialNo();
+        }
+        
+        $Logger.debug(v_ResponseSerialNo + "：响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
+        this.responseMap.put(v_ResponseSerialNo ,i_Msg);
         this.notify();         // 唤醒等待的线程。即唤醒 call 方法
     }
     
@@ -85,9 +111,9 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      *     最高级（通讯级）：通讯数据的超时时长，取 Timeout 类的 xxxTimeout 属性
      * 
      *     中等级（应用级）：客户端上配置的超时时长，取 App 类的 timeout 属性
-     *                     当最高级为配置时，本级生效。
+     *                     当最高级未配置时，本级生效。
      * 
-     *     最低级（默认级）：当上两级均为配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
+     *     最低级（默认级）：当上两级均未配置时，本级生效，取 Timeout 类的可变常量值 $Default_xxx
      * 
      * 
      *   超时时长的取值规则：
@@ -102,20 +128,28 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
      */
     public synchronized Data send(Object i_Data) throws InterruptedException
     {
-        this.response = null;
-        $Logger.debug(this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString());
-        this.ctx.writeAndFlush(i_Data);
+        String v_ResponseSerialNo = "";
+        long   v_Timeout          = Help.NVL(this.clientRPC.getTimeout() ,Communication.$Default_WaitRequestTimeout);
         
-        $Logger.debug(this.clientRPC.getHostPort() + " 等待响应");
-        long v_Timeout = Help.NVL(this.clientRPC.getTimeout() ,Communication.$Default_WaitRequestTimeout);
         if ( i_Data instanceof Communication )
         {
+            Communication<?> v_RequestData = (Communication<?>)i_Data;
+            if ( Help.isNull(v_RequestData.getSerialNo()) )      // 允许外界自定义消息流水号
+            {
+                v_RequestData.setSerialNo(StringHelp.getUUID()); // 自动生成消息流水号
+            }
+            v_ResponseSerialNo = v_RequestData.getSerialNo();
+            
             v_Timeout = Help.NVL(((Communication<?>)i_Data).getWaitRequestTimeout() ,v_Timeout);
             if ( v_Timeout < 1000L && v_Timeout != 0L )
             {
                 v_Timeout = Communication.$Default_WaitRequestTimeout;
             }
         }
+        
+        String v_LogInfo = v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString() + " 超时类型：" + v_Timeout;
+        $Logger.debug(v_LogInfo);
+        this.ctx.writeAndFlush(i_Data);
         
         if ( v_Timeout == 0L )
         {
@@ -126,16 +160,17 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
             this.wait(v_Timeout);
         }
         
-        if ( this.response != null )
+        Data v_Response = this.responseMap.remove(v_ResponseSerialNo);
+        if ( v_Response != null )
         {
-            $Logger.debug(this.clientRPC.getHostPort() + " 响应结果：" + (this.response.getDataTypeValue() == 1 ? this.response.getLoginResponse().getResult() : this.response.getResponse().getResult()));
+            $Logger.debug(v_LogInfo + " 响应结果：" + (v_Response.getDataTypeValue() == DataType.$LoginResponse ? v_Response.getLoginResponse().getResult() : v_Response.getResponse().getResult()));
         }
         else
         {
-            $Logger.warn(this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString() + "，请求超时：" + v_Timeout);
+            $Logger.warn(v_LogInfo);
         }
         
-        return this.response;
+        return v_Response;
     }
     
     

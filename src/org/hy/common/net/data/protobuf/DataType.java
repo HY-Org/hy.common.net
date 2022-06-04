@@ -14,6 +14,16 @@ package org.hy.common.net.data.protobuf;
 public class DataType
 {
     
+    public static final int $LoginRequest  = 0;
+    
+    public static final int $LoginResponse = 1;
+    
+    public static final int $Request       = 2;
+    
+    public static final int $Response      = 3;
+    
+    
+    
     private DataType()
     {
         
@@ -25,12 +35,15 @@ public class DataType
     {
         switch ( i_DataType )
         {
-            case 0:
+            case $LoginRequest:
                 return "LoginRequest";
-            case 1:
+                
+            case $LoginResponse:
                 return "LoginResponse";
-            case 2:
+                
+            case $Request:
                 return "Request";
+                
             default:
                 return "Response";
         }

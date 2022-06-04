@@ -4,7 +4,7 @@ import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.LoginResponse;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
-import org.hy.common.net.netty.rpc.ClientRPCHandler;
+import org.hy.common.net.netty.rpc.ClientRPC;
 
 
 
@@ -20,9 +20,9 @@ import org.hy.common.net.netty.rpc.ClientRPCHandler;
 public class ClientRPCCallableLogin extends ClientRPCCallable<LoginRequest ,LoginResponse>
 {
     
-    public ClientRPCCallableLogin(ClientRPCHandler i_ClientRPCHandler ,LoginRequest i_Request)
+    public ClientRPCCallableLogin(ClientRPC i_ClientRPC ,LoginRequest i_Request)
     {
-        super(i_ClientRPCHandler ,i_Request);
+        super(i_ClientRPC ,i_Request);
     }
 
     
