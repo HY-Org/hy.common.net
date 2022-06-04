@@ -408,7 +408,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             if ( v_IsException )
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError);
-                $Logger.info("通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(i_Request.getSerialNo() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
@@ -418,7 +418,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             else
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
-                $Logger.info("通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(i_Request.getSerialNo() + "：通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
@@ -431,11 +431,12 @@ public class ClientRPCOperationProxy implements InvocationHandler
             this.session.setActiveTime(v_ETime);
             this.session.addActiveCount();
             this.session.addActiveTimeLen(v_ETime.getTime() - v_BTime.getTime());
-            $Logger.info("通讯成功：" + i_Request.toString() + " -> " + v_Ret.toString());
+            // ClientRPCHandler.send() 方法中已输出了成功日志，这里就无须重复的输出日志了
+            // $Logger.info(i_Request.getSerialNo() + "：通讯成功：" + i_Request.toString() + " -> " + v_Ret.toString());
         }
         else
         {
-            $Logger.info("通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+            $Logger.info(i_Request.getSerialNo() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
             this.session.addException(new NetException(i_Request ,v_Ret.getResult() ,"通讯失败" ,v_Exception));
         }
         

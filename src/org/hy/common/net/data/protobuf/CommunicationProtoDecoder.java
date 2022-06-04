@@ -268,7 +268,6 @@ public class CommunicationProtoDecoder
             $Logger.error(exce);
         }
         
-        $Logger.debug("转义数据，并返回");
         return v_Ret;
     }
     

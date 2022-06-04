@@ -93,7 +93,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
             v_ResponseSerialNo = i_Msg.getLoginResponse().getSerialNo();
         }
         
-        $Logger.debug(v_ResponseSerialNo + "：响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
+        // $Logger.debug(v_ResponseSerialNo + "：响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         this.responseMap.put(v_ResponseSerialNo ,i_Msg);
         this.notify();         // 唤醒等待的线程。即唤醒 call 方法
     }
@@ -147,8 +147,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
             }
         }
         
-        String v_LogInfo = v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + " 请求类型：" + i_Data.toString() + " 超时类型：" + v_Timeout;
-        $Logger.debug(v_LogInfo);
+        $Logger.debug(v_ResponseSerialNo + "：请求类型：" + i_Data.toString() + " " + this.clientRPC.getHostPort() + " 超时类型：" + v_Timeout);
         this.ctx.writeAndFlush(i_Data);
         
         if ( v_Timeout == 0L )
@@ -163,11 +162,11 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         Data v_Response = this.responseMap.remove(v_ResponseSerialNo);
         if ( v_Response != null )
         {
-            $Logger.debug(v_LogInfo + " 响应结果：" + (v_Response.getDataTypeValue() == DataType.$LoginResponse ? v_Response.getLoginResponse().getResult() : v_Response.getResponse().getResult()));
+            $Logger.debug(v_ResponseSerialNo + "：响应结果：" + (v_Response.getDataTypeValue() == DataType.$LoginResponse ? v_Response.getLoginResponse().getResult() : v_Response.getResponse().getResult()));
         }
         else
         {
-            $Logger.warn(v_LogInfo);
+            $Logger.warn(v_ResponseSerialNo + "：响应结果：异常");
         }
         
         return v_Response;
