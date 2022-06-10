@@ -24,8 +24,8 @@ public class JU_ClientSocket
     {
         ClientSocket v_Client = new ClientSocket();
         
-        v_Client.setHostName("127.0.0.1");
-        v_Client.setPort(2021);
+        v_Client.setHostName("10.1.20.74");
+        v_Client.setPort(1721);
         
         CommunicationResponse v_Response = v_Client.sendCommand(0, "GXSQL_CompletionRate_Check" ,"executes" ,false);
         if ( v_Response.getResult() != 0 )
