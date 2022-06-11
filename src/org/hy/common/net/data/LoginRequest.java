@@ -1,5 +1,7 @@
 package org.hy.common.net.data;
 
+import org.hy.common.Help;
+
 /**
  * 传输对象：用于登陆验证的请求
  *
@@ -208,7 +210,7 @@ public class LoginRequest extends Communication<LoginRequest>
     @Override
     public String toString()
     {
-        return this.userName + ":" + this.systemName + ":" + this.remoteAddress;
+        return this.userName + ":" + this.systemName + ":" + Help.NVL(this.remoteAddress);
     }
     
 }

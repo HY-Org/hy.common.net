@@ -75,6 +75,19 @@ public class ClientRPC extends Client<ClientRPC> implements ClientCluster
     
     
     /**
+     * 判定服务启动状态
+     * 
+     * @return
+     */
+    @Override
+    public synchronized boolean isStart()
+    {
+        return super.isStart();
+    }
+    
+    
+    
+    /**
      * 启动服务，配置参数外界传入。为了重新登录而重写start方法
      * 
      * @author      ZhengWei(HY)

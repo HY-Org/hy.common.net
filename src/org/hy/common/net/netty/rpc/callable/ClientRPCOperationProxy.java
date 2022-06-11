@@ -112,70 +112,73 @@ public class ClientRPCOperationProxy implements InvocationHandler
     @Override
     public Object invoke(Object i_Proxy ,Method i_Method ,Object [] i_Args) throws Throwable
     {
-        if ( "startServer".equals(i_Method.getName()) )
+        synchronized ( this.clientRPC )
         {
-            return this.clientRPC.start() != null;
-        }
-        else if ( "shutdownServer".equals(i_Method.getName()) )
-        {
-            this.clientRPC.shutdown();
-            this.session.setLogoutTime(new Date());
-            this.session.setOnline(false);
-            return true;
-        }
-        else if ( "isStartServer".equals(i_Method.getName()) )
-        {
-            return this.clientRPC.isStart();
-        }
-        else if ( "logout".equals(i_Method.getName()) )
-        {
-            this.session.setLogoutTime(new Date());
-            this.session.setOnline(false);
-            this.isLogin = false;
-            return true;
-        }
-        else if ( "login".equals(i_Method.getName()) )
-        {
-            if ( this.clientRPC.isStart() )
+            if ( "startServer".equals(i_Method.getName()) )
             {
-                return this.proxyLogin(i_Args);
+                return this.clientRPC.start() != null;
+            }
+            else if ( "shutdownServer".equals(i_Method.getName()) )
+            {
+                this.clientRPC.shutdown();
+                this.session.setLogoutTime(new Date());
+                this.session.setOnline(false);
+                return true;
+            }
+            else if ( "isStartServer".equals(i_Method.getName()) )
+            {
+                return this.clientRPC.isStart();
+            }
+            else if ( "logout".equals(i_Method.getName()) )
+            {
+                this.session.setLogoutTime(new Date());
+                this.session.setOnline(false);
+                this.isLogin = false;
+                return true;
+            }
+            else if ( "login".equals(i_Method.getName()) )
+            {
+                if ( this.clientRPC.isStart() )
+                {
+                    return this.proxyLogin(i_Args);
+                }
+                else
+                {
+                    return new LoginResponse().setResult(NetError.$Client_StartNotError);
+                }
+            }
+            else if ( "isLogin".equals(i_Method.getName()) )
+            {
+                if ( this.clientRPC.isStart() )
+                {
+                    return this.isLogin;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if ( "getClient".equals(i_Method.getName()) )
+            {
+                return this.clientRPC;
+            }
+            else if ( "getSession".equals(i_Method.getName()) )
+            {
+                return this.session;
             }
             else
             {
-                return new LoginResponse().setResult(NetError.$Client_StartNotError);
-            }
-        }
-        else if ( "isLogin".equals(i_Method.getName()) )
-        {
-            if ( this.clientRPC.isStart() )
-            {
-                return this.isLogin;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        if ( "getClient".equals(i_Method.getName()) )
-        {
-            return this.clientRPC;
-        }
-        else if ( "getSession".equals(i_Method.getName()) )
-        {
-            return this.session;
-        }
-        else
-        {
-            if ( !this.clientRPC.isStart() )
-            {
-                // 必须先启动后才能通讯
-                return new CommunicationResponse().setResult(NetError.$Client_StartNotError).setEndTime(new Date());
-            }
-            
-            if ( !this.isLogin )
-            {
-                // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
-                return new CommunicationResponse().setResult(NetError.$Client_LoginNotError).setEndTime(new Date());
+                if ( !this.clientRPC.isStart() )
+                {
+                    // 必须先启动后才能通讯
+                    return new CommunicationResponse().setResult(NetError.$Client_StartNotError).setEndTime(new Date());
+                }
+                
+                if ( !this.isLogin )
+                {
+                    // 必须先登录才能通讯，哪怕是免登录验证的，也是做匿名登录
+                    return new CommunicationResponse().setResult(NetError.$Client_LoginNotError).setEndTime(new Date());
+                }
             }
         }
         
@@ -408,7 +411,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             if ( v_IsException )
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError);
-                $Logger.info(i_Request.getSerialNo() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
@@ -418,7 +421,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
             else
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
-                $Logger.info(i_Request.getSerialNo() + "：通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);

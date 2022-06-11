@@ -147,7 +147,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
             }
         }
         
-        $Logger.debug(v_ResponseSerialNo + "：请求类型：" + i_Data.toString() + " " + this.clientRPC.getHostPort() + " 超时类型：" + v_Timeout);
+        $Logger.debug(v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + "：请求类型：" + i_Data.toString() + " 超时类型：" + v_Timeout);
         this.ctx.writeAndFlush(i_Data);
         
         if ( v_Timeout == 0L )
@@ -162,11 +162,11 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         Data v_Response = this.responseMap.remove(v_ResponseSerialNo);
         if ( v_Response != null )
         {
-            $Logger.debug(v_ResponseSerialNo + "：响应结果：" + (v_Response.getDataTypeValue() == DataType.$LoginResponse ? v_Response.getLoginResponse().getResult() : v_Response.getResponse().getResult()));
+            $Logger.debug(v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + "：响应结果：" + (v_Response.getDataTypeValue() == DataType.$LoginResponse ? v_Response.getLoginResponse().getResult() : v_Response.getResponse().getResult()));
         }
         else
         {
-            $Logger.warn(v_ResponseSerialNo + "：响应结果：异常");
+            $Logger.warn(v_ResponseSerialNo  + "：" + this.clientRPC.getHostPort() + "：响应结果：异常");
         }
         
         return v_Response;

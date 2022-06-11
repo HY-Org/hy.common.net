@@ -129,7 +129,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Session.addRequestCount();
             v_Session.setActiveTime(new Date());
             $Sessions.put(i_Ctx ,v_Session ,this.mainServer.getSessionTime());  // 保持会话的有效性
-            sendResponse(i_Ctx ,this.mainActive(i_Ctx ,v_Session ,i_Msg));
+            sendResponse(i_Ctx ,true ,this.mainActive(i_Ctx ,v_Session ,i_Msg));
         }
     }
     
@@ -145,12 +145,16 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
      * @param i_Ctx
      * @param i_Response
      */
-    private void sendResponse(ChannelHandlerContext i_Ctx ,CommunicationResponse i_Response)
+    private void sendResponse(ChannelHandlerContext i_Ctx ,boolean i_IsRetunData ,CommunicationResponse i_Response)
     {
         if ( i_Response != null )
         {
             $Logger.debug("返回结果：" + i_Response.getResult());
-            i_Ctx.writeAndFlush(i_Response);
+            
+            if ( i_IsRetunData )  // 客户端要求返回执行结果（注：仅用于异步操作的情况）
+            {
+                i_Ctx.writeAndFlush(i_Response);
+            }
         }
     }
     
@@ -365,10 +369,30 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
                 @Override
                 public Object call() throws Exception
                 {
-                    sendResponse(i_Ctx ,execute(v_FListener ,v_FRequest ,i_Session ,v_BTime.getTime()));
+                    sendResponse(i_Ctx ,v_FRequest.isRetunData() ,execute(v_FListener ,v_FRequest ,i_Session ,v_BTime.getTime()));
                     return null;
                 }
             });
+            
+            // 客户端不要求返回执行结果，同时还希望服务是异步执行的情况下：返回成功即可
+            if ( !v_CRequest.isRetunData() )
+            {
+                CommunicationResponse v_Reponse = new CommunicationResponse();
+                
+                v_Reponse.setSerialNo(         v_CRequest.getSerialNo());
+                v_Reponse.setVersion(          v_CRequest.getVersion());
+                v_Reponse.setSessionTime(      v_CRequest.getSessionTime());
+                v_Reponse.setTime(             v_CRequest.getTime());
+                v_Reponse.setToken(            v_CRequest.getToken());
+                v_Reponse.setData(             null);
+                v_Reponse.setDataXID(          v_CRequest.getDataXID());
+                v_Reponse.setDataXIsNew(       v_CRequest.getDataXIsNew());
+                v_Reponse.setDataExpireTimeLen(v_CRequest.getDataExpireTimeLen());
+                v_Reponse.setResult(           CommunicationResponse.$Succeed);
+                v_Reponse.setEndTime(          new Date());
+                
+                return v_Reponse;
+            }
         }
        
         return null;
