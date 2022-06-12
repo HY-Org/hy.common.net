@@ -44,6 +44,33 @@ public class LoginRequest extends Communication<LoginRequest>
     
     
     
+    /**
+     * 浅构建
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-06-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public LoginRequest build(LoginRequest io_New)
+    {
+        super.build(io_New);
+        
+        io_New.setId(           this.getId());
+        io_New.setUserName(     this.getUserName());
+        io_New.setPassword(     this.getPassword());
+        io_New.setSystemName(   this.getSystemName());
+        io_New.setRemoteAddress(this.getRemoteAddress());
+        io_New.setHost(         this.getHost());
+        io_New.setPort(         this.getPort());
+        
+        return io_New;
+    }
+    
+    
+    
     public LoginRequest()
     {
         this(null ,null);

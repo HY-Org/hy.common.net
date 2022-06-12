@@ -327,7 +327,8 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         ServerEventListener   v_Listener    = null;
         StringBuffer          v_Buf         = new StringBuffer();
         
-        v_Buf.append("接受类型：")   .append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
+        v_Buf.append(v_RequestData.getSerialNo());
+        v_Buf.append("：接受类型：") .append(DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         v_Buf.append("; user=")     .append(i_Session.getUserName());
         v_Buf.append("; system=")   .append(i_Session.getSystemName());
         v_Buf.append("; loginTime=").append(i_Session.getLoginTime().getFull());

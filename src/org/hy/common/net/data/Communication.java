@@ -80,6 +80,36 @@ public class Communication<T extends Communication<T>> extends Timeout<T>
     
     
     /**
+     * 浅构建
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-06-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public T build(T io_New)
+    {
+        super.build(io_New);
+        
+        io_New.setSerialNo         (this.getSerialNo         ());
+        io_New.setVersion          (this.getVersion          ());
+        io_New.setSessionTime      (this.getSessionTime      ());
+        io_New.setTime             (this.getTime             ());
+        io_New.setToken            (this.getToken            ());
+        io_New.setData             (this.getData             ());
+        io_New.setDataXID          (this.getDataXID          ());
+        io_New.setDataXIsNew       (this.getDataXIsNew       ());
+        io_New.setDataExpireTimeLen(this.getDataExpireTimeLen());
+        io_New.setNonSync          (this.isNonSync           ());
+        
+        return io_New;
+    }
+    
+    
+    
+    /**
      * 获取：消息流水号。每次访问消息唯一的标识。方便后期问题回溯（内部机制自动生成）
      */
     public String getSerialNo()

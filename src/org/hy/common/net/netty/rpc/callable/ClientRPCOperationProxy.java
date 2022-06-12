@@ -356,11 +356,11 @@ public class ClientRPCOperationProxy implements InvocationHandler
             this.session.setLoginTime(new Date());
             this.session.setOnline(true);
             ClientTotal.put(this.clientRPC);
-            $Logger.info(this.clientRPC.getHostPort() + " 登录成功：" + i_Args[0].toString() + " -> " + v_Ret.toString());
+            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录成功：" + i_Args[0].toString() + " -> " + v_Ret.toString());
         }
         else
         {
-            $Logger.info(this.clientRPC.getHostPort() + " 登录失败：错误码=" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
+            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录失败：错误码=" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
         }
         
         return v_Ret;
@@ -439,7 +439,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
         }
         else
         {
-            $Logger.info(i_Request.getSerialNo() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+            $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
             this.session.addException(new NetException(i_Request ,v_Ret.getResult() ,"通讯失败" ,v_Exception));
         }
         

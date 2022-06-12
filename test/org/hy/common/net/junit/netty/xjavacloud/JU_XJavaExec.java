@@ -19,8 +19,8 @@ public class JU_XJavaExec
     @Test
     public void test_XJavaExce()
     {
-     // 步骤1：连接
-        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("10.1.50.76");
+        // 步骤1：连接
+        ClientRPC v_Client = new ClientRPC().setPort(9021).setHost("192.168.28.159");
         v_Client.setTimeout(30 * 1000L);
         v_Client.start();
         
@@ -36,11 +36,18 @@ public class JU_XJavaExec
         
         // 步骤3：通讯
         CommunicationResponse v_Response = null;
-        
-        
-        v_Response = v_Client.operation().sendCommand(-1, "SyncDatasJob" ,"syncDatas");
+        v_Response = v_Client.operation().sendCommand(-1, "YonYouSyncDataService" ,"syncDatas" ,false ,true);
         
         $Logger.info(v_Response);
+        
+        try
+        {
+            Thread.sleep(10 * 1000 * 60);
+        }
+        catch (Exception exce)
+        {
+            
+        }
     }
     
 }

@@ -72,6 +72,29 @@ public class CommunicationRequest extends Communication<CommunicationRequest>
     
     
     
+    /**
+     * 浅构建
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-06-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    @Override
+    public CommunicationRequest build(CommunicationRequest io_New)
+    {
+        super.build(io_New);
+        
+        io_New.setEventType    (this.getEventType    ());
+        io_New.setDataOperation(this.getDataOperation());
+        io_New.setRetunData    (this.isRetunData     ());
+        
+        return io_New;
+    }
+    
+    
+    
     public CommunicationRequest()
     {
         super();

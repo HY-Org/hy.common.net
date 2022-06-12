@@ -6,12 +6,15 @@ import java.util.Map;
 import org.hy.common.Help;
 import org.hy.common.StringHelp;
 import org.hy.common.net.data.Communication;
+import org.hy.common.net.data.CommunicationRequest;
+import org.hy.common.net.data.LoginRequest;
 import org.hy.common.net.data.protobuf.CommunicationProto.Data;
 import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
 
 
 
@@ -93,7 +96,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
             v_ResponseSerialNo = i_Msg.getLoginResponse().getSerialNo();
         }
         
-        // $Logger.debug(v_ResponseSerialNo + "：响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
+        // $Logger.debug(v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + "：响应类型：" + DataType.getDataTypeName(i_Msg.getDataTypeValue()));
         this.responseMap.put(v_ResponseSerialNo ,i_Msg);
         this.notify();         // 唤醒等待的线程。即唤醒 call 方法
     }
@@ -130,25 +133,37 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
     {
         String v_ResponseSerialNo = "";
         long   v_Timeout          = Help.NVL(this.clientRPC.getTimeout() ,Communication.$Default_WaitRequestTimeout);
+        Object v_NewData          = null;
         
         if ( i_Data instanceof Communication )
         {
-            Communication<?> v_RequestData = (Communication<?>)i_Data;
-            if ( Help.isNull(v_RequestData.getSerialNo()) )      // 允许外界自定义消息流水号
+            // 多集群并发下，为确保消息对象相互不影响（如消息号），这里必须构建新的请求对象
+            if ( i_Data instanceof CommunicationRequest )
             {
-                v_RequestData.setSerialNo(StringHelp.getUUID()); // 自动生成消息流水号
+                v_NewData = ((CommunicationRequest)i_Data).build(new CommunicationRequest());
             }
+            else if ( i_Data instanceof LoginRequest )
+            {
+                v_NewData = ((LoginRequest)        i_Data).build(new LoginRequest());
+            }
+            
+            Communication<?> v_RequestData = (Communication<?>)v_NewData;
+            v_RequestData.setSerialNo(StringHelp.getUUID()); // 自动生成消息流水号
             v_ResponseSerialNo = v_RequestData.getSerialNo();
             
-            v_Timeout = Help.NVL(((Communication<?>)i_Data).getWaitRequestTimeout() ,v_Timeout);
+            v_Timeout = Help.NVL(v_RequestData.getWaitRequestTimeout() ,v_Timeout);
             if ( v_Timeout < 1000L && v_Timeout != 0L )
             {
                 v_Timeout = Communication.$Default_WaitRequestTimeout;
             }
         }
+        else
+        {
+            v_NewData = i_Data;
+        }
         
-        $Logger.debug(v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + "：请求类型：" + i_Data.toString() + " 超时类型：" + v_Timeout);
-        this.ctx.writeAndFlush(i_Data);
+        $Logger.debug(v_ResponseSerialNo + "：" + this.clientRPC.getHostPort() + "：请求类型：" + v_NewData.toString() + " 超时类型：" + v_Timeout);
+        this.ctx.writeAndFlush(v_NewData);
         
         if ( v_Timeout == 0L )
         {

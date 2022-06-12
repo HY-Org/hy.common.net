@@ -39,6 +39,23 @@ public class Timeout<T extends Timeout<T>> extends SerializableDef
     
     /** 请求等待超时（单位：毫秒）。0表示永不超时，一直等待； 负数或NULL：表示取默认超时时长 */
     private Long waitRequestTimeout;
+    
+    
+    
+    /**
+     * 浅构建
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-06-12
+     * @version     v1.0
+     * 
+     * @return
+     */
+    public T build(T io_New)
+    {
+        io_New.setWaitRequestTimeout(this.getWaitRequestTimeout());
+        return io_New;
+    }
 
     
     
