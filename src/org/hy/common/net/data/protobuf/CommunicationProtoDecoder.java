@@ -2,6 +2,7 @@ package org.hy.common.net.data.protobuf;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.HelpNewInstance;
 import org.hy.common.net.data.Command;
 import org.hy.common.net.data.CommunicationRequest;
 import org.hy.common.net.data.CommunicationResponse;
@@ -227,39 +228,47 @@ public class CommunicationProtoDecoder
             
             String     v_DataClass = i_Response.getDataClass();
             ByteString v_DataBytes = i_Response.getData();
-            if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+            if ( !Help.isNull(v_DataClass) && v_DataBytes != null )
             {
-                DataProtocol v_DataProtocol = i_Response.getDataProtocol();
-                
-                // 转换通用数据
-                v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
-                
-                // 转换执行命令的数据
-                if ( v_Ret.getData() != null && XCommand.class == v_Ret.getData().getClass() )
+                if ( v_DataBytes.size() > 0 )
                 {
-                    Command  v_NCmd = new Command();
-                    XCommand v_XCmd = (XCommand)v_Ret.getData();
-                    if ( !Help.isNull(v_XCmd.getParamsClassList()) )
+                    DataProtocol v_DataProtocol = i_Response.getDataProtocol();
+                    
+                    // 转换通用数据
+                    v_Ret.setData(dataProtocolToObject(v_DataClass ,v_DataProtocol ,v_DataBytes.toByteArray()));
+                    
+                    // 转换执行命令的数据
+                    if ( v_Ret.getData() != null && XCommand.class == v_Ret.getData().getClass() )
                     {
-                        v_NCmd.setParams(new Object[v_XCmd.getParamsClassCount()]);
-                        for (int i=0; i<v_XCmd.getParamsClassCount(); i++)
+                        Command  v_NCmd = new Command();
+                        XCommand v_XCmd = (XCommand)v_Ret.getData();
+                        if ( !Help.isNull(v_XCmd.getParamsClassList()) )
                         {
-                            v_DataClass = v_XCmd.getParamsClass(i);
-                            v_DataBytes = v_XCmd.getParamsValue(i);
-                            
-                            if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+                            v_NCmd.setParams(new Object[v_XCmd.getParamsClassCount()]);
+                            for (int i=0; i<v_XCmd.getParamsClassCount(); i++)
                             {
-                                v_NCmd.getParams()[i] = dataProtocolToObject(v_DataClass ,v_XCmd.getParamsProtocol(i) ,v_DataBytes.toByteArray());
-                            }
-                            else
-                            {
-                                v_NCmd.getParams()[i] = null;
+                                v_DataClass = v_XCmd.getParamsClass(i);
+                                v_DataBytes = v_XCmd.getParamsValue(i);
+                                
+                                if ( !Help.isNull(v_DataClass) && v_DataBytes != null && v_DataBytes.size() > 0 )
+                                {
+                                    v_NCmd.getParams()[i] = dataProtocolToObject(v_DataClass ,v_XCmd.getParamsProtocol(i) ,v_DataBytes.toByteArray());
+                                }
+                                else
+                                {
+                                    v_NCmd.getParams()[i] = null;
+                                }
                             }
                         }
+                        
+                        v_NCmd.setMethodName(v_XCmd.getMethodName());
+                        v_Ret.setData(v_NCmd);
                     }
-                    
-                    v_NCmd.setMethodName(v_XCmd.getMethodName());
-                    v_Ret.setData(v_NCmd);
+                }
+                else
+                {
+                    // 当数据大小为0，但正常返回时，尝试按数据类型new一个空值的对象
+                    v_Ret.setData(HelpNewInstance.executeNew(Help.forName(v_DataClass)));
                 }
             }
         }
