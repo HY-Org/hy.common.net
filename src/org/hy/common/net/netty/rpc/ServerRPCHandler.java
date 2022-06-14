@@ -3,7 +3,6 @@ package org.hy.common.net.netty.rpc;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.hy.common.Date;
 import org.hy.common.ExpireMap;
@@ -20,6 +19,8 @@ import org.hy.common.net.data.protobuf.CommunicationProto.Request;
 import org.hy.common.net.data.protobuf.CommunicationProtoDecoder;
 import org.hy.common.net.data.protobuf.DataType;
 import org.hy.common.net.protocol.ServerEventListener;
+import org.hy.common.thread.Task;
+import org.hy.common.thread.TaskPool;
 import org.hy.common.xml.log.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -362,18 +363,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         {
             v_Buf.append("; sync=0");
             $Logger.debug(v_Buf.toString());
-            
-            final ServerEventListener  v_FListener = v_Listener;
-            final CommunicationRequest v_FRequest  = v_CRequest;
-            this.mainServer.getExecutorPool().submit(new Callable<Object>()
-            {
-                @Override
-                public Object call() throws Exception
-                {
-                    sendResponse(i_Ctx ,v_FRequest.isRetunData() ,execute(v_FListener ,v_FRequest ,i_Session ,v_BTime.getTime()));
-                    return null;
-                }
-            });
+            TaskPool.putTask(new ServerRPCTask(this ,v_Listener ,v_CRequest ,i_Session ,v_BTime ,i_Ctx));
             
             // 客户端不要求返回执行结果，同时还希望服务是异步执行的情况下：返回成功即可
             if ( !v_CRequest.isRetunData() )
@@ -397,6 +387,44 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         }
        
         return null;
+    }
+    
+    
+    
+    /**
+     * 异步执行。数据通讯的监听事件接口的处理和执行
+     * 
+     * @author      ZhengWei(HY)
+     * @createDate  2022-06-14
+     * @version     v1.0
+     * 
+     * @param i_Listener
+     * @param i_Request
+     * @param i_Session
+     * @param i_BTime
+     * @param i_Ctx
+     */
+    public void executeNoSync(final ServerEventListener   i_Listener
+                             ,final CommunicationRequest  i_Request
+                             ,final SessionInfo           i_Session
+                             ,final Date                  i_BTime
+                             ,final ChannelHandlerContext i_Ctx)
+    {
+        sendResponse(i_Ctx ,i_Request.isRetunData() ,execute(i_Listener ,i_Request ,i_Session ,i_BTime.getTime()));
+        
+        /*
+            final ServerEventListener  v_FListener = v_Listener;
+            final CommunicationRequest v_FRequest  = v_CRequest;
+            this.mainServer.getExecutorPool().submit(new Callable<Object>()
+            {
+                @Override
+                public Object call() throws Exception
+                {
+                    sendResponse(i_Ctx ,v_FRequest.isRetunData() ,execute(v_FListener ,v_FRequest ,i_Session ,v_BTime.getTime()));
+                    return null;
+                }
+            });
+         */
     }
     
     
@@ -517,6 +545,97 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
             v_Error = v_Session.toString();
         }
         $Logger.error(i_Cause.getMessage() + v_Error);
+    }
+    
+    
+    
+    
+    
+    private static final String $TaskName = "ServerRPCTask";
+    private static       long   $SerialNo = 0;
+    /**
+     * 注意：本方法可能在多个实例、多个线程中执行，所以要用 static synchronized
+     * 
+     * @return
+     */
+    private static synchronized long GetSerialNo()
+    {
+        return ++$SerialNo;
+    }
+    
+    
+    
+    class ServerRPCTask extends Task<Object>
+    {
+        private ServerRPCHandler      rpcHandler;
+        
+        private ServerEventListener   listener;
+        
+        private CommunicationRequest  request;
+        
+        private SessionInfo           session;
+        
+        private Date                  btime;
+        
+        private ChannelHandlerContext ctx;
+        
+        
+        
+        public ServerRPCTask(ServerRPCHandler      i_RPCHandler
+                            ,ServerEventListener   i_Listener
+                            ,CommunicationRequest  i_Request
+                            ,SessionInfo           i_Session
+                            ,Date                  i_BTime
+                            ,ChannelHandlerContext i_Ctx)
+        {
+            super($TaskName);
+            
+            this.rpcHandler = i_RPCHandler;
+            this.listener   = i_Listener;
+            this.request    = i_Request;
+            this.session    = i_Session;
+            this.btime      = i_BTime;
+            this.ctx        = i_Ctx;
+        }
+
+        
+        public ServerRPCTask(String i_TaskType)
+        {
+            super(i_TaskType);
+        }
+        
+        
+
+        @Override
+        public String getTaskDesc()
+        {
+            return "SRPC:" + this.request.toString();
+        }
+
+        
+        
+        @Override
+        public void execute()
+        {
+            try
+            {
+                this.rpcHandler.sendResponse(this.ctx ,this.request.isRetunData() ,this.rpcHandler.execute(this.listener ,this.request ,this.session ,this.btime.getTime()));
+            }
+            catch (Exception exce)
+            {
+                $Logger.error(exce);
+            }
+            this.finishTask();
+        }
+
+        
+        
+        @Override
+        public long getSerialNo()
+        {
+            return GetSerialNo();
+        }
+        
     }
     
 }

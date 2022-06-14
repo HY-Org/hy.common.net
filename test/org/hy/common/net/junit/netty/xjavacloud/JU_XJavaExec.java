@@ -20,7 +20,7 @@ public class JU_XJavaExec
     public void test_XJavaExce()
     {
         // 步骤1：连接
-        ClientRPC v_Client = new ClientRPC().setPort(9021).setHost("192.168.28.194");
+        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("127.0.0.1");
         v_Client.setTimeout(30 * 1000L);
         v_Client.start();
         
@@ -34,11 +34,32 @@ public class JU_XJavaExec
         
         
         
-        // 步骤3：通讯
-        CommunicationResponse v_Response = null;
-        v_Response = v_Client.operation().sendCommand(-1, "Test" ,"test1" ,true ,false);
+        int v_Size         = 10000 * 10;
+        int v_Count        = 0;
+        int v_SucceedCount = 0;
+        int v_FailCount    = 0;
+        for (int x=1; x<=v_Size; x++)
+        {
+            // 步骤3：通讯
+            CommunicationResponse v_Response = null;
+            v_Response = v_Client.operation().sendCommand(-1
+                                                         ,"currentMakingProcessService"
+                                                         ,"timingMonitorInAndOutWarehouseData"
+                                                         ,false
+                                                         ,true);
+            if ( v_Response.getResult() == 0 )
+            {
+                v_SucceedCount++;
+            }
+            else
+            {
+                v_FailCount++;
+            }
+            
+            $Logger.info("执行第 " + (++v_Count) + " 次");
+        }
         
-        $Logger.info(v_Response);
+        $Logger.info("成功：" + v_SucceedCount + " 次；失败：" + v_FailCount + " 次。");
         
         try
         {

@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import org.hy.common.Date;
 import org.hy.common.Help;
+import org.hy.common.StringHelp;
 import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.ClientTotal;
 import org.hy.common.net.data.Command;
@@ -324,7 +325,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object proxyLogin(Object [] i_Args) throws InterruptedException, ExecutionException
     {
-        LoginRequest           v_LoginReq   = (LoginRequest)i_Args[0];
+        // 多集群并发下，为确保消息对象相互不影响（如消息号），这里必须构建新的请求对象
+        LoginRequest           v_LoginReq   = ((LoginRequest)i_Args[0]).build(new LoginRequest()).setSerialNo(StringHelp.getUUID());  // 自动生成消息流水号
         ClientRPCCallableLogin v_Handler    = new ClientRPCCallableLogin(this.clientRPC ,v_LoginReq);
         LoginResponse          v_Ret        = null;
         boolean                v_Exception  = false;
@@ -343,7 +345,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
         {
             // 一般超时后返回NULL，也可能是服务端宕机了
             v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$Server_UnknownError : NetError.$Server_TimeoutError);
-            $Logger.info(this.clientRPC.getHostPort() + " 登录超时：" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
+            $Logger.info(this.clientRPC.getHostPort() + " 登录超时或异常。" + v_Ret.getResult() + " -> " + v_LoginReq.toString() + " -> " + v_Ret.toString());
             this.clientRPC.shutdown();
         }
         else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
@@ -356,11 +358,11 @@ public class ClientRPCOperationProxy implements InvocationHandler
             this.session.setLoginTime(new Date());
             this.session.setOnline(true);
             ClientTotal.put(this.clientRPC);
-            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录成功：" + i_Args[0].toString() + " -> " + v_Ret.toString());
+            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录成功：" + v_LoginReq.toString() + " -> " + v_Ret.toString());
         }
         else
         {
-            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录失败：错误码=" + v_Ret.getResult() + " -> " + i_Args[0].toString() + " -> " + v_Ret.toString());
+            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + " 登录失败：错误码=" + v_Ret.getResult() + " -> " + v_LoginReq.toString() + " -> " + v_Ret.toString());
         }
         
         return v_Ret;
@@ -382,7 +384,9 @@ public class ClientRPCOperationProxy implements InvocationHandler
      */
     private Object send(CommunicationRequest i_Request) throws InterruptedException, ExecutionException
     {
-        ClientRPCCallableSend v_Handler     = new ClientRPCCallableSend(this.clientRPC ,i_Request);
+        // 多集群并发下，为确保消息对象相互不影响（如消息号），这里必须构建新的请求对象
+        CommunicationRequest  v_NewRequest  = i_Request.build(new CommunicationRequest()).setSerialNo(StringHelp.getUUID());  // 自动生成消息流水号
+        ClientRPCCallableSend v_Handler     = new ClientRPCCallableSend(this.clientRPC ,v_NewRequest);
         CommunicationResponse v_Ret         = null;
         Exception             v_Exception   = null;
         boolean               v_IsException = false;
@@ -411,22 +415,22 @@ public class ClientRPCOperationProxy implements InvocationHandler
             if ( v_IsException )
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError);
-                $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
                 this.session.setOnline(false);
-                this.session.addException(new NetException(i_Request ,NetError.$Server_UnknownError ,"通讯未知异常" ,v_Exception));
+                this.session.addException(new NetException(v_NewRequest ,NetError.$Server_UnknownError ,"通讯未知异常" ,v_Exception));
             }
             else
             {
                 v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
-                $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯超时(" + Help.NVL(i_Request.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
+                $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯超时(" + Help.NVL(v_NewRequest.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
                 this.session.setOnline(false);
-                this.session.addException(new NetException(i_Request ,NetError.$Server_TimeoutError ,"通讯超时" ,v_Exception));
+                this.session.addException(new NetException(v_NewRequest ,NetError.$Server_TimeoutError ,"通讯超时或异常" ,new RuntimeException("通讯超时或异常")));
             }
         }
         else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )
@@ -439,8 +443,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
         }
         else
         {
-            $Logger.info(i_Request.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + i_Request.toString() + " -> " + v_Ret.toString());
-            this.session.addException(new NetException(i_Request ,v_Ret.getResult() ,"通讯失败" ,v_Exception));
+            $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
+            this.session.addException(new NetException(v_NewRequest ,v_Ret.getResult() ,"通讯失败" ,new RuntimeException("通讯失败")));
         }
         
         return v_Ret;
