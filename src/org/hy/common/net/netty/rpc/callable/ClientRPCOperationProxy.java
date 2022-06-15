@@ -414,8 +414,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
             // 一般超时后返回NULL，也可能是服务端宕机了
             if ( v_IsException )
             {
-                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError);
-                $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
+                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_UnknownError).setSerialNo(v_NewRequest.getSerialNo());
+                $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯异常：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
@@ -424,8 +424,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
             }
             else
             {
-                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError);
-                $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯超时(" + Help.NVL(v_NewRequest.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
+                v_Ret = new CommunicationResponse().setEndTime(new Date()).setResult(NetError.$Server_TimeoutError).setSerialNo(v_NewRequest.getSerialNo());
+                $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯超时(" + Help.NVL(v_NewRequest.getWaitRequestTimeout() ,this.clientRPC.getTimeout()) + ")：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
                 
                 this.clientRPC.shutdown();
                 this.session.setLogoutTime(v_ETime);
@@ -443,7 +443,7 @@ public class ClientRPCOperationProxy implements InvocationHandler
         }
         else
         {
-            $Logger.info(v_NewRequest.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
+            $Logger.info(v_Ret.getSerialNo() + "：" + this.clientRPC.getHostPort() + "：通讯失败：错误码=" + v_Ret.getResult() + " -> " + v_NewRequest.toString() + " -> " + v_Ret.toString());
             this.session.addException(new NetException(v_NewRequest ,v_Ret.getResult() ,"通讯失败" ,new RuntimeException("通讯失败")));
         }
         
