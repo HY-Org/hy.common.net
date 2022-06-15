@@ -344,8 +344,8 @@ public class ClientRPCOperationProxy implements InvocationHandler
         if ( v_Ret == null )
         {
             // 一般超时后返回NULL，也可能是服务端宕机了
-            v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$Server_UnknownError : NetError.$Server_TimeoutError);
-            $Logger.info(this.clientRPC.getHostPort() + " 登录超时或异常。" + v_Ret.getResult() + " -> " + v_LoginReq.toString() + " -> " + v_Ret.toString());
+            v_Ret = new LoginResponse().setEndTime(new Date()).setResult(v_Exception ? NetError.$Server_UnknownError : NetError.$Server_LoginTimeoutError).setSerialNo(v_LoginReq.getSerialNo());
+            $Logger.info(v_Ret.getSerialNo()  + "：" +  this.clientRPC.getHostPort() + " 登录超时或异常。" + v_Ret.getResult() + " -> " + v_LoginReq.toString() + " -> " + v_Ret.toString());
             this.clientRPC.shutdown();
         }
         else if ( v_Ret.getResult() == CommunicationResponse.$Succeed )

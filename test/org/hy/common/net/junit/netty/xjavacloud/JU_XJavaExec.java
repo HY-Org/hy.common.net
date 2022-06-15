@@ -20,7 +20,7 @@ public class JU_XJavaExec
     public void test_XJavaExce()
     {
         // 步骤1：连接
-        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("127.0.0.1");
+        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("10.1.20.248");
         v_Client.setTimeout(30 * 1000L);
         v_Client.start();
         

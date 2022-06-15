@@ -26,6 +26,9 @@ public interface NetError
     /** 登陆异常。可能是网络 或 通讯的服务器错误 */
     public static final int $Server_LoginError             = 552;
     
+    /** 登录时通讯超时 或 通讯的服务器错误 */
+    public static final int $Server_LoginTimeoutError      = 553;
+    
     /** 响应返回错误 */
     public static final int $Server_ResponseDataError      = 555;
     

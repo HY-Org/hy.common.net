@@ -199,7 +199,7 @@ public class XJavaCommunicationListener implements ServerEventListener
                     catch (Throwable exce)
                     {
                         v_ResponseData.setResult(NetError.$XJava_CommandError);
-                        $Logger.error(exce);
+                        $Logger.error(i_RequestData.toString() ,exce);
                     }
                 }
             }

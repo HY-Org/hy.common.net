@@ -1,6 +1,6 @@
 Manifest-Version: 3.0.1
 Created-By: HY.ZhengWei@qq.com  2011
-Specification-Version: 3.0.1  2022-06-14
+Specification-Version: 3.0.1  2022-06-15
 SourceCode: https://github.com/HY-ZhengWei/hy.common.net
 SourceCodeChina: https://gitee.com/HY-ZhengWei/hy.common.net
 Build-JDK: 1.8

@@ -609,7 +609,7 @@ public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
         @Override
         public String getTaskDesc()
         {
-            return "SRPC:" + this.request.toString();
+            return this.request.toString();
         }
 
         
