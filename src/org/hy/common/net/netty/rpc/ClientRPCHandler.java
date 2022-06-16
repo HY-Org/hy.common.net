@@ -179,7 +179,7 @@ public class ClientRPCHandler extends SimpleChannelInboundHandler<Data>
         i_Ctx.close();
         this.clientRPC.shutdown();
         
-        $Logger.error(this.clientRPC.getHost() + ":" + this.clientRPC.getPort() + " " + i_Cause.getMessage());
+        $Logger.error(this.clientRPC.getHost() + ":" + this.clientRPC.getPort() + " " + i_Cause.getMessage() ,i_Cause);
     }
     
 }
