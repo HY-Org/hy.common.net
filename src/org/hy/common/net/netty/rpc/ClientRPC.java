@@ -33,7 +33,8 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
  */
 public class ClientRPC extends Client<ClientRPC> implements ClientCluster
 {
-    
+    private static final long serialVersionUID = 8256476896010764377L;
+
     /** 业务处理器 */
     private ClientRPCHandler        clientHandler;
     

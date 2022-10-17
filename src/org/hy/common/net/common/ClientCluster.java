@@ -1,5 +1,7 @@
 package org.hy.common.net.common;
 
+import java.io.Serializable;
+
 
 
 
@@ -11,7 +13,7 @@ package org.hy.common.net.common;
  * @createDate  2021-10-12
  * @version     v1.0
  */
-public interface ClientCluster
+public interface ClientCluster extends Serializable
 {
     
     /**

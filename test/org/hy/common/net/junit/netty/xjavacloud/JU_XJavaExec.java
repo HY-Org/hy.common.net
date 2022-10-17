@@ -20,7 +20,7 @@ public class JU_XJavaExec
     public void test_XJavaExce()
     {
         // 步骤1：连接
-        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("10.1.20.248");
+        ClientRPC v_Client = new ClientRPC().setPort(3021).setHost("10.1.163.95");
         v_Client.setTimeout(30 * 1000L);
         v_Client.start();
         
@@ -34,7 +34,7 @@ public class JU_XJavaExec
         
         
         
-        int v_Size         = 10000 * 10;
+        int v_Size         = 1; // 10000 * 10;
         int v_Count        = 0;
         int v_SucceedCount = 0;
         int v_FailCount    = 0;
@@ -43,8 +43,8 @@ public class JU_XJavaExec
             // 步骤3：通讯
             CommunicationResponse v_Response = null;
             v_Response = v_Client.operation().sendCommand(-1
-                                                         ,"currentMakingProcessService"
-                                                         ,"timingMonitorInAndOutWarehouseData"
+                                                         ,"CompletionRateJob"
+                                                         ,"cloudCalc"
                                                          ,false
                                                          ,true);
             if ( v_Response.getResult() == 0 )

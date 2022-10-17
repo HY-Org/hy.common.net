@@ -45,6 +45,8 @@ import org.hy.common.xml.log.Logger;
  */
 public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements ClientOperation ,ClientCluster
 {
+    private static final long serialVersionUID = -2175532426747739743L;
+
     private static final Logger $Logger = new Logger(ClientSocket.class);
     
     /** 登陆服务端的登陆信息接口。当服务端不要求登陆验证时，此属性可为null */
