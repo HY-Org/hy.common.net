@@ -11,7 +11,7 @@ package org.hy.common.net.data.protobuf;
  *
  * @author      ZhengWei(HY)
  * @createDate  2021-09-25
- * @version     v1.0 Protobuf 3.21.1
+ * @version     v1.0 Protobuf 3.8.0
  */
 public final class CommunicationProto {
   private CommunicationProto() {}
@@ -86,7 +86,6 @@ public final class CommunicationProto {
     public static final int Protobuf_VALUE = 2;
 
 
-    @Override
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
         throw new java.lang.IllegalArgumentException(
@@ -96,8 +95,6 @@ public final class CommunicationProto {
     }
 
     /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -105,10 +102,6 @@ public final class CommunicationProto {
       return forNumber(value);
     }
 
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     */
     public static DataProtocol forNumber(int value) {
       switch (value) {
         case 0: return BasicDataType;
@@ -125,22 +118,15 @@ public final class CommunicationProto {
     private static final com.google.protobuf.Internal.EnumLiteMap<
         DataProtocol> internalValueMap =
           new com.google.protobuf.Internal.EnumLiteMap<DataProtocol>() {
-            @Override
             public DataProtocol findValueByNumber(int number) {
               return DataProtocol.forNumber(number);
             }
           };
 
-    @Override
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalStateException(
-            "Can't get the descriptor of an unrecognized enum value.");
-      }
       return getDescriptor().getValues().get(ordinal());
     }
-    @Override
     public final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptorForType() {
       return getDescriptor();
@@ -183,7 +169,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.Data.DataType dataType = 1;</code>
-     * @return The enum numeric value on the wire for dataType.
      */
     int getDataTypeValue();
     /**
@@ -192,7 +177,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.Data.DataType dataType = 1;</code>
-     * @return The dataType.
      */
     CommunicationProto.Data.DataType getDataType();
 
@@ -202,7 +186,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.LoginRequest loginRequest = 2;</code>
-     * @return Whether the loginRequest field is set.
      */
     boolean hasLoginRequest();
     /**
@@ -211,7 +194,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.LoginRequest loginRequest = 2;</code>
-     * @return The loginRequest.
      */
     CommunicationProto.LoginRequest getLoginRequest();
     /**
@@ -225,12 +207,10 @@ public final class CommunicationProto {
 
     /**
      * <code>.LoginResponse loginResponse = 3;</code>
-     * @return Whether the loginResponse field is set.
      */
     boolean hasLoginResponse();
     /**
      * <code>.LoginResponse loginResponse = 3;</code>
-     * @return The loginResponse.
      */
     CommunicationProto.LoginResponse getLoginResponse();
     /**
@@ -240,12 +220,10 @@ public final class CommunicationProto {
 
     /**
      * <code>.Request request = 4;</code>
-     * @return Whether the request field is set.
      */
     boolean hasRequest();
     /**
      * <code>.Request request = 4;</code>
-     * @return The request.
      */
     CommunicationProto.Request getRequest();
     /**
@@ -255,12 +233,10 @@ public final class CommunicationProto {
 
     /**
      * <code>.Response response = 5;</code>
-     * @return Whether the response field is set.
      */
     boolean hasResponse();
     /**
      * <code>.Response response = 5;</code>
-     * @return The response.
      */
     CommunicationProto.Response getResponse();
     /**
@@ -277,7 +253,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code Data}
    */
-  public static final class Data extends
+  public  static final class Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Data)
       DataOrBuilder {
@@ -464,8 +440,7 @@ public final class CommunicationProto {
       public static final int Response_VALUE = 3;
 
 
-      @Override
-    public final int getNumber() {
+      public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
               "Can't get the number of an unknown enum value.");
@@ -474,8 +449,6 @@ public final class CommunicationProto {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -483,10 +456,6 @@ public final class CommunicationProto {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static DataType forNumber(int value) {
         switch (value) {
           case 0: return LoginRequest;
@@ -504,23 +473,16 @@ public final class CommunicationProto {
       private static final com.google.protobuf.Internal.EnumLiteMap<
           DataType> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<DataType>() {
-              @Override
-            public DataType findValueByNumber(int number) {
+              public DataType findValueByNumber(int number) {
                 return DataType.forNumber(number);
               }
             };
 
-      @Override
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
-      @Override
-    public final com.google.protobuf.Descriptors.EnumDescriptor
+      public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
         return getDescriptor();
       }
@@ -555,8 +517,7 @@ public final class CommunicationProto {
     private int dataBodyCase_ = 0;
     private java.lang.Object dataBody_;
     public enum DataBodyCase
-        implements com.google.protobuf.Internal.EnumLite,
-            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+        implements com.google.protobuf.Internal.EnumLite {
       LOGINREQUEST(2),
       LOGINRESPONSE(3),
       REQUEST(4),
@@ -567,8 +528,6 @@ public final class CommunicationProto {
         this.value = value;
       }
       /**
-       * @param value The number of the enum to look for.
-       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -586,13 +545,11 @@ public final class CommunicationProto {
           default: return null;
         }
       }
-      @Override
-    public int getNumber() {
+      public int getNumber() {
         return this.value;
       }
     };
 
-    @Override
     public DataBodyCase
     getDataBodyCase() {
       return DataBodyCase.forNumber(
@@ -607,9 +564,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.Data.DataType dataType = 1;</code>
-     * @return The enum numeric value on the wire for dataType.
      */
-    @java.lang.Override public int getDataTypeValue() {
+    public int getDataTypeValue() {
       return dataType_;
     }
     /**
@@ -618,9 +574,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.Data.DataType dataType = 1;</code>
-     * @return The dataType.
      */
-    @java.lang.Override public CommunicationProto.Data.DataType getDataType() {
+    public CommunicationProto.Data.DataType getDataType() {
       @SuppressWarnings("deprecation")
       CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.valueOf(dataType_);
       return result == null ? CommunicationProto.Data.DataType.UNRECOGNIZED : result;
@@ -633,9 +588,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.LoginRequest loginRequest = 2;</code>
-     * @return Whether the loginRequest field is set.
      */
-    @java.lang.Override
     public boolean hasLoginRequest() {
       return dataBodyCase_ == 2;
     }
@@ -645,9 +598,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.LoginRequest loginRequest = 2;</code>
-     * @return The loginRequest.
      */
-    @java.lang.Override
     public CommunicationProto.LoginRequest getLoginRequest() {
       if (dataBodyCase_ == 2) {
          return (CommunicationProto.LoginRequest) dataBody_;
@@ -661,7 +612,6 @@ public final class CommunicationProto {
      *
      * <code>.LoginRequest loginRequest = 2;</code>
      */
-    @java.lang.Override
     public CommunicationProto.LoginRequestOrBuilder getLoginRequestOrBuilder() {
       if (dataBodyCase_ == 2) {
          return (CommunicationProto.LoginRequest) dataBody_;
@@ -672,17 +622,13 @@ public final class CommunicationProto {
     public static final int LOGINRESPONSE_FIELD_NUMBER = 3;
     /**
      * <code>.LoginResponse loginResponse = 3;</code>
-     * @return Whether the loginResponse field is set.
      */
-    @java.lang.Override
     public boolean hasLoginResponse() {
       return dataBodyCase_ == 3;
     }
     /**
      * <code>.LoginResponse loginResponse = 3;</code>
-     * @return The loginResponse.
      */
-    @java.lang.Override
     public CommunicationProto.LoginResponse getLoginResponse() {
       if (dataBodyCase_ == 3) {
          return (CommunicationProto.LoginResponse) dataBody_;
@@ -692,7 +638,6 @@ public final class CommunicationProto {
     /**
      * <code>.LoginResponse loginResponse = 3;</code>
      */
-    @java.lang.Override
     public CommunicationProto.LoginResponseOrBuilder getLoginResponseOrBuilder() {
       if (dataBodyCase_ == 3) {
          return (CommunicationProto.LoginResponse) dataBody_;
@@ -703,17 +648,13 @@ public final class CommunicationProto {
     public static final int REQUEST_FIELD_NUMBER = 4;
     /**
      * <code>.Request request = 4;</code>
-     * @return Whether the request field is set.
      */
-    @java.lang.Override
     public boolean hasRequest() {
       return dataBodyCase_ == 4;
     }
     /**
      * <code>.Request request = 4;</code>
-     * @return The request.
      */
-    @java.lang.Override
     public CommunicationProto.Request getRequest() {
       if (dataBodyCase_ == 4) {
          return (CommunicationProto.Request) dataBody_;
@@ -723,7 +664,6 @@ public final class CommunicationProto {
     /**
      * <code>.Request request = 4;</code>
      */
-    @java.lang.Override
     public CommunicationProto.RequestOrBuilder getRequestOrBuilder() {
       if (dataBodyCase_ == 4) {
          return (CommunicationProto.Request) dataBody_;
@@ -734,17 +674,13 @@ public final class CommunicationProto {
     public static final int RESPONSE_FIELD_NUMBER = 5;
     /**
      * <code>.Response response = 5;</code>
-     * @return Whether the response field is set.
      */
-    @java.lang.Override
     public boolean hasResponse() {
       return dataBodyCase_ == 5;
     }
     /**
      * <code>.Response response = 5;</code>
-     * @return The response.
      */
-    @java.lang.Override
     public CommunicationProto.Response getResponse() {
       if (dataBodyCase_ == 5) {
          return (CommunicationProto.Response) dataBody_;
@@ -754,7 +690,6 @@ public final class CommunicationProto {
     /**
      * <code>.Response response = 5;</code>
      */
-    @java.lang.Override
     public CommunicationProto.ResponseOrBuilder getResponseOrBuilder() {
       if (dataBodyCase_ == 5) {
          return (CommunicationProto.Response) dataBody_;
@@ -1189,8 +1124,7 @@ public final class CommunicationProto {
       }
       private int dataBodyCase_ = 0;
       private java.lang.Object dataBody_;
-      @Override
-    public DataBodyCase
+      public DataBodyCase
           getDataBodyCase() {
         return DataBodyCase.forNumber(
             dataBodyCase_);
@@ -1211,9 +1145,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.Data.DataType dataType = 1;</code>
-       * @return The enum numeric value on the wire for dataType.
        */
-      @java.lang.Override public int getDataTypeValue() {
+      public int getDataTypeValue() {
         return dataType_;
       }
       /**
@@ -1222,11 +1155,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.Data.DataType dataType = 1;</code>
-       * @param value The enum numeric value on the wire for dataType to set.
-       * @return This builder for chaining.
        */
       public Builder setDataTypeValue(int value) {
-        
         dataType_ = value;
         onChanged();
         return this;
@@ -1237,9 +1167,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.Data.DataType dataType = 1;</code>
-       * @return The dataType.
        */
-      @java.lang.Override
       public CommunicationProto.Data.DataType getDataType() {
         @SuppressWarnings("deprecation")
         CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.valueOf(dataType_);
@@ -1251,8 +1179,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.Data.DataType dataType = 1;</code>
-       * @param value The dataType to set.
-       * @return This builder for chaining.
        */
       public Builder setDataType(CommunicationProto.Data.DataType value) {
         if (value == null) {
@@ -1269,7 +1195,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.Data.DataType dataType = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataType() {
         
@@ -1286,9 +1211,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.LoginRequest loginRequest = 2;</code>
-       * @return Whether the loginRequest field is set.
        */
-      @java.lang.Override
       public boolean hasLoginRequest() {
         return dataBodyCase_ == 2;
       }
@@ -1298,9 +1221,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.LoginRequest loginRequest = 2;</code>
-       * @return The loginRequest.
        */
-      @java.lang.Override
       public CommunicationProto.LoginRequest getLoginRequest() {
         if (loginRequestBuilder_ == null) {
           if (dataBodyCase_ == 2) {
@@ -1418,7 +1339,6 @@ public final class CommunicationProto {
        *
        * <code>.LoginRequest loginRequest = 2;</code>
        */
-      @java.lang.Override
       public CommunicationProto.LoginRequestOrBuilder getLoginRequestOrBuilder() {
         if ((dataBodyCase_ == 2) && (loginRequestBuilder_ != null)) {
           return loginRequestBuilder_.getMessageOrBuilder();
@@ -1437,7 +1357,7 @@ public final class CommunicationProto {
        * <code>.LoginRequest loginRequest = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.LoginRequest, CommunicationProto.LoginRequest.Builder, CommunicationProto.LoginRequestOrBuilder>
+          CommunicationProto.LoginRequest, CommunicationProto.LoginRequest.Builder, CommunicationProto.LoginRequestOrBuilder> 
           getLoginRequestFieldBuilder() {
         if (loginRequestBuilder_ == null) {
           if (!(dataBodyCase_ == 2)) {
@@ -1459,17 +1379,13 @@ public final class CommunicationProto {
           CommunicationProto.LoginResponse, CommunicationProto.LoginResponse.Builder, CommunicationProto.LoginResponseOrBuilder> loginResponseBuilder_;
       /**
        * <code>.LoginResponse loginResponse = 3;</code>
-       * @return Whether the loginResponse field is set.
        */
-      @java.lang.Override
       public boolean hasLoginResponse() {
         return dataBodyCase_ == 3;
       }
       /**
        * <code>.LoginResponse loginResponse = 3;</code>
-       * @return The loginResponse.
        */
-      @java.lang.Override
       public CommunicationProto.LoginResponse getLoginResponse() {
         if (loginResponseBuilder_ == null) {
           if (dataBodyCase_ == 3) {
@@ -1563,7 +1479,6 @@ public final class CommunicationProto {
       /**
        * <code>.LoginResponse loginResponse = 3;</code>
        */
-      @java.lang.Override
       public CommunicationProto.LoginResponseOrBuilder getLoginResponseOrBuilder() {
         if ((dataBodyCase_ == 3) && (loginResponseBuilder_ != null)) {
           return loginResponseBuilder_.getMessageOrBuilder();
@@ -1578,7 +1493,7 @@ public final class CommunicationProto {
        * <code>.LoginResponse loginResponse = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.LoginResponse, CommunicationProto.LoginResponse.Builder, CommunicationProto.LoginResponseOrBuilder>
+          CommunicationProto.LoginResponse, CommunicationProto.LoginResponse.Builder, CommunicationProto.LoginResponseOrBuilder> 
           getLoginResponseFieldBuilder() {
         if (loginResponseBuilder_ == null) {
           if (!(dataBodyCase_ == 3)) {
@@ -1600,17 +1515,13 @@ public final class CommunicationProto {
           CommunicationProto.Request, CommunicationProto.Request.Builder, CommunicationProto.RequestOrBuilder> requestBuilder_;
       /**
        * <code>.Request request = 4;</code>
-       * @return Whether the request field is set.
        */
-      @java.lang.Override
       public boolean hasRequest() {
         return dataBodyCase_ == 4;
       }
       /**
        * <code>.Request request = 4;</code>
-       * @return The request.
        */
-      @java.lang.Override
       public CommunicationProto.Request getRequest() {
         if (requestBuilder_ == null) {
           if (dataBodyCase_ == 4) {
@@ -1704,7 +1615,6 @@ public final class CommunicationProto {
       /**
        * <code>.Request request = 4;</code>
        */
-      @java.lang.Override
       public CommunicationProto.RequestOrBuilder getRequestOrBuilder() {
         if ((dataBodyCase_ == 4) && (requestBuilder_ != null)) {
           return requestBuilder_.getMessageOrBuilder();
@@ -1719,7 +1629,7 @@ public final class CommunicationProto {
        * <code>.Request request = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.Request, CommunicationProto.Request.Builder, CommunicationProto.RequestOrBuilder>
+          CommunicationProto.Request, CommunicationProto.Request.Builder, CommunicationProto.RequestOrBuilder> 
           getRequestFieldBuilder() {
         if (requestBuilder_ == null) {
           if (!(dataBodyCase_ == 4)) {
@@ -1741,17 +1651,13 @@ public final class CommunicationProto {
           CommunicationProto.Response, CommunicationProto.Response.Builder, CommunicationProto.ResponseOrBuilder> responseBuilder_;
       /**
        * <code>.Response response = 5;</code>
-       * @return Whether the response field is set.
        */
-      @java.lang.Override
       public boolean hasResponse() {
         return dataBodyCase_ == 5;
       }
       /**
        * <code>.Response response = 5;</code>
-       * @return The response.
        */
-      @java.lang.Override
       public CommunicationProto.Response getResponse() {
         if (responseBuilder_ == null) {
           if (dataBodyCase_ == 5) {
@@ -1845,7 +1751,6 @@ public final class CommunicationProto {
       /**
        * <code>.Response response = 5;</code>
        */
-      @java.lang.Override
       public CommunicationProto.ResponseOrBuilder getResponseOrBuilder() {
         if ((dataBodyCase_ == 5) && (responseBuilder_ != null)) {
           return responseBuilder_.getMessageOrBuilder();
@@ -1860,7 +1765,7 @@ public final class CommunicationProto {
        * <code>.Response response = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.Response, CommunicationProto.Response.Builder, CommunicationProto.ResponseOrBuilder>
+          CommunicationProto.Response, CommunicationProto.Response.Builder, CommunicationProto.ResponseOrBuilder> 
           getResponseFieldBuilder() {
         if (responseBuilder_ == null) {
           if (!(dataBodyCase_ == 5)) {
@@ -1940,7 +1845,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
     java.lang.String getSerialNo();
     /**
@@ -1949,7 +1853,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
     com.google.protobuf.ByteString
         getSerialNoBytes();
@@ -1960,7 +1863,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
     int getVersion();
 
@@ -1970,7 +1872,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string id = 3;</code>
-     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -1979,7 +1880,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string id = 3;</code>
-     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -1990,7 +1890,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string systemName = 4;</code>
-     * @return The systemName.
      */
     java.lang.String getSystemName();
     /**
@@ -1999,7 +1898,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string systemName = 4;</code>
-     * @return The bytes for systemName.
      */
     com.google.protobuf.ByteString
         getSystemNameBytes();
@@ -2010,7 +1908,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 5;</code>
-     * @return The host.
      */
     java.lang.String getHost();
     /**
@@ -2019,7 +1916,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 5;</code>
-     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
@@ -2030,7 +1926,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 port = 6;</code>
-     * @return The port.
      */
     int getPort();
 
@@ -2040,7 +1935,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string userName = 7;</code>
-     * @return The userName.
      */
     java.lang.String getUserName();
     /**
@@ -2049,7 +1943,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string userName = 7;</code>
-     * @return The bytes for userName.
      */
     com.google.protobuf.ByteString
         getUserNameBytes();
@@ -2060,7 +1953,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string password = 8;</code>
-     * @return The password.
      */
     java.lang.String getPassword();
     /**
@@ -2069,7 +1961,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string password = 8;</code>
-     * @return The bytes for password.
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
@@ -2081,7 +1972,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code LoginRequest}
    */
-  public static final class LoginRequest extends
+  public  static final class LoginRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:LoginRequest)
       LoginRequestOrBuilder {
@@ -2215,15 +2106,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
-    @java.lang.Override
     public java.lang.String getSerialNo() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -2236,14 +2125,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -2261,9 +2148,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -2276,15 +2161,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string id = 3;</code>
-     * @return The id.
      */
-    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         id_ = s;
@@ -2297,14 +2180,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string id = 3;</code>
-     * @return The bytes for id.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         id_ = b;
@@ -2322,15 +2203,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string systemName = 4;</code>
-     * @return The systemName.
      */
-    @java.lang.Override
     public java.lang.String getSystemName() {
       java.lang.Object ref = systemName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         systemName_ = s;
@@ -2343,14 +2222,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string systemName = 4;</code>
-     * @return The bytes for systemName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSystemNameBytes() {
       java.lang.Object ref = systemName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         systemName_ = b;
@@ -2368,15 +2245,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 5;</code>
-     * @return The host.
      */
-    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         host_ = s;
@@ -2389,14 +2264,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 5;</code>
-     * @return The bytes for host.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         host_ = b;
@@ -2414,9 +2287,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 port = 6;</code>
-     * @return The port.
      */
-    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -2429,15 +2300,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string userName = 7;</code>
-     * @return The userName.
      */
-    @java.lang.Override
     public java.lang.String getUserName() {
       java.lang.Object ref = userName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         userName_ = s;
@@ -2450,14 +2319,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string userName = 7;</code>
-     * @return The bytes for userName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getUserNameBytes() {
       java.lang.Object ref = userName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         userName_ = b;
@@ -2475,15 +2342,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string password = 8;</code>
-     * @return The password.
      */
-    @java.lang.Override
     public java.lang.String getPassword() {
       java.lang.Object ref = password_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         password_ = s;
@@ -2496,14 +2361,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string password = 8;</code>
-     * @return The bytes for password.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getPasswordBytes() {
       java.lang.Object ref = password_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         password_ = b;
@@ -2945,10 +2808,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -2966,14 +2827,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -2988,8 +2847,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNo(
           java.lang.String value) {
@@ -3007,7 +2864,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSerialNo() {
         
@@ -3021,8 +2877,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The bytes for serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNoBytes(
           com.google.protobuf.ByteString value) {
@@ -3043,9 +2897,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -3055,8 +2907,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -3070,7 +2920,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -3086,10 +2935,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string id = 3;</code>
-       * @return The id.
        */
-      @Override
-    public java.lang.String getId() {
+      public java.lang.String getId() {
         java.lang.Object ref = id_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3107,14 +2954,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string id = 3;</code>
-       * @return The bytes for id.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getIdBytes() {
         java.lang.Object ref = id_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           id_ = b;
@@ -3129,8 +2974,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string id = 3;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -3148,7 +2991,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string id = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -3162,8 +3004,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string id = 3;</code>
-       * @param value The bytes for id to set.
-       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3184,10 +3024,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string systemName = 4;</code>
-       * @return The systemName.
        */
-      @Override
-    public java.lang.String getSystemName() {
+      public java.lang.String getSystemName() {
         java.lang.Object ref = systemName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3205,14 +3043,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string systemName = 4;</code>
-       * @return The bytes for systemName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSystemNameBytes() {
         java.lang.Object ref = systemName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           systemName_ = b;
@@ -3227,8 +3063,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string systemName = 4;</code>
-       * @param value The systemName to set.
-       * @return This builder for chaining.
        */
       public Builder setSystemName(
           java.lang.String value) {
@@ -3246,7 +3080,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string systemName = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSystemName() {
         
@@ -3260,8 +3093,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string systemName = 4;</code>
-       * @param value The bytes for systemName to set.
-       * @return This builder for chaining.
        */
       public Builder setSystemNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3282,10 +3113,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 5;</code>
-       * @return The host.
        */
-      @Override
-    public java.lang.String getHost() {
+      public java.lang.String getHost() {
         java.lang.Object ref = host_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3303,14 +3132,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 5;</code>
-       * @return The bytes for host.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getHostBytes() {
         java.lang.Object ref = host_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           host_ = b;
@@ -3325,8 +3152,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 5;</code>
-       * @param value The host to set.
-       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -3344,7 +3169,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -3358,8 +3182,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 5;</code>
-       * @param value The bytes for host to set.
-       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -3380,9 +3202,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 6;</code>
-       * @return The port.
        */
-      @java.lang.Override
       public int getPort() {
         return port_;
       }
@@ -3392,8 +3212,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 6;</code>
-       * @param value The port to set.
-       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -3407,7 +3225,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -3423,10 +3240,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string userName = 7;</code>
-       * @return The userName.
        */
-      @Override
-    public java.lang.String getUserName() {
+      public java.lang.String getUserName() {
         java.lang.Object ref = userName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3444,14 +3259,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string userName = 7;</code>
-       * @return The bytes for userName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getUserNameBytes() {
         java.lang.Object ref = userName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           userName_ = b;
@@ -3466,8 +3279,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string userName = 7;</code>
-       * @param value The userName to set.
-       * @return This builder for chaining.
        */
       public Builder setUserName(
           java.lang.String value) {
@@ -3485,7 +3296,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string userName = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearUserName() {
         
@@ -3499,8 +3309,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string userName = 7;</code>
-       * @param value The bytes for userName to set.
-       * @return This builder for chaining.
        */
       public Builder setUserNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3521,10 +3329,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string password = 8;</code>
-       * @return The password.
        */
-      @Override
-    public java.lang.String getPassword() {
+      public java.lang.String getPassword() {
         java.lang.Object ref = password_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3542,14 +3348,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string password = 8;</code>
-       * @return The bytes for password.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getPasswordBytes() {
         java.lang.Object ref = password_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           password_ = b;
@@ -3564,8 +3368,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string password = 8;</code>
-       * @param value The password to set.
-       * @return This builder for chaining.
        */
       public Builder setPassword(
           java.lang.String value) {
@@ -3583,7 +3385,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string password = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPassword() {
         
@@ -3597,8 +3398,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string password = 8;</code>
-       * @param value The bytes for password to set.
-       * @return This builder for chaining.
        */
       public Builder setPasswordBytes(
           com.google.protobuf.ByteString value) {
@@ -3674,7 +3473,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
     java.lang.String getSerialNo();
     /**
@@ -3683,7 +3481,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
     com.google.protobuf.ByteString
         getSerialNoBytes();
@@ -3694,7 +3491,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
     int getVersion();
 
@@ -3704,7 +3500,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 result = 3;</code>
-     * @return The result.
      */
     int getResult();
 
@@ -3714,7 +3509,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 endTime = 4;</code>
-     * @return The endTime.
      */
     long getEndTime();
 
@@ -3724,7 +3518,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
     java.lang.String getToken();
     /**
@@ -3733,7 +3526,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -3744,7 +3536,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 6;</code>
-     * @return The host.
      */
     java.lang.String getHost();
     /**
@@ -3753,7 +3544,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 6;</code>
-     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
@@ -3764,7 +3554,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 port = 7;</code>
-     * @return The port.
      */
     int getPort();
   }
@@ -3775,7 +3564,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code LoginResponse}
    */
-  public static final class LoginResponse extends
+  public  static final class LoginResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:LoginResponse)
       LoginResponseOrBuilder {
@@ -3898,15 +3687,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
-    @java.lang.Override
     public java.lang.String getSerialNo() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -3919,14 +3706,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -3944,9 +3729,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -3959,9 +3742,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 result = 3;</code>
-     * @return The result.
      */
-    @java.lang.Override
     public int getResult() {
       return result_;
     }
@@ -3974,9 +3755,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 endTime = 4;</code>
-     * @return The endTime.
      */
-    @java.lang.Override
     public long getEndTime() {
       return endTime_;
     }
@@ -3989,15 +3768,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
-    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -4010,14 +3787,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -4035,15 +3810,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 6;</code>
-     * @return The host.
      */
-    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         host_ = s;
@@ -4056,14 +3829,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string host = 6;</code>
-     * @return The bytes for host.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         host_ = b;
@@ -4081,9 +3852,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 port = 7;</code>
-     * @return The port.
      */
-    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -4504,10 +4273,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4525,14 +4292,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -4547,8 +4312,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNo(
           java.lang.String value) {
@@ -4566,7 +4329,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSerialNo() {
         
@@ -4580,8 +4342,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The bytes for serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNoBytes(
           com.google.protobuf.ByteString value) {
@@ -4602,9 +4362,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -4614,8 +4372,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -4629,7 +4385,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -4645,9 +4400,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 3;</code>
-       * @return The result.
        */
-      @java.lang.Override
       public int getResult() {
         return result_;
       }
@@ -4657,8 +4410,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 3;</code>
-       * @param value The result to set.
-       * @return This builder for chaining.
        */
       public Builder setResult(int value) {
         
@@ -4672,7 +4423,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearResult() {
         
@@ -4688,9 +4438,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 4;</code>
-       * @return The endTime.
        */
-      @java.lang.Override
       public long getEndTime() {
         return endTime_;
       }
@@ -4700,8 +4448,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 4;</code>
-       * @param value The endTime to set.
-       * @return This builder for chaining.
        */
       public Builder setEndTime(long value) {
         
@@ -4715,7 +4461,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearEndTime() {
         
@@ -4731,10 +4476,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4752,14 +4495,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -4774,8 +4515,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
@@ -4793,7 +4532,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearToken() {
         
@@ -4807,8 +4545,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -4829,10 +4565,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 6;</code>
-       * @return The host.
        */
-      @Override
-    public java.lang.String getHost() {
+      public java.lang.String getHost() {
         java.lang.Object ref = host_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4850,14 +4584,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 6;</code>
-       * @return The bytes for host.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getHostBytes() {
         java.lang.Object ref = host_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           host_ = b;
@@ -4872,8 +4604,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 6;</code>
-       * @param value The host to set.
-       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -4891,7 +4621,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -4905,8 +4634,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string host = 6;</code>
-       * @param value The bytes for host to set.
-       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -4927,9 +4654,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 7;</code>
-       * @return The port.
        */
-      @java.lang.Override
       public int getPort() {
         return port_;
       }
@@ -4939,8 +4664,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 7;</code>
-       * @param value The port to set.
-       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -4954,7 +4677,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 port = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -5021,12 +4743,10 @@ public final class CommunicationProto {
 
     /**
      * <code>string methodName = 1;</code>
-     * @return The methodName.
      */
     java.lang.String getMethodName();
     /**
      * <code>string methodName = 1;</code>
-     * @return The bytes for methodName.
      */
     com.google.protobuf.ByteString
         getMethodNameBytes();
@@ -5037,7 +4757,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @return A list containing the paramsClass.
      */
     java.util.List<java.lang.String>
         getParamsClassList();
@@ -5047,7 +4766,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @return The count of paramsClass.
      */
     int getParamsClassCount();
     /**
@@ -5056,8 +4774,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @param index The index of the element to return.
-     * @return The paramsClass at the given index.
      */
     java.lang.String getParamsClass(int index);
     /**
@@ -5066,8 +4782,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the paramsClass at the given index.
      */
     com.google.protobuf.ByteString
         getParamsClassBytes(int index);
@@ -5078,7 +4792,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return A list containing the paramsProtocol.
      */
     java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList();
     /**
@@ -5087,7 +4800,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return The count of paramsProtocol.
      */
     int getParamsProtocolCount();
     /**
@@ -5096,8 +4808,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @param index The index of the element to return.
-     * @return The paramsProtocol at the given index.
      */
     CommunicationProto.DataProtocol getParamsProtocol(int index);
     /**
@@ -5106,7 +4816,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return A list containing the enum numeric values on the wire for paramsProtocol.
      */
     java.util.List<java.lang.Integer>
     getParamsProtocolValueList();
@@ -5116,8 +4825,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @param index The index of the value to return.
-     * @return The enum numeric value on the wire of paramsProtocol at the given index.
      */
     int getParamsProtocolValue(int index);
 
@@ -5127,7 +4834,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @return A list containing the paramsValue.
      */
     java.util.List<com.google.protobuf.ByteString> getParamsValueList();
     /**
@@ -5136,7 +4842,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @return The count of paramsValue.
      */
     int getParamsValueCount();
     /**
@@ -5145,8 +4850,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @param index The index of the element to return.
-     * @return The paramsValue at the given index.
      */
     com.google.protobuf.ByteString getParamsValue(int index);
   }
@@ -5157,7 +4860,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code XCommand}
    */
-  public static final class XCommand extends
+  public  static final class XCommand extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:XCommand)
       XCommandOrBuilder {
@@ -5295,15 +4998,13 @@ public final class CommunicationProto {
     private volatile java.lang.Object methodName_;
     /**
      * <code>string methodName = 1;</code>
-     * @return The methodName.
      */
-    @java.lang.Override
     public java.lang.String getMethodName() {
       java.lang.Object ref = methodName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         methodName_ = s;
@@ -5312,14 +5013,12 @@ public final class CommunicationProto {
     }
     /**
      * <code>string methodName = 1;</code>
-     * @return The bytes for methodName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getMethodNameBytes() {
       java.lang.Object ref = methodName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         methodName_ = b;
@@ -5337,9 +5036,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @return A list containing the paramsClass.
      */
-    @Override
     public com.google.protobuf.ProtocolStringList
         getParamsClassList() {
       return paramsClass_;
@@ -5350,9 +5047,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @return The count of paramsClass.
      */
-    @Override
     public int getParamsClassCount() {
       return paramsClass_.size();
     }
@@ -5362,10 +5057,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @param index The index of the element to return.
-     * @return The paramsClass at the given index.
      */
-    @Override
     public java.lang.String getParamsClass(int index) {
       return paramsClass_.get(index);
     }
@@ -5375,10 +5067,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated string paramsClass = 2;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the paramsClass at the given index.
      */
-    @Override
     public com.google.protobuf.ByteString
         getParamsClassBytes(int index) {
       return paramsClass_.getByteString(index);
@@ -5390,8 +5079,7 @@ public final class CommunicationProto {
         java.lang.Integer, CommunicationProto.DataProtocol> paramsProtocol_converter_ =
             new com.google.protobuf.Internal.ListAdapter.Converter<
                 java.lang.Integer, CommunicationProto.DataProtocol>() {
-              @Override
-            public CommunicationProto.DataProtocol convert(java.lang.Integer from) {
+              public CommunicationProto.DataProtocol convert(java.lang.Integer from) {
                 @SuppressWarnings("deprecation")
                 CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(from);
                 return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
@@ -5403,9 +5091,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return A list containing the paramsProtocol.
      */
-    @java.lang.Override
     public java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList() {
       return new com.google.protobuf.Internal.ListAdapter<
           java.lang.Integer, CommunicationProto.DataProtocol>(paramsProtocol_, paramsProtocol_converter_);
@@ -5416,9 +5102,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return The count of paramsProtocol.
      */
-    @java.lang.Override
     public int getParamsProtocolCount() {
       return paramsProtocol_.size();
     }
@@ -5428,10 +5112,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @param index The index of the element to return.
-     * @return The paramsProtocol at the given index.
      */
-    @java.lang.Override
     public CommunicationProto.DataProtocol getParamsProtocol(int index) {
       return paramsProtocol_converter_.convert(paramsProtocol_.get(index));
     }
@@ -5441,9 +5122,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @return A list containing the enum numeric values on the wire for paramsProtocol.
      */
-    @java.lang.Override
     public java.util.List<java.lang.Integer>
     getParamsProtocolValueList() {
       return paramsProtocol_;
@@ -5454,10 +5133,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-     * @param index The index of the value to return.
-     * @return The enum numeric value on the wire of paramsProtocol at the given index.
      */
-    @java.lang.Override
     public int getParamsProtocolValue(int index) {
       return paramsProtocol_.get(index);
     }
@@ -5471,9 +5147,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @return A list containing the paramsValue.
      */
-    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getParamsValueList() {
       return paramsValue_;
@@ -5484,9 +5158,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @return The count of paramsValue.
      */
-    @Override
     public int getParamsValueCount() {
       return paramsValue_.size();
     }
@@ -5496,10 +5168,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>repeated bytes paramsValue = 4;</code>
-     * @param index The index of the element to return.
-     * @return The paramsValue at the given index.
      */
-    @Override
     public com.google.protobuf.ByteString getParamsValue(int index) {
       return paramsValue_.get(index);
     }
@@ -5926,10 +5595,8 @@ public final class CommunicationProto {
       private java.lang.Object methodName_ = "";
       /**
        * <code>string methodName = 1;</code>
-       * @return The methodName.
        */
-      @Override
-    public java.lang.String getMethodName() {
+      public java.lang.String getMethodName() {
         java.lang.Object ref = methodName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -5943,14 +5610,12 @@ public final class CommunicationProto {
       }
       /**
        * <code>string methodName = 1;</code>
-       * @return The bytes for methodName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getMethodNameBytes() {
         java.lang.Object ref = methodName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           methodName_ = b;
@@ -5961,8 +5626,6 @@ public final class CommunicationProto {
       }
       /**
        * <code>string methodName = 1;</code>
-       * @param value The methodName to set.
-       * @return This builder for chaining.
        */
       public Builder setMethodName(
           java.lang.String value) {
@@ -5976,7 +5639,6 @@ public final class CommunicationProto {
       }
       /**
        * <code>string methodName = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearMethodName() {
         
@@ -5986,8 +5648,6 @@ public final class CommunicationProto {
       }
       /**
        * <code>string methodName = 1;</code>
-       * @param value The bytes for methodName to set.
-       * @return This builder for chaining.
        */
       public Builder setMethodNameBytes(
           com.google.protobuf.ByteString value) {
@@ -6014,10 +5674,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @return A list containing the paramsClass.
        */
-      @Override
-    public com.google.protobuf.ProtocolStringList
+      public com.google.protobuf.ProtocolStringList
           getParamsClassList() {
         return paramsClass_.getUnmodifiableView();
       }
@@ -6027,10 +5685,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @return The count of paramsClass.
        */
-      @Override
-    public int getParamsClassCount() {
+      public int getParamsClassCount() {
         return paramsClass_.size();
       }
       /**
@@ -6039,11 +5695,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param index The index of the element to return.
-       * @return The paramsClass at the given index.
        */
-      @Override
-    public java.lang.String getParamsClass(int index) {
+      public java.lang.String getParamsClass(int index) {
         return paramsClass_.get(index);
       }
       /**
@@ -6052,11 +5705,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the paramsClass at the given index.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getParamsClassBytes(int index) {
         return paramsClass_.getByteString(index);
       }
@@ -6066,9 +5716,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param index The index to set the value at.
-       * @param value The paramsClass to set.
-       * @return This builder for chaining.
        */
       public Builder setParamsClass(
           int index, java.lang.String value) {
@@ -6086,8 +5733,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param value The paramsClass to add.
-       * @return This builder for chaining.
        */
       public Builder addParamsClass(
           java.lang.String value) {
@@ -6105,8 +5750,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param values The paramsClass to add.
-       * @return This builder for chaining.
        */
       public Builder addAllParamsClass(
           java.lang.Iterable<java.lang.String> values) {
@@ -6122,7 +5765,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearParamsClass() {
         paramsClass_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -6136,8 +5778,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated string paramsClass = 2;</code>
-       * @param value The bytes of the paramsClass to add.
-       * @return This builder for chaining.
        */
       public Builder addParamsClassBytes(
           com.google.protobuf.ByteString value) {
@@ -6165,10 +5805,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @return A list containing the paramsProtocol.
        */
-      @Override
-    public java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList() {
+      public java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList() {
         return new com.google.protobuf.Internal.ListAdapter<
             java.lang.Integer, CommunicationProto.DataProtocol>(paramsProtocol_, paramsProtocol_converter_);
       }
@@ -6178,10 +5816,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @return The count of paramsProtocol.
        */
-      @Override
-    public int getParamsProtocolCount() {
+      public int getParamsProtocolCount() {
         return paramsProtocol_.size();
       }
       /**
@@ -6190,11 +5826,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param index The index of the element to return.
-       * @return The paramsProtocol at the given index.
        */
-      @Override
-    public CommunicationProto.DataProtocol getParamsProtocol(int index) {
+      public CommunicationProto.DataProtocol getParamsProtocol(int index) {
         return paramsProtocol_converter_.convert(paramsProtocol_.get(index));
       }
       /**
@@ -6203,9 +5836,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param index The index to set the value at.
-       * @param value The paramsProtocol to set.
-       * @return This builder for chaining.
        */
       public Builder setParamsProtocol(
           int index, CommunicationProto.DataProtocol value) {
@@ -6223,8 +5853,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param value The paramsProtocol to add.
-       * @return This builder for chaining.
        */
       public Builder addParamsProtocol(CommunicationProto.DataProtocol value) {
         if (value == null) {
@@ -6241,8 +5869,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param values The paramsProtocol to add.
-       * @return This builder for chaining.
        */
       public Builder addAllParamsProtocol(
           java.lang.Iterable<? extends CommunicationProto.DataProtocol> values) {
@@ -6259,7 +5885,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearParamsProtocol() {
         paramsProtocol_ = java.util.Collections.emptyList();
@@ -6273,10 +5898,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @return A list containing the enum numeric values on the wire for paramsProtocol.
        */
-      @Override
-    public java.util.List<java.lang.Integer>
+      public java.util.List<java.lang.Integer>
       getParamsProtocolValueList() {
         return java.util.Collections.unmodifiableList(paramsProtocol_);
       }
@@ -6286,11 +5909,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param index The index of the value to return.
-       * @return The enum numeric value on the wire of paramsProtocol at the given index.
        */
-      @Override
-    public int getParamsProtocolValue(int index) {
+      public int getParamsProtocolValue(int index) {
         return paramsProtocol_.get(index);
       }
       /**
@@ -6299,9 +5919,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param index The index of the value to return.
-       * @return The enum numeric value on the wire of paramsProtocol at the given index.
-       * @return This builder for chaining.
        */
       public Builder setParamsProtocolValue(
           int index, int value) {
@@ -6316,8 +5933,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param value The enum numeric value on the wire for paramsProtocol to add.
-       * @return This builder for chaining.
        */
       public Builder addParamsProtocolValue(int value) {
         ensureParamsProtocolIsMutable();
@@ -6331,8 +5946,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
-       * @param values The enum numeric values on the wire for paramsProtocol to add.
-       * @return This builder for chaining.
        */
       public Builder addAllParamsProtocolValue(
           java.lang.Iterable<java.lang.Integer> values) {
@@ -6357,10 +5970,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @return A list containing the paramsValue.
        */
-      @Override
-    public java.util.List<com.google.protobuf.ByteString>
+      public java.util.List<com.google.protobuf.ByteString>
           getParamsValueList() {
         return ((bitField0_ & 0x00000004) != 0) ?
                  java.util.Collections.unmodifiableList(paramsValue_) : paramsValue_;
@@ -6371,10 +5982,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @return The count of paramsValue.
        */
-      @Override
-    public int getParamsValueCount() {
+      public int getParamsValueCount() {
         return paramsValue_.size();
       }
       /**
@@ -6383,11 +5992,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @param index The index of the element to return.
-       * @return The paramsValue at the given index.
        */
-      @Override
-    public com.google.protobuf.ByteString getParamsValue(int index) {
+      public com.google.protobuf.ByteString getParamsValue(int index) {
         return paramsValue_.get(index);
       }
       /**
@@ -6396,9 +6002,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @param index The index to set the value at.
-       * @param value The paramsValue to set.
-       * @return This builder for chaining.
        */
       public Builder setParamsValue(
           int index, com.google.protobuf.ByteString value) {
@@ -6416,8 +6019,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @param value The paramsValue to add.
-       * @return This builder for chaining.
        */
       public Builder addParamsValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6434,8 +6035,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @param values The paramsValue to add.
-       * @return This builder for chaining.
        */
       public Builder addAllParamsValue(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
@@ -6451,7 +6050,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>repeated bytes paramsValue = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearParamsValue() {
         paramsValue_ = java.util.Collections.emptyList();
@@ -6522,7 +6120,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
     java.lang.String getSerialNo();
     /**
@@ -6531,7 +6128,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
     com.google.protobuf.ByteString
         getSerialNoBytes();
@@ -6542,7 +6138,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
     int getVersion();
 
@@ -6552,7 +6147,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 sessionTime = 3;</code>
-     * @return The sessionTime.
      */
     long getSessionTime();
 
@@ -6562,7 +6156,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 time = 4;</code>
-     * @return The time.
      */
     long getTime();
 
@@ -6572,7 +6165,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
     java.lang.String getToken();
     /**
@@ -6581,7 +6173,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -6592,7 +6183,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The dataClass.
      */
     java.lang.String getDataClass();
     /**
@@ -6601,7 +6191,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The bytes for dataClass.
      */
     com.google.protobuf.ByteString
         getDataClassBytes();
@@ -6612,7 +6201,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The enum numeric value on the wire for dataProtocol.
      */
     int getDataProtocolValue();
     /**
@@ -6621,7 +6209,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The dataProtocol.
      */
     CommunicationProto.DataProtocol getDataProtocol();
 
@@ -6631,7 +6218,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bytes data = 8;</code>
-     * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
@@ -6641,7 +6227,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The dataXID.
      */
     java.lang.String getDataXID();
     /**
@@ -6650,7 +6235,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The bytes for dataXID.
      */
     com.google.protobuf.ByteString
         getDataXIDBytes();
@@ -6661,7 +6245,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool dataXIsNew = 10;</code>
-     * @return The dataXIsNew.
      */
     boolean getDataXIsNew();
 
@@ -6671,7 +6254,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 dataExpireTimeLen = 11;</code>
-     * @return The dataExpireTimeLen.
      */
     long getDataExpireTimeLen();
 
@@ -6681,7 +6263,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isNonSync = 12;</code>
-     * @return The isNonSync.
      */
     boolean getIsNonSync();
 
@@ -6691,7 +6272,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string eventType = 13;</code>
-     * @return The eventType.
      */
     java.lang.String getEventType();
     /**
@@ -6700,7 +6280,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string eventType = 13;</code>
-     * @return The bytes for eventType.
      */
     com.google.protobuf.ByteString
         getEventTypeBytes();
@@ -6711,7 +6290,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataOperation = 14;</code>
-     * @return The dataOperation.
      */
     java.lang.String getDataOperation();
     /**
@@ -6720,7 +6298,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataOperation = 14;</code>
-     * @return The bytes for dataOperation.
      */
     com.google.protobuf.ByteString
         getDataOperationBytes();
@@ -6731,7 +6308,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isRetunData = 15;</code>
-     * @return The isRetunData.
      */
     boolean getIsRetunData();
   }
@@ -6742,7 +6318,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code Request}
    */
-  public static final class Request extends
+  public  static final class Request extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Request)
       RequestOrBuilder {
@@ -6914,15 +6490,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
-    @java.lang.Override
     public java.lang.String getSerialNo() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -6935,14 +6509,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -6960,9 +6532,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -6975,9 +6545,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 sessionTime = 3;</code>
-     * @return The sessionTime.
      */
-    @java.lang.Override
     public long getSessionTime() {
       return sessionTime_;
     }
@@ -6990,9 +6558,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 time = 4;</code>
-     * @return The time.
      */
-    @java.lang.Override
     public long getTime() {
       return time_;
     }
@@ -7005,15 +6571,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
-    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -7026,14 +6590,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -7051,15 +6613,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The dataClass.
      */
-    @java.lang.Override
     public java.lang.String getDataClass() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataClass_ = s;
@@ -7072,14 +6632,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The bytes for dataClass.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDataClassBytes() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataClass_ = b;
@@ -7097,9 +6655,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The enum numeric value on the wire for dataProtocol.
      */
-    @java.lang.Override public int getDataProtocolValue() {
+    public int getDataProtocolValue() {
       return dataProtocol_;
     }
     /**
@@ -7108,9 +6665,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The dataProtocol.
      */
-    @java.lang.Override public CommunicationProto.DataProtocol getDataProtocol() {
+    public CommunicationProto.DataProtocol getDataProtocol() {
       @SuppressWarnings("deprecation")
       CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
       return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
@@ -7124,9 +6680,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bytes data = 8;</code>
-     * @return The data.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -7139,15 +6693,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The dataXID.
      */
-    @java.lang.Override
     public java.lang.String getDataXID() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataXID_ = s;
@@ -7160,14 +6712,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The bytes for dataXID.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDataXIDBytes() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataXID_ = b;
@@ -7185,9 +6735,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool dataXIsNew = 10;</code>
-     * @return The dataXIsNew.
      */
-    @java.lang.Override
     public boolean getDataXIsNew() {
       return dataXIsNew_;
     }
@@ -7200,9 +6748,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 dataExpireTimeLen = 11;</code>
-     * @return The dataExpireTimeLen.
      */
-    @java.lang.Override
     public long getDataExpireTimeLen() {
       return dataExpireTimeLen_;
     }
@@ -7215,9 +6761,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isNonSync = 12;</code>
-     * @return The isNonSync.
      */
-    @java.lang.Override
     public boolean getIsNonSync() {
       return isNonSync_;
     }
@@ -7230,15 +6774,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string eventType = 13;</code>
-     * @return The eventType.
      */
-    @java.lang.Override
     public java.lang.String getEventType() {
       java.lang.Object ref = eventType_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         eventType_ = s;
@@ -7251,14 +6793,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string eventType = 13;</code>
-     * @return The bytes for eventType.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getEventTypeBytes() {
       java.lang.Object ref = eventType_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         eventType_ = b;
@@ -7276,15 +6816,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataOperation = 14;</code>
-     * @return The dataOperation.
      */
-    @java.lang.Override
     public java.lang.String getDataOperation() {
       java.lang.Object ref = dataOperation_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataOperation_ = s;
@@ -7297,14 +6835,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataOperation = 14;</code>
-     * @return The bytes for dataOperation.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDataOperationBytes() {
       java.lang.Object ref = dataOperation_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataOperation_ = b;
@@ -7322,9 +6858,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isRetunData = 15;</code>
-     * @return The isRetunData.
      */
-    @java.lang.Override
     public boolean getIsRetunData() {
       return isRetunData_;
     }
@@ -7885,10 +7419,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -7906,14 +7438,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -7928,8 +7458,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNo(
           java.lang.String value) {
@@ -7947,7 +7475,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSerialNo() {
         
@@ -7961,8 +7488,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The bytes for serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNoBytes(
           com.google.protobuf.ByteString value) {
@@ -7983,9 +7508,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -7995,8 +7518,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -8010,7 +7531,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -8026,9 +7546,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @return The sessionTime.
        */
-      @java.lang.Override
       public long getSessionTime() {
         return sessionTime_;
       }
@@ -8038,8 +7556,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @param value The sessionTime to set.
-       * @return This builder for chaining.
        */
       public Builder setSessionTime(long value) {
         
@@ -8053,7 +7569,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSessionTime() {
         
@@ -8069,9 +7584,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @return The time.
        */
-      @java.lang.Override
       public long getTime() {
         return time_;
       }
@@ -8081,8 +7594,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @param value The time to set.
-       * @return This builder for chaining.
        */
       public Builder setTime(long value) {
         
@@ -8096,7 +7607,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTime() {
         
@@ -8112,10 +7622,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8133,14 +7641,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -8155,8 +7661,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
@@ -8174,7 +7678,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearToken() {
         
@@ -8188,8 +7691,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -8210,10 +7711,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return The dataClass.
        */
-      @Override
-    public java.lang.String getDataClass() {
+      public java.lang.String getDataClass() {
         java.lang.Object ref = dataClass_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8231,14 +7730,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return The bytes for dataClass.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataClassBytes() {
         java.lang.Object ref = dataClass_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataClass_ = b;
@@ -8253,8 +7750,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @param value The dataClass to set.
-       * @return This builder for chaining.
        */
       public Builder setDataClass(
           java.lang.String value) {
@@ -8272,7 +7767,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataClass() {
         
@@ -8286,8 +7780,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @param value The bytes for dataClass to set.
-       * @return This builder for chaining.
        */
       public Builder setDataClassBytes(
           com.google.protobuf.ByteString value) {
@@ -8308,9 +7800,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return The enum numeric value on the wire for dataProtocol.
        */
-      @java.lang.Override public int getDataProtocolValue() {
+      public int getDataProtocolValue() {
         return dataProtocol_;
       }
       /**
@@ -8319,11 +7810,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @param value The enum numeric value on the wire for dataProtocol to set.
-       * @return This builder for chaining.
        */
       public Builder setDataProtocolValue(int value) {
-        
         dataProtocol_ = value;
         onChanged();
         return this;
@@ -8334,9 +7822,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return The dataProtocol.
        */
-      @java.lang.Override
       public CommunicationProto.DataProtocol getDataProtocol() {
         @SuppressWarnings("deprecation")
         CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
@@ -8348,8 +7834,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @param value The dataProtocol to set.
-       * @return This builder for chaining.
        */
       public Builder setDataProtocol(CommunicationProto.DataProtocol value) {
         if (value == null) {
@@ -8366,7 +7850,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataProtocol() {
         
@@ -8382,9 +7865,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @return The data.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -8394,8 +7875,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @param value The data to set.
-       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -8412,7 +7891,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -8428,10 +7906,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return The dataXID.
        */
-      @Override
-    public java.lang.String getDataXID() {
+      public java.lang.String getDataXID() {
         java.lang.Object ref = dataXID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8449,14 +7925,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return The bytes for dataXID.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataXIDBytes() {
         java.lang.Object ref = dataXID_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataXID_ = b;
@@ -8471,8 +7945,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @param value The dataXID to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXID(
           java.lang.String value) {
@@ -8490,7 +7962,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataXID() {
         
@@ -8504,8 +7975,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @param value The bytes for dataXID to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXIDBytes(
           com.google.protobuf.ByteString value) {
@@ -8526,9 +7995,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @return The dataXIsNew.
        */
-      @java.lang.Override
       public boolean getDataXIsNew() {
         return dataXIsNew_;
       }
@@ -8538,8 +8005,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @param value The dataXIsNew to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXIsNew(boolean value) {
         
@@ -8553,7 +8018,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataXIsNew() {
         
@@ -8569,9 +8033,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @return The dataExpireTimeLen.
        */
-      @java.lang.Override
       public long getDataExpireTimeLen() {
         return dataExpireTimeLen_;
       }
@@ -8581,8 +8043,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @param value The dataExpireTimeLen to set.
-       * @return This builder for chaining.
        */
       public Builder setDataExpireTimeLen(long value) {
         
@@ -8596,7 +8056,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataExpireTimeLen() {
         
@@ -8612,9 +8071,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @return The isNonSync.
        */
-      @java.lang.Override
       public boolean getIsNonSync() {
         return isNonSync_;
       }
@@ -8624,8 +8081,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @param value The isNonSync to set.
-       * @return This builder for chaining.
        */
       public Builder setIsNonSync(boolean value) {
         
@@ -8639,7 +8094,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsNonSync() {
         
@@ -8655,10 +8109,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string eventType = 13;</code>
-       * @return The eventType.
        */
-      @Override
-    public java.lang.String getEventType() {
+      public java.lang.String getEventType() {
         java.lang.Object ref = eventType_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8676,14 +8128,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string eventType = 13;</code>
-       * @return The bytes for eventType.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getEventTypeBytes() {
         java.lang.Object ref = eventType_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           eventType_ = b;
@@ -8698,8 +8148,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string eventType = 13;</code>
-       * @param value The eventType to set.
-       * @return This builder for chaining.
        */
       public Builder setEventType(
           java.lang.String value) {
@@ -8717,7 +8165,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string eventType = 13;</code>
-       * @return This builder for chaining.
        */
       public Builder clearEventType() {
         
@@ -8731,8 +8178,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string eventType = 13;</code>
-       * @param value The bytes for eventType to set.
-       * @return This builder for chaining.
        */
       public Builder setEventTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -8753,10 +8198,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataOperation = 14;</code>
-       * @return The dataOperation.
        */
-      @Override
-    public java.lang.String getDataOperation() {
+      public java.lang.String getDataOperation() {
         java.lang.Object ref = dataOperation_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8774,14 +8217,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataOperation = 14;</code>
-       * @return The bytes for dataOperation.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataOperationBytes() {
         java.lang.Object ref = dataOperation_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataOperation_ = b;
@@ -8796,8 +8237,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataOperation = 14;</code>
-       * @param value The dataOperation to set.
-       * @return This builder for chaining.
        */
       public Builder setDataOperation(
           java.lang.String value) {
@@ -8815,7 +8254,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataOperation = 14;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataOperation() {
         
@@ -8829,8 +8267,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataOperation = 14;</code>
-       * @param value The bytes for dataOperation to set.
-       * @return This builder for chaining.
        */
       public Builder setDataOperationBytes(
           com.google.protobuf.ByteString value) {
@@ -8851,9 +8287,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isRetunData = 15;</code>
-       * @return The isRetunData.
        */
-      @java.lang.Override
       public boolean getIsRetunData() {
         return isRetunData_;
       }
@@ -8863,8 +8297,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isRetunData = 15;</code>
-       * @param value The isRetunData to set.
-       * @return This builder for chaining.
        */
       public Builder setIsRetunData(boolean value) {
         
@@ -8878,7 +8310,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isRetunData = 15;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsRetunData() {
         
@@ -8949,7 +8380,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
     java.lang.String getSerialNo();
     /**
@@ -8958,7 +8388,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
     com.google.protobuf.ByteString
         getSerialNoBytes();
@@ -8969,7 +8398,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
     int getVersion();
 
@@ -8979,7 +8407,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 sessionTime = 3;</code>
-     * @return The sessionTime.
      */
     long getSessionTime();
 
@@ -8989,7 +8416,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 time = 4;</code>
-     * @return The time.
      */
     long getTime();
 
@@ -8999,7 +8425,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
     java.lang.String getToken();
     /**
@@ -9008,7 +8433,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -9019,7 +8443,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The dataClass.
      */
     java.lang.String getDataClass();
     /**
@@ -9028,7 +8451,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The bytes for dataClass.
      */
     com.google.protobuf.ByteString
         getDataClassBytes();
@@ -9039,7 +8461,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The enum numeric value on the wire for dataProtocol.
      */
     int getDataProtocolValue();
     /**
@@ -9048,7 +8469,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The dataProtocol.
      */
     CommunicationProto.DataProtocol getDataProtocol();
 
@@ -9058,7 +8478,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bytes data = 8;</code>
-     * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
@@ -9068,7 +8487,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The dataXID.
      */
     java.lang.String getDataXID();
     /**
@@ -9077,7 +8495,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The bytes for dataXID.
      */
     com.google.protobuf.ByteString
         getDataXIDBytes();
@@ -9088,7 +8505,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool dataXIsNew = 10;</code>
-     * @return The dataXIsNew.
      */
     boolean getDataXIsNew();
 
@@ -9098,7 +8514,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 dataExpireTimeLen = 11;</code>
-     * @return The dataExpireTimeLen.
      */
     long getDataExpireTimeLen();
 
@@ -9108,7 +8523,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isNonSync = 12;</code>
-     * @return The isNonSync.
      */
     boolean getIsNonSync();
 
@@ -9118,7 +8532,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 result = 13;</code>
-     * @return The result.
      */
     int getResult();
 
@@ -9128,7 +8541,6 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 endTime = 14;</code>
-     * @return The endTime.
      */
     long getEndTime();
   }
@@ -9139,7 +8551,7 @@ public final class CommunicationProto {
    *
    * Protobuf type {@code Response}
    */
-  public static final class Response extends
+  public  static final class Response extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Response)
       ResponseOrBuilder {
@@ -9302,15 +8714,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The serialNo.
      */
-    @java.lang.Override
     public java.lang.String getSerialNo() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -9323,14 +8733,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string serialNo = 1;</code>
-     * @return The bytes for serialNo.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -9348,9 +8756,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 version = 2;</code>
-     * @return The version.
      */
-    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -9363,9 +8769,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 sessionTime = 3;</code>
-     * @return The sessionTime.
      */
-    @java.lang.Override
     public long getSessionTime() {
       return sessionTime_;
     }
@@ -9378,9 +8782,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 time = 4;</code>
-     * @return The time.
      */
-    @java.lang.Override
     public long getTime() {
       return time_;
     }
@@ -9393,15 +8795,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The token.
      */
-    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -9414,14 +8814,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string token = 5;</code>
-     * @return The bytes for token.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -9439,15 +8837,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The dataClass.
      */
-    @java.lang.Override
     public java.lang.String getDataClass() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataClass_ = s;
@@ -9460,14 +8856,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataClass = 6;</code>
-     * @return The bytes for dataClass.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDataClassBytes() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataClass_ = b;
@@ -9485,9 +8879,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The enum numeric value on the wire for dataProtocol.
      */
-    @java.lang.Override public int getDataProtocolValue() {
+    public int getDataProtocolValue() {
       return dataProtocol_;
     }
     /**
@@ -9496,9 +8889,8 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>.DataProtocol dataProtocol = 7;</code>
-     * @return The dataProtocol.
      */
-    @java.lang.Override public CommunicationProto.DataProtocol getDataProtocol() {
+    public CommunicationProto.DataProtocol getDataProtocol() {
       @SuppressWarnings("deprecation")
       CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
       return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
@@ -9512,9 +8904,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bytes data = 8;</code>
-     * @return The data.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -9527,15 +8917,13 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The dataXID.
      */
-    @java.lang.Override
     public java.lang.String getDataXID() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataXID_ = s;
@@ -9548,14 +8936,12 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>string dataXID = 9;</code>
-     * @return The bytes for dataXID.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getDataXIDBytes() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataXID_ = b;
@@ -9573,9 +8959,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool dataXIsNew = 10;</code>
-     * @return The dataXIsNew.
      */
-    @java.lang.Override
     public boolean getDataXIsNew() {
       return dataXIsNew_;
     }
@@ -9588,9 +8972,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 dataExpireTimeLen = 11;</code>
-     * @return The dataExpireTimeLen.
      */
-    @java.lang.Override
     public long getDataExpireTimeLen() {
       return dataExpireTimeLen_;
     }
@@ -9603,9 +8985,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>bool isNonSync = 12;</code>
-     * @return The isNonSync.
      */
-    @java.lang.Override
     public boolean getIsNonSync() {
       return isNonSync_;
     }
@@ -9618,9 +8998,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int32 result = 13;</code>
-     * @return The result.
      */
-    @java.lang.Override
     public int getResult() {
       return result_;
     }
@@ -9633,9 +9011,7 @@ public final class CommunicationProto {
      * </pre>
      *
      * <code>int64 endTime = 14;</code>
-     * @return The endTime.
      */
-    @java.lang.Override
     public long getEndTime() {
       return endTime_;
     }
@@ -10179,10 +9555,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10200,14 +9574,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -10222,8 +9594,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNo(
           java.lang.String value) {
@@ -10241,7 +9611,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSerialNo() {
         
@@ -10255,8 +9624,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string serialNo = 1;</code>
-       * @param value The bytes for serialNo to set.
-       * @return This builder for chaining.
        */
       public Builder setSerialNoBytes(
           com.google.protobuf.ByteString value) {
@@ -10277,9 +9644,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return The version.
        */
-      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -10289,8 +9654,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @param value The version to set.
-       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -10304,7 +9667,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 version = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -10320,9 +9682,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @return The sessionTime.
        */
-      @java.lang.Override
       public long getSessionTime() {
         return sessionTime_;
       }
@@ -10332,8 +9692,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @param value The sessionTime to set.
-       * @return This builder for chaining.
        */
       public Builder setSessionTime(long value) {
         
@@ -10347,7 +9705,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 sessionTime = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSessionTime() {
         
@@ -10363,9 +9720,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @return The time.
        */
-      @java.lang.Override
       public long getTime() {
         return time_;
       }
@@ -10375,8 +9730,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @param value The time to set.
-       * @return This builder for chaining.
        */
       public Builder setTime(long value) {
         
@@ -10390,7 +9743,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 time = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTime() {
         
@@ -10406,10 +9758,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10427,14 +9777,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -10449,8 +9797,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
@@ -10468,7 +9814,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearToken() {
         
@@ -10482,8 +9827,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string token = 5;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -10504,10 +9847,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return The dataClass.
        */
-      @Override
-    public java.lang.String getDataClass() {
+      public java.lang.String getDataClass() {
         java.lang.Object ref = dataClass_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10525,14 +9866,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return The bytes for dataClass.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataClassBytes() {
         java.lang.Object ref = dataClass_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataClass_ = b;
@@ -10547,8 +9886,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @param value The dataClass to set.
-       * @return This builder for chaining.
        */
       public Builder setDataClass(
           java.lang.String value) {
@@ -10566,7 +9903,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataClass() {
         
@@ -10580,8 +9916,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataClass = 6;</code>
-       * @param value The bytes for dataClass to set.
-       * @return This builder for chaining.
        */
       public Builder setDataClassBytes(
           com.google.protobuf.ByteString value) {
@@ -10602,9 +9936,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return The enum numeric value on the wire for dataProtocol.
        */
-      @java.lang.Override public int getDataProtocolValue() {
+      public int getDataProtocolValue() {
         return dataProtocol_;
       }
       /**
@@ -10613,11 +9946,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @param value The enum numeric value on the wire for dataProtocol to set.
-       * @return This builder for chaining.
        */
       public Builder setDataProtocolValue(int value) {
-        
         dataProtocol_ = value;
         onChanged();
         return this;
@@ -10628,9 +9958,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return The dataProtocol.
        */
-      @java.lang.Override
       public CommunicationProto.DataProtocol getDataProtocol() {
         @SuppressWarnings("deprecation")
         CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
@@ -10642,8 +9970,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @param value The dataProtocol to set.
-       * @return This builder for chaining.
        */
       public Builder setDataProtocol(CommunicationProto.DataProtocol value) {
         if (value == null) {
@@ -10660,7 +9986,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>.DataProtocol dataProtocol = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataProtocol() {
         
@@ -10676,9 +10001,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @return The data.
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -10688,8 +10011,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @param value The data to set.
-       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10706,7 +10027,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bytes data = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -10722,10 +10042,8 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return The dataXID.
        */
-      @Override
-    public java.lang.String getDataXID() {
+      public java.lang.String getDataXID() {
         java.lang.Object ref = dataXID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10743,14 +10061,12 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return The bytes for dataXID.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataXIDBytes() {
         java.lang.Object ref = dataXID_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataXID_ = b;
@@ -10765,8 +10081,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @param value The dataXID to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXID(
           java.lang.String value) {
@@ -10784,7 +10098,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataXID() {
         
@@ -10798,8 +10111,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>string dataXID = 9;</code>
-       * @param value The bytes for dataXID to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXIDBytes(
           com.google.protobuf.ByteString value) {
@@ -10820,9 +10131,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @return The dataXIsNew.
        */
-      @java.lang.Override
       public boolean getDataXIsNew() {
         return dataXIsNew_;
       }
@@ -10832,8 +10141,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @param value The dataXIsNew to set.
-       * @return This builder for chaining.
        */
       public Builder setDataXIsNew(boolean value) {
         
@@ -10847,7 +10154,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool dataXIsNew = 10;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataXIsNew() {
         
@@ -10863,9 +10169,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @return The dataExpireTimeLen.
        */
-      @java.lang.Override
       public long getDataExpireTimeLen() {
         return dataExpireTimeLen_;
       }
@@ -10875,8 +10179,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @param value The dataExpireTimeLen to set.
-       * @return This builder for chaining.
        */
       public Builder setDataExpireTimeLen(long value) {
         
@@ -10890,7 +10192,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 dataExpireTimeLen = 11;</code>
-       * @return This builder for chaining.
        */
       public Builder clearDataExpireTimeLen() {
         
@@ -10906,9 +10207,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @return The isNonSync.
        */
-      @java.lang.Override
       public boolean getIsNonSync() {
         return isNonSync_;
       }
@@ -10918,8 +10217,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @param value The isNonSync to set.
-       * @return This builder for chaining.
        */
       public Builder setIsNonSync(boolean value) {
         
@@ -10933,7 +10230,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>bool isNonSync = 12;</code>
-       * @return This builder for chaining.
        */
       public Builder clearIsNonSync() {
         
@@ -10949,9 +10245,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 13;</code>
-       * @return The result.
        */
-      @java.lang.Override
       public int getResult() {
         return result_;
       }
@@ -10961,8 +10255,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 13;</code>
-       * @param value The result to set.
-       * @return This builder for chaining.
        */
       public Builder setResult(int value) {
         
@@ -10976,7 +10268,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int32 result = 13;</code>
-       * @return This builder for chaining.
        */
       public Builder clearResult() {
         
@@ -10992,9 +10283,7 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 14;</code>
-       * @return The endTime.
        */
-      @java.lang.Override
       public long getEndTime() {
         return endTime_;
       }
@@ -11004,8 +10293,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 14;</code>
-       * @param value The endTime to set.
-       * @return This builder for chaining.
        */
       public Builder setEndTime(long value) {
         
@@ -11019,7 +10306,6 @@ public final class CommunicationProto {
        * </pre>
        *
        * <code>int64 endTime = 14;</code>
-       * @return This builder for chaining.
        */
       public Builder clearEndTime() {
         
@@ -11082,32 +10368,32 @@ public final class CommunicationProto {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Data_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Data_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LoginRequest_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LoginRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LoginResponse_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LoginResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_XCommand_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_XCommand_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Request_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Request_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Response_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Response_fieldAccessorTable;
 

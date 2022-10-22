@@ -86,7 +86,6 @@ public final class CommunicationProto {
     public static final int Protobuf_VALUE = 2;
 
 
-    @Override
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
         throw new java.lang.IllegalArgumentException(
@@ -125,13 +124,11 @@ public final class CommunicationProto {
     private static final com.google.protobuf.Internal.EnumLiteMap<
         DataProtocol> internalValueMap =
           new com.google.protobuf.Internal.EnumLiteMap<DataProtocol>() {
-            @Override
             public DataProtocol findValueByNumber(int number) {
               return DataProtocol.forNumber(number);
             }
           };
 
-    @Override
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
       if (this == UNRECOGNIZED) {
@@ -140,7 +137,6 @@ public final class CommunicationProto {
       }
       return getDescriptor().getValues().get(ordinal());
     }
-    @Override
     public final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptorForType() {
       return getDescriptor();
@@ -464,8 +460,7 @@ public final class CommunicationProto {
       public static final int Response_VALUE = 3;
 
 
-      @Override
-    public final int getNumber() {
+      public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
               "Can't get the number of an unknown enum value.");
@@ -504,14 +499,12 @@ public final class CommunicationProto {
       private static final com.google.protobuf.Internal.EnumLiteMap<
           DataType> internalValueMap =
             new com.google.protobuf.Internal.EnumLiteMap<DataType>() {
-              @Override
-            public DataType findValueByNumber(int number) {
+              public DataType findValueByNumber(int number) {
                 return DataType.forNumber(number);
               }
             };
 
-      @Override
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalStateException(
@@ -519,8 +512,7 @@ public final class CommunicationProto {
         }
         return getDescriptor().getValues().get(ordinal());
       }
-      @Override
-    public final com.google.protobuf.Descriptors.EnumDescriptor
+      public final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptorForType() {
         return getDescriptor();
       }
@@ -586,13 +578,11 @@ public final class CommunicationProto {
           default: return null;
         }
       }
-      @Override
-    public int getNumber() {
+      public int getNumber() {
         return this.value;
       }
     };
 
-    @Override
     public DataBodyCase
     getDataBodyCase() {
       return DataBodyCase.forNumber(
@@ -1189,8 +1179,7 @@ public final class CommunicationProto {
       }
       private int dataBodyCase_ = 0;
       private java.lang.Object dataBody_;
-      @Override
-    public DataBodyCase
+      public DataBodyCase
           getDataBodyCase() {
         return DataBodyCase.forNumber(
             dataBodyCase_);
@@ -1437,7 +1426,7 @@ public final class CommunicationProto {
        * <code>.LoginRequest loginRequest = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.LoginRequest, CommunicationProto.LoginRequest.Builder, CommunicationProto.LoginRequestOrBuilder>
+          CommunicationProto.LoginRequest, CommunicationProto.LoginRequest.Builder, CommunicationProto.LoginRequestOrBuilder> 
           getLoginRequestFieldBuilder() {
         if (loginRequestBuilder_ == null) {
           if (!(dataBodyCase_ == 2)) {
@@ -1578,7 +1567,7 @@ public final class CommunicationProto {
        * <code>.LoginResponse loginResponse = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.LoginResponse, CommunicationProto.LoginResponse.Builder, CommunicationProto.LoginResponseOrBuilder>
+          CommunicationProto.LoginResponse, CommunicationProto.LoginResponse.Builder, CommunicationProto.LoginResponseOrBuilder> 
           getLoginResponseFieldBuilder() {
         if (loginResponseBuilder_ == null) {
           if (!(dataBodyCase_ == 3)) {
@@ -1719,7 +1708,7 @@ public final class CommunicationProto {
        * <code>.Request request = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.Request, CommunicationProto.Request.Builder, CommunicationProto.RequestOrBuilder>
+          CommunicationProto.Request, CommunicationProto.Request.Builder, CommunicationProto.RequestOrBuilder> 
           getRequestFieldBuilder() {
         if (requestBuilder_ == null) {
           if (!(dataBodyCase_ == 4)) {
@@ -1860,7 +1849,7 @@ public final class CommunicationProto {
        * <code>.Response response = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          CommunicationProto.Response, CommunicationProto.Response.Builder, CommunicationProto.ResponseOrBuilder>
+          CommunicationProto.Response, CommunicationProto.Response.Builder, CommunicationProto.ResponseOrBuilder> 
           getResponseFieldBuilder() {
         if (responseBuilder_ == null) {
           if (!(dataBodyCase_ == 5)) {
@@ -2223,7 +2212,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -2243,7 +2232,7 @@ public final class CommunicationProto {
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -2284,7 +2273,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         id_ = s;
@@ -2304,7 +2293,7 @@ public final class CommunicationProto {
         getIdBytes() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         id_ = b;
@@ -2330,7 +2319,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         systemName_ = s;
@@ -2350,7 +2339,7 @@ public final class CommunicationProto {
         getSystemNameBytes() {
       java.lang.Object ref = systemName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         systemName_ = b;
@@ -2376,7 +2365,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         host_ = s;
@@ -2396,7 +2385,7 @@ public final class CommunicationProto {
         getHostBytes() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         host_ = b;
@@ -2437,7 +2426,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         userName_ = s;
@@ -2457,7 +2446,7 @@ public final class CommunicationProto {
         getUserNameBytes() {
       java.lang.Object ref = userName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         userName_ = b;
@@ -2483,7 +2472,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         password_ = s;
@@ -2503,7 +2492,7 @@ public final class CommunicationProto {
         getPasswordBytes() {
       java.lang.Object ref = password_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         password_ = b;
@@ -2947,8 +2936,7 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -2968,12 +2956,11 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -3088,8 +3075,7 @@ public final class CommunicationProto {
        * <code>string id = 3;</code>
        * @return The id.
        */
-      @Override
-    public java.lang.String getId() {
+      public java.lang.String getId() {
         java.lang.Object ref = id_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3109,12 +3095,11 @@ public final class CommunicationProto {
        * <code>string id = 3;</code>
        * @return The bytes for id.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getIdBytes() {
         java.lang.Object ref = id_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           id_ = b;
@@ -3186,8 +3171,7 @@ public final class CommunicationProto {
        * <code>string systemName = 4;</code>
        * @return The systemName.
        */
-      @Override
-    public java.lang.String getSystemName() {
+      public java.lang.String getSystemName() {
         java.lang.Object ref = systemName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3207,12 +3191,11 @@ public final class CommunicationProto {
        * <code>string systemName = 4;</code>
        * @return The bytes for systemName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSystemNameBytes() {
         java.lang.Object ref = systemName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           systemName_ = b;
@@ -3284,8 +3267,7 @@ public final class CommunicationProto {
        * <code>string host = 5;</code>
        * @return The host.
        */
-      @Override
-    public java.lang.String getHost() {
+      public java.lang.String getHost() {
         java.lang.Object ref = host_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3305,12 +3287,11 @@ public final class CommunicationProto {
        * <code>string host = 5;</code>
        * @return The bytes for host.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getHostBytes() {
         java.lang.Object ref = host_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           host_ = b;
@@ -3425,8 +3406,7 @@ public final class CommunicationProto {
        * <code>string userName = 7;</code>
        * @return The userName.
        */
-      @Override
-    public java.lang.String getUserName() {
+      public java.lang.String getUserName() {
         java.lang.Object ref = userName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3446,12 +3426,11 @@ public final class CommunicationProto {
        * <code>string userName = 7;</code>
        * @return The bytes for userName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getUserNameBytes() {
         java.lang.Object ref = userName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           userName_ = b;
@@ -3523,8 +3502,7 @@ public final class CommunicationProto {
        * <code>string password = 8;</code>
        * @return The password.
        */
-      @Override
-    public java.lang.String getPassword() {
+      public java.lang.String getPassword() {
         java.lang.Object ref = password_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -3544,12 +3522,11 @@ public final class CommunicationProto {
        * <code>string password = 8;</code>
        * @return The bytes for password.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getPasswordBytes() {
         java.lang.Object ref = password_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           password_ = b;
@@ -3906,7 +3883,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -3926,7 +3903,7 @@ public final class CommunicationProto {
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -3997,7 +3974,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -4017,7 +3994,7 @@ public final class CommunicationProto {
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -4043,7 +4020,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         host_ = s;
@@ -4063,7 +4040,7 @@ public final class CommunicationProto {
         getHostBytes() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         host_ = b;
@@ -4506,8 +4483,7 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4527,12 +4503,11 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -4733,8 +4708,7 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4754,12 +4728,11 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -4831,8 +4804,7 @@ public final class CommunicationProto {
        * <code>string host = 6;</code>
        * @return The host.
        */
-      @Override
-    public java.lang.String getHost() {
+      public java.lang.String getHost() {
         java.lang.Object ref = host_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -4852,12 +4824,11 @@ public final class CommunicationProto {
        * <code>string host = 6;</code>
        * @return The bytes for host.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getHostBytes() {
         java.lang.Object ref = host_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           host_ = b;
@@ -5303,7 +5274,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         methodName_ = s;
@@ -5319,7 +5290,7 @@ public final class CommunicationProto {
         getMethodNameBytes() {
       java.lang.Object ref = methodName_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         methodName_ = b;
@@ -5339,7 +5310,6 @@ public final class CommunicationProto {
      * <code>repeated string paramsClass = 2;</code>
      * @return A list containing the paramsClass.
      */
-    @Override
     public com.google.protobuf.ProtocolStringList
         getParamsClassList() {
       return paramsClass_;
@@ -5352,7 +5322,6 @@ public final class CommunicationProto {
      * <code>repeated string paramsClass = 2;</code>
      * @return The count of paramsClass.
      */
-    @Override
     public int getParamsClassCount() {
       return paramsClass_.size();
     }
@@ -5365,7 +5334,6 @@ public final class CommunicationProto {
      * @param index The index of the element to return.
      * @return The paramsClass at the given index.
      */
-    @Override
     public java.lang.String getParamsClass(int index) {
       return paramsClass_.get(index);
     }
@@ -5378,7 +5346,6 @@ public final class CommunicationProto {
      * @param index The index of the value to return.
      * @return The bytes of the paramsClass at the given index.
      */
-    @Override
     public com.google.protobuf.ByteString
         getParamsClassBytes(int index) {
       return paramsClass_.getByteString(index);
@@ -5390,8 +5357,7 @@ public final class CommunicationProto {
         java.lang.Integer, CommunicationProto.DataProtocol> paramsProtocol_converter_ =
             new com.google.protobuf.Internal.ListAdapter.Converter<
                 java.lang.Integer, CommunicationProto.DataProtocol>() {
-              @Override
-            public CommunicationProto.DataProtocol convert(java.lang.Integer from) {
+              public CommunicationProto.DataProtocol convert(java.lang.Integer from) {
                 @SuppressWarnings("deprecation")
                 CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(from);
                 return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
@@ -5486,7 +5452,6 @@ public final class CommunicationProto {
      * <code>repeated bytes paramsValue = 4;</code>
      * @return The count of paramsValue.
      */
-    @Override
     public int getParamsValueCount() {
       return paramsValue_.size();
     }
@@ -5499,7 +5464,6 @@ public final class CommunicationProto {
      * @param index The index of the element to return.
      * @return The paramsValue at the given index.
      */
-    @Override
     public com.google.protobuf.ByteString getParamsValue(int index) {
       return paramsValue_.get(index);
     }
@@ -5928,8 +5892,7 @@ public final class CommunicationProto {
        * <code>string methodName = 1;</code>
        * @return The methodName.
        */
-      @Override
-    public java.lang.String getMethodName() {
+      public java.lang.String getMethodName() {
         java.lang.Object ref = methodName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -5945,12 +5908,11 @@ public final class CommunicationProto {
        * <code>string methodName = 1;</code>
        * @return The bytes for methodName.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getMethodNameBytes() {
         java.lang.Object ref = methodName_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           methodName_ = b;
@@ -6016,8 +5978,7 @@ public final class CommunicationProto {
        * <code>repeated string paramsClass = 2;</code>
        * @return A list containing the paramsClass.
        */
-      @Override
-    public com.google.protobuf.ProtocolStringList
+      public com.google.protobuf.ProtocolStringList
           getParamsClassList() {
         return paramsClass_.getUnmodifiableView();
       }
@@ -6029,8 +5990,7 @@ public final class CommunicationProto {
        * <code>repeated string paramsClass = 2;</code>
        * @return The count of paramsClass.
        */
-      @Override
-    public int getParamsClassCount() {
+      public int getParamsClassCount() {
         return paramsClass_.size();
       }
       /**
@@ -6042,8 +6002,7 @@ public final class CommunicationProto {
        * @param index The index of the element to return.
        * @return The paramsClass at the given index.
        */
-      @Override
-    public java.lang.String getParamsClass(int index) {
+      public java.lang.String getParamsClass(int index) {
         return paramsClass_.get(index);
       }
       /**
@@ -6055,8 +6014,7 @@ public final class CommunicationProto {
        * @param index The index of the value to return.
        * @return The bytes of the paramsClass at the given index.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getParamsClassBytes(int index) {
         return paramsClass_.getByteString(index);
       }
@@ -6167,8 +6125,7 @@ public final class CommunicationProto {
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
        * @return A list containing the paramsProtocol.
        */
-      @Override
-    public java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList() {
+      public java.util.List<CommunicationProto.DataProtocol> getParamsProtocolList() {
         return new com.google.protobuf.Internal.ListAdapter<
             java.lang.Integer, CommunicationProto.DataProtocol>(paramsProtocol_, paramsProtocol_converter_);
       }
@@ -6180,8 +6137,7 @@ public final class CommunicationProto {
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
        * @return The count of paramsProtocol.
        */
-      @Override
-    public int getParamsProtocolCount() {
+      public int getParamsProtocolCount() {
         return paramsProtocol_.size();
       }
       /**
@@ -6193,8 +6149,7 @@ public final class CommunicationProto {
        * @param index The index of the element to return.
        * @return The paramsProtocol at the given index.
        */
-      @Override
-    public CommunicationProto.DataProtocol getParamsProtocol(int index) {
+      public CommunicationProto.DataProtocol getParamsProtocol(int index) {
         return paramsProtocol_converter_.convert(paramsProtocol_.get(index));
       }
       /**
@@ -6275,8 +6230,7 @@ public final class CommunicationProto {
        * <code>repeated .DataProtocol paramsProtocol = 3;</code>
        * @return A list containing the enum numeric values on the wire for paramsProtocol.
        */
-      @Override
-    public java.util.List<java.lang.Integer>
+      public java.util.List<java.lang.Integer>
       getParamsProtocolValueList() {
         return java.util.Collections.unmodifiableList(paramsProtocol_);
       }
@@ -6289,8 +6243,7 @@ public final class CommunicationProto {
        * @param index The index of the value to return.
        * @return The enum numeric value on the wire of paramsProtocol at the given index.
        */
-      @Override
-    public int getParamsProtocolValue(int index) {
+      public int getParamsProtocolValue(int index) {
         return paramsProtocol_.get(index);
       }
       /**
@@ -6359,8 +6312,7 @@ public final class CommunicationProto {
        * <code>repeated bytes paramsValue = 4;</code>
        * @return A list containing the paramsValue.
        */
-      @Override
-    public java.util.List<com.google.protobuf.ByteString>
+      public java.util.List<com.google.protobuf.ByteString>
           getParamsValueList() {
         return ((bitField0_ & 0x00000004) != 0) ?
                  java.util.Collections.unmodifiableList(paramsValue_) : paramsValue_;
@@ -6373,8 +6325,7 @@ public final class CommunicationProto {
        * <code>repeated bytes paramsValue = 4;</code>
        * @return The count of paramsValue.
        */
-      @Override
-    public int getParamsValueCount() {
+      public int getParamsValueCount() {
         return paramsValue_.size();
       }
       /**
@@ -6386,8 +6337,7 @@ public final class CommunicationProto {
        * @param index The index of the element to return.
        * @return The paramsValue at the given index.
        */
-      @Override
-    public com.google.protobuf.ByteString getParamsValue(int index) {
+      public com.google.protobuf.ByteString getParamsValue(int index) {
         return paramsValue_.get(index);
       }
       /**
@@ -6922,7 +6872,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -6942,7 +6892,7 @@ public final class CommunicationProto {
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -7013,7 +6963,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -7033,7 +6983,7 @@ public final class CommunicationProto {
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -7059,7 +7009,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataClass_ = s;
@@ -7079,7 +7029,7 @@ public final class CommunicationProto {
         getDataClassBytes() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataClass_ = b;
@@ -7147,7 +7097,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataXID_ = s;
@@ -7167,7 +7117,7 @@ public final class CommunicationProto {
         getDataXIDBytes() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataXID_ = b;
@@ -7238,7 +7188,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         eventType_ = s;
@@ -7258,7 +7208,7 @@ public final class CommunicationProto {
         getEventTypeBytes() {
       java.lang.Object ref = eventType_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         eventType_ = b;
@@ -7284,7 +7234,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataOperation_ = s;
@@ -7304,7 +7254,7 @@ public final class CommunicationProto {
         getDataOperationBytes() {
       java.lang.Object ref = dataOperation_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataOperation_ = b;
@@ -7887,8 +7837,7 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -7908,12 +7857,11 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -8114,8 +8062,7 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8135,12 +8082,11 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -8212,8 +8158,7 @@ public final class CommunicationProto {
        * <code>string dataClass = 6;</code>
        * @return The dataClass.
        */
-      @Override
-    public java.lang.String getDataClass() {
+      public java.lang.String getDataClass() {
         java.lang.Object ref = dataClass_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8233,12 +8178,11 @@ public final class CommunicationProto {
        * <code>string dataClass = 6;</code>
        * @return The bytes for dataClass.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataClassBytes() {
         java.lang.Object ref = dataClass_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataClass_ = b;
@@ -8430,8 +8374,7 @@ public final class CommunicationProto {
        * <code>string dataXID = 9;</code>
        * @return The dataXID.
        */
-      @Override
-    public java.lang.String getDataXID() {
+      public java.lang.String getDataXID() {
         java.lang.Object ref = dataXID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8451,12 +8394,11 @@ public final class CommunicationProto {
        * <code>string dataXID = 9;</code>
        * @return The bytes for dataXID.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataXIDBytes() {
         java.lang.Object ref = dataXID_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataXID_ = b;
@@ -8657,8 +8599,7 @@ public final class CommunicationProto {
        * <code>string eventType = 13;</code>
        * @return The eventType.
        */
-      @Override
-    public java.lang.String getEventType() {
+      public java.lang.String getEventType() {
         java.lang.Object ref = eventType_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8678,12 +8619,11 @@ public final class CommunicationProto {
        * <code>string eventType = 13;</code>
        * @return The bytes for eventType.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getEventTypeBytes() {
         java.lang.Object ref = eventType_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           eventType_ = b;
@@ -8755,8 +8695,7 @@ public final class CommunicationProto {
        * <code>string dataOperation = 14;</code>
        * @return The dataOperation.
        */
-      @Override
-    public java.lang.String getDataOperation() {
+      public java.lang.String getDataOperation() {
         java.lang.Object ref = dataOperation_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -8776,12 +8715,11 @@ public final class CommunicationProto {
        * <code>string dataOperation = 14;</code>
        * @return The bytes for dataOperation.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataOperationBytes() {
         java.lang.Object ref = dataOperation_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataOperation_ = b;
@@ -9310,7 +9248,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         serialNo_ = s;
@@ -9330,7 +9268,7 @@ public final class CommunicationProto {
         getSerialNoBytes() {
       java.lang.Object ref = serialNo_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         serialNo_ = b;
@@ -9401,7 +9339,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         token_ = s;
@@ -9421,7 +9359,7 @@ public final class CommunicationProto {
         getTokenBytes() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         token_ = b;
@@ -9447,7 +9385,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataClass_ = s;
@@ -9467,7 +9405,7 @@ public final class CommunicationProto {
         getDataClassBytes() {
       java.lang.Object ref = dataClass_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataClass_ = b;
@@ -9535,7 +9473,7 @@ public final class CommunicationProto {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         dataXID_ = s;
@@ -9555,7 +9493,7 @@ public final class CommunicationProto {
         getDataXIDBytes() {
       java.lang.Object ref = dataXID_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         dataXID_ = b;
@@ -10181,8 +10119,7 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The serialNo.
        */
-      @Override
-    public java.lang.String getSerialNo() {
+      public java.lang.String getSerialNo() {
         java.lang.Object ref = serialNo_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10202,12 +10139,11 @@ public final class CommunicationProto {
        * <code>string serialNo = 1;</code>
        * @return The bytes for serialNo.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getSerialNoBytes() {
         java.lang.Object ref = serialNo_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           serialNo_ = b;
@@ -10408,8 +10344,7 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The token.
        */
-      @Override
-    public java.lang.String getToken() {
+      public java.lang.String getToken() {
         java.lang.Object ref = token_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10429,12 +10364,11 @@ public final class CommunicationProto {
        * <code>string token = 5;</code>
        * @return The bytes for token.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getTokenBytes() {
         java.lang.Object ref = token_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           token_ = b;
@@ -10506,8 +10440,7 @@ public final class CommunicationProto {
        * <code>string dataClass = 6;</code>
        * @return The dataClass.
        */
-      @Override
-    public java.lang.String getDataClass() {
+      public java.lang.String getDataClass() {
         java.lang.Object ref = dataClass_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10527,12 +10460,11 @@ public final class CommunicationProto {
        * <code>string dataClass = 6;</code>
        * @return The bytes for dataClass.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataClassBytes() {
         java.lang.Object ref = dataClass_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataClass_ = b;
@@ -10724,8 +10656,7 @@ public final class CommunicationProto {
        * <code>string dataXID = 9;</code>
        * @return The dataXID.
        */
-      @Override
-    public java.lang.String getDataXID() {
+      public java.lang.String getDataXID() {
         java.lang.Object ref = dataXID_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
@@ -10745,12 +10676,11 @@ public final class CommunicationProto {
        * <code>string dataXID = 9;</code>
        * @return The bytes for dataXID.
        */
-      @Override
-    public com.google.protobuf.ByteString
+      public com.google.protobuf.ByteString
           getDataXIDBytes() {
         java.lang.Object ref = dataXID_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           dataXID_ = b;
@@ -11082,32 +11012,32 @@ public final class CommunicationProto {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Data_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Data_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LoginRequest_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LoginRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LoginResponse_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LoginResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_XCommand_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_XCommand_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Request_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Request_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Response_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Response_fieldAccessorTable;
 
