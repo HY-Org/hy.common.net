@@ -312,7 +312,7 @@ public class CommunicationProtoDecoder
                 $Logger.error(i_ClassName + " TO " + v_JsonString ,e);
                 try
                 {
-                    v_Ret = Help.forName(i_ClassName).newInstance();
+                    v_Ret = Help.forName(i_ClassName).getDeclaredConstructor().newInstance();
                 }
                 catch (Exception exce)
                 {
@@ -335,7 +335,7 @@ public class CommunicationProtoDecoder
                 $Logger.error(e);
                 try
                 {
-                    v_Ret = Help.forName(i_ClassName).newInstance();
+                    v_Ret = Help.forName(i_ClassName).getDeclaredConstructor().newInstance();
                 }
                 catch (Exception exce)
                 {

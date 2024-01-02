@@ -213,12 +213,19 @@ public class ServerBase
                 i_ServerBase.server = Help.getServerSocket(i_ServerBase.port ,true);
             }
             
-            i_ServerBase.isOpen   = true;
-            i_ServerBase.openTime = new Date();
-            
-            // 这里必须是一个线程，因为方法内是“死循环”
-            (new Execute(i_ServerBase ,"openListening" ,i_ServerBase)).start();
-            $Logger.debug("ServerBase：Port " + i_ServerBase.port + " is open.");
+            if ( i_ServerBase.server == null )
+            {
+                $Logger.error("ServerBase：Port " + i_ServerBase.port + " error.");
+            }
+            else
+            {
+                i_ServerBase.isOpen   = true;
+                i_ServerBase.openTime = new Date();
+                
+                // 这里必须是一个线程，因为方法内是“死循环”
+                (new Execute(i_ServerBase ,"openListening" ,i_ServerBase)).start();
+                $Logger.debug("ServerBase：Port " + i_ServerBase.port + " is open.");
+            }
         }
         catch (Exception exce)
         {
