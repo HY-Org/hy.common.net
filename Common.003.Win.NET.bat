@@ -27,3 +27,5 @@ copy hy.common.net-sources.jar ..\..\..
 del /Q hy.common.net-sources.jar
 rd /s/q META-INF
 cd ..\..\..
+
+pause
