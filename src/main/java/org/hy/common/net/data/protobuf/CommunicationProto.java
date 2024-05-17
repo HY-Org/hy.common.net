@@ -621,8 +621,7 @@ public final class CommunicationProto {
      * @return The dataType.
      */
     @java.lang.Override public CommunicationProto.Data.DataType getDataType() {
-      @SuppressWarnings("deprecation")
-      CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.valueOf(dataType_);
+      CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.forNumber(dataType_);
       return result == null ? CommunicationProto.Data.DataType.UNRECOGNIZED : result;
     }
 
@@ -861,6 +860,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -1241,8 +1241,7 @@ public final class CommunicationProto {
        */
       @java.lang.Override
       public CommunicationProto.Data.DataType getDataType() {
-        @SuppressWarnings("deprecation")
-        CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.valueOf(dataType_);
+        CommunicationProto.Data.DataType result = CommunicationProto.Data.DataType.forNumber(dataType_);
         return result == null ? CommunicationProto.Data.DataType.UNRECOGNIZED : result;
       }
       /**
@@ -2621,6 +2620,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -4190,6 +4190,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -5168,7 +5169,7 @@ public final class CommunicationProto {
     }
     private XCommand() {
       methodName_ = "";
-      paramsClass_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      paramsClass_ = com.google.protobuf.LazyStringArrayList.emptyList();
       paramsProtocol_ = java.util.Collections.emptyList();
       paramsValue_ = java.util.Collections.emptyList();
     }
@@ -5392,8 +5393,7 @@ public final class CommunicationProto {
                 java.lang.Integer, CommunicationProto.DataProtocol>() {
               @Override
             public CommunicationProto.DataProtocol convert(java.lang.Integer from) {
-                @SuppressWarnings("deprecation")
-                CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(from);
+                CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.forNumber(from);
                 return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
               }
             };
@@ -5602,6 +5602,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -5762,7 +5763,7 @@ public final class CommunicationProto {
         super.clear();
         methodName_ = "";
 
-        paramsClass_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        paramsClass_ = com.google.protobuf.LazyStringArrayList.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
         paramsProtocol_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -5794,6 +5795,7 @@ public final class CommunicationProto {
       @java.lang.Override
       public CommunicationProto.XCommand buildPartial() {
         CommunicationProto.XCommand result = new CommunicationProto.XCommand(this);
+        @SuppressWarnings("unused")
         int from_bitField0_ = bitField0_;
         result.methodName_ = methodName_;
         if (((bitField0_ & 0x00000001) != 0)) {
@@ -6001,7 +6003,7 @@ public final class CommunicationProto {
         return this;
       }
 
-      private com.google.protobuf.LazyStringList paramsClass_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private com.google.protobuf.LazyStringList paramsClass_ = com.google.protobuf.LazyStringArrayList.emptyList();
       private void ensureParamsClassIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
           paramsClass_ = new com.google.protobuf.LazyStringArrayList(paramsClass_);
@@ -6125,7 +6127,7 @@ public final class CommunicationProto {
        * @return This builder for chaining.
        */
       public Builder clearParamsClass() {
-        paramsClass_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        paramsClass_ = com.google.protobuf.LazyStringArrayList.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -7111,8 +7113,7 @@ public final class CommunicationProto {
      * @return The dataProtocol.
      */
     @java.lang.Override public CommunicationProto.DataProtocol getDataProtocol() {
-      @SuppressWarnings("deprecation")
-      CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
+      CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.forNumber(dataProtocol_);
       return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
     }
 
@@ -7499,6 +7500,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -8338,8 +8340,7 @@ public final class CommunicationProto {
        */
       @java.lang.Override
       public CommunicationProto.DataProtocol getDataProtocol() {
-        @SuppressWarnings("deprecation")
-        CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
+        CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.forNumber(dataProtocol_);
         return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
       }
       /**
@@ -9499,8 +9500,7 @@ public final class CommunicationProto {
      * @return The dataProtocol.
      */
     @java.lang.Override public CommunicationProto.DataProtocol getDataProtocol() {
-      @SuppressWarnings("deprecation")
-      CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
+      CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.forNumber(dataProtocol_);
       return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
     }
 
@@ -9803,6 +9803,7 @@ public final class CommunicationProto {
       return true;
     }
 
+    @SuppressWarnings("unchecked")
     @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
@@ -10632,8 +10633,7 @@ public final class CommunicationProto {
        */
       @java.lang.Override
       public CommunicationProto.DataProtocol getDataProtocol() {
-        @SuppressWarnings("deprecation")
-        CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.valueOf(dataProtocol_);
+        CommunicationProto.DataProtocol result = CommunicationProto.DataProtocol.forNumber(dataProtocol_);
         return result == null ? CommunicationProto.DataProtocol.UNRECOGNIZED : result;
       }
       /**
