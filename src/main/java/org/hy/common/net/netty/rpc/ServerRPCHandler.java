@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hy.common.Date;
-import org.hy.common.ExpireMap;
+import org.hy.common.ExpireCache;
 import org.hy.common.Help;
 import org.hy.common.net.common.NetError;
 import org.hy.common.net.data.CommunicationRequest;
@@ -44,10 +44,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 public class ServerRPCHandler extends SimpleChannelInboundHandler<Data>
 {
     
-    private static final Logger                                        $Logger   = new Logger(ServerRPCHandler.class ,true);
+    private static final Logger                                          $Logger   = new Logger(ServerRPCHandler.class ,true);
     
     /** 登录成功的客户端Channel及客户信息 */
-    private static final ExpireMap<ChannelHandlerContext ,SessionInfo> $Sessions = new ExpireMap<ChannelHandlerContext ,SessionInfo>();
+    private static final ExpireCache<ChannelHandlerContext ,SessionInfo> $Sessions = new ExpireCache<ChannelHandlerContext ,SessionInfo>();
     
     
     

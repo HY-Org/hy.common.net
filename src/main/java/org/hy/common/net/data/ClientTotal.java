@@ -2,7 +2,7 @@ package org.hy.common.net.data;
 
 import java.util.List;
 
-import org.hy.common.ExpireMap;
+import org.hy.common.ExpireCache;
 import org.hy.common.Help;
 import org.hy.common.net.common.ClientCluster;
 
@@ -24,7 +24,7 @@ public class ClientTotal
     /**
      * 客户端向服务发送请求的会话
      */
-    private static final ExpireMap<ClientCluster ,SessionInfo> $Sessions = new ExpireMap<ClientCluster ,SessionInfo>();
+    private static final ExpireCache<ClientCluster ,SessionInfo> $Sessions = new ExpireCache<ClientCluster ,SessionInfo>();
     
     
     

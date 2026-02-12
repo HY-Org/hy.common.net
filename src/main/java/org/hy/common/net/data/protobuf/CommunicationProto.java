@@ -1450,7 +1450,7 @@ public final class CommunicationProto {
           dataBody_ = null;
         }
         dataBodyCase_ = 2;
-        onChanged();;
+        onChanged();
         return loginRequestBuilder_;
       }
 
@@ -1591,7 +1591,7 @@ public final class CommunicationProto {
           dataBody_ = null;
         }
         dataBodyCase_ = 3;
-        onChanged();;
+        onChanged();
         return loginResponseBuilder_;
       }
 
@@ -1732,7 +1732,7 @@ public final class CommunicationProto {
           dataBody_ = null;
         }
         dataBodyCase_ = 4;
-        onChanged();;
+        onChanged();
         return requestBuilder_;
       }
 
@@ -1873,7 +1873,7 @@ public final class CommunicationProto {
           dataBody_ = null;
         }
         dataBodyCase_ = 5;
-        onChanged();;
+        onChanged();
         return responseBuilder_;
       }
       @java.lang.Override

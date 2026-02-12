@@ -1188,7 +1188,7 @@ public final class PeoplePOJO {
           dataBody_ = null;
         }
         dataBodyCase_ = 2;
-        onChanged();;
+        onChanged();
         return studentBuilder_;
       }
 
@@ -1329,7 +1329,7 @@ public final class PeoplePOJO {
           dataBody_ = null;
         }
         dataBodyCase_ = 3;
-        onChanged();;
+        onChanged();
         return teacherBuilder_;
       }
 
@@ -1470,7 +1470,7 @@ public final class PeoplePOJO {
           dataBody_ = null;
         }
         dataBodyCase_ = 4;
-        onChanged();;
+        onChanged();
         return workderBuilder_;
       }
       @java.lang.Override

@@ -549,7 +549,7 @@ public class ClientSocket extends ObjectSocketResponse<ClientSocket> implements 
      *              v2.0  2021-12-15  添加：超时时长
      *
      * @param i_Timeout        通讯超时时长(单位：毫秒)。0：表示永不超时，一直等待； 负数：表示取默认超时时长
-     * @return                 CommunicationResponse.getData() 是一个ExpireMap<String ,Object>()结构的实例。
+     * @return                 CommunicationResponse.getData() 是一个ExpireCache<String ,Object>()结构的实例。
      */
     @Override
     public CommunicationResponse getSessionMap(long i_Timeout)

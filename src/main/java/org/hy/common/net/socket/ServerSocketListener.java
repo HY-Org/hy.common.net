@@ -1,6 +1,6 @@
 package org.hy.common.net.socket;
 
-import org.hy.common.ExpireMap;
+import org.hy.common.ExpireCache;
 import org.hy.common.StringHelp;
 import org.hy.common.net.ServerSocket;
 import org.hy.common.net.data.LoginRequest;
@@ -28,7 +28,7 @@ public class ServerSocketListener extends ObjectSocketRequest
     private static final Logger $Logger = new Logger(ServerSocketListener.class);
     
     /** 端口票据信息。Map.key为票据号，Map.value为通讯端口号 */
-    private static ExpireMap<String ,Integer> $Tokens;
+    private static ExpireCache<String ,Integer> $Tokens;
     
     /** 本监听器所属的Socket服务端 */
     private ServerSocket serverSocket;
@@ -48,7 +48,7 @@ public class ServerSocketListener extends ObjectSocketRequest
     {
         if ( $Tokens == null )
         {
-            $Tokens = new ExpireMap<String ,Integer>();
+            $Tokens = new ExpireCache<String ,Integer>();
         }
         
         $Tokens.put(i_Data.getToken() ,i_Data.getPort() ,this.serverSocket.getCloseTimeout());
