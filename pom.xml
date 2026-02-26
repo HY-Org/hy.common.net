@@ -6,7 +6,7 @@
 
     <groupId>cn.openapis</groupId>
     <artifactId>hy.common.net</artifactId>
-    <version>3.0.9</version>
+    <version>3.1.0</version>
     <packaging>jar</packaging>
 
     <name>cn.openapis.hy.common.net</name>
@@ -71,10 +71,11 @@
             </exclusions>
         </dependency>
 
+        <!-- 慢一个版本，预防包的循环依赖 -->
         <dependency>
             <groupId>cn.openapis</groupId>
             <artifactId>hy.common.tpool</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.0</version>
             <scope>provided</scope>
         </dependency>
 
